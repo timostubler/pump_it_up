@@ -1,0 +1,213 @@
+\begin{thebibliography}{25}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{\texttt{#1}}
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi: #1}\else
+  \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[Anastassakis et~al.(1970)Anastassakis, Pinczuk, Burstein, Pollak, and
+  Cardona]{anastassakis_effect_1970}
+E.~Anastassakis, A.~Pinczuk, E.~Burstein, F.H. Pollak, and M.~Cardona.
+\newblock Effect of static uniaxial stress on the {Raman} spectrum of silicon.
+\newblock \emph{Solid State Communications}, 8\penalty0 (2):\penalty0 133--138,
+  January 1970.
+\newblock \doi{10.1016/0038-1098(70)90588-0}.
+\newblock URL
+  \url{https://www.sciencedirect.com/science/article/pii/0038109870905880?via%3Dihub}.
+
+\bibitem[Wolf(1996)]{wolf_micro-raman_1996}
+Ingrid~De Wolf.
+\newblock Micro-{Raman} spectroscopy to study local mechanical stress in
+  silicon integrated circuits.
+\newblock \emph{Semiconductor Science and Technology}, 11\penalty0
+  (2):\penalty0 139--154, February 1996.
+\newblock \doi{10.1088/0268-1242/11/2/001}.
+\newblock URL
+  \url{http://stacks.iop.org/0268-1242/11/i=2/a=001?key=crossref.88d5e92ffbee6bd9f057ca294f899a1b}.
+
+\bibitem[Yoo et~al.(2014)Yoo, Kim, and Han]{yoo_multiwavelength_2014}
+Woo~Sik Yoo, Jae~Hyun Kim, and Seung~Min Han.
+\newblock Multiwavelength {Raman} characterization of silicon stress near
+  through-silicon vias and its inline monitoring applications.
+\newblock \emph{Journal of Micro/Nanolithography, MEMS, and MOEMS}, 13\penalty0
+  (1):\penalty0 011205--011205, February 2014.
+\newblock \doi{10.1117/1.JMM.13.1.011205}.
+\newblock URL
+  \url{http://nanolithography.spiedigitallibrary.org/article.aspx?doi=10.1117/1.JMM.13.1.011205}.
+
+\bibitem[Ibach and Lüth(1999)]{ibach_festkorperphysik_1999}
+Harald Ibach and Hans Lüth.
+\newblock \emph{Festkörperphysik}.
+\newblock Springer-{Lehrbuch}. Springer Berlin Heidelberg, Berlin, Heidelberg,
+  1999.
+\newblock ISBN 978-3-540-66074-3.
+\newblock \doi{10.1007/978-3-662-07211-0}.
+\newblock URL \url{http://link.springer.com/10.1007/978-3-662-07211-0}.
+
+\bibitem[Demtröder(2013)]{demtroder_laser-raman-spektroskopie_2013}
+Wolfgang Demtröder.
+\newblock Laser-{Raman}-{Spektroskopie}.
+\newblock In \emph{Laserspektroskopie 2}, pages 111--139. Springer Berlin
+  Heidelberg, Berlin, Heidelberg, 2013.
+\newblock \doi{10.1007/978-3-642-21447-9_3}.
+\newblock URL \url{http://link.springer.com/10.1007/978-3-642-21447-9_3}.
+
+\bibitem[Long(2002)]{long_raman_2002}
+Derek~A. Long.
+\newblock \emph{The {Raman} {Effect}}.
+\newblock John Wiley \& Sons, Ltd, Chichester, UK, April 2002.
+\newblock ISBN 0-471-49028-8.
+\newblock \doi{10.1002/0470845767}.
+\newblock URL \url{http://doi.wiley.com/10.1002/0470845767}.
+
+\bibitem[Gouadec and Colomban(2007)]{gouadec_raman_2007}
+Gwénaël Gouadec and Philippe Colomban.
+\newblock Raman {Spectroscopy} of nanomaterials: {How} spectra relate to
+  disorder, particle size and mechanical properties.
+\newblock \emph{Progress in Crystal Growth and Characterization of Materials},
+  53\penalty0 (1):\penalty0 1--56, March 2007.
+\newblock \doi{10.1016/J.PCRYSGROW.2007.01.001}.
+\newblock URL
+  \url{https://www.sciencedirect.com/science/article/pii/S0960897407000022}.
+
+\bibitem[Tuschel(2016{\natexlab{a}})]{tuschel_selecting_2016}
+David Tuschel.
+\newblock Selecting an {Excitation} {Wavelength} for {Raman} {Spectroscopy}.
+\newblock \emph{Spectroscopy Online}, 31\penalty0 (3):\penalty0 14--23,
+  2016{\natexlab{a}}.
+\newblock URL
+  \url{http://www.spectroscopyonline.com/selecting-excitation-wavelength-raman-spectroscopy}.
+
+\bibitem[noa({\natexlab{a}})]{noauthor_thz_nodate}
+{THz} {Raman} {Low} {Frequency} {Terahertz} {Raman} {Spectroscopy} -
+  {OptiGrate}, {\natexlab{a}}.
+\newblock URL \url{https://optigrate.com/BragGrate_Notch.html}.
+
+\bibitem[Lewis and Edwards(2001)]{lewis_handbook_2001}
+Ian~R. Lewis and Howell G.~M. Edwards.
+\newblock \emph{Handbook of {Raman} spectroscopy : from the research laboratory
+  to the process line}.
+\newblock Marcel Dekker, 2001.
+\newblock ISBN 978-0-8247-0557-2.
+\newblock URL
+  \url{https://www.crcpress.com/Handbook-of-Raman-Spectroscopy-From-the-Research-Laboratory-to-the-Process/Lewis-Edwards/p/book/9780824705572}.
+
+\bibitem[Scientific()]{scientific_horiba_nodate}
+Horiba Scientific.
+\newblock Horiba {iHR} 320 {User} {Manual}.
+\newblock URL
+  \url{http://www.horiba.com/us/en/scientific/products/optical-spectroscopy/spectrometers-monochromators/ihr/ihr320-imaging-spectrometer-198/}.
+
+\bibitem[noa({\natexlab{b}})]{noauthor_10.1:_nodate}
+10.1: {Overview} of {Spectroscopy} - {Chemistry} {LibreTexts}, {\natexlab{b}}.
+\newblock URL
+  \url{https://chem.libretexts.org/Bookshelves/Analytical_Chemistry/Book%3A_Analytical_Chemistry_2.0_(Harvey)/10_Spectroscopic_Methods/10.1%3A_Overview_of_Spectroscopy}.
+
+\bibitem[noa({\natexlab{c}})]{noauthor_diffraction_grating_equation.jpg_nodate}
+Diffraction\_grating\_equation.jpg ({JPEG}-{Grafik}, 711 x 496 {Pixel}),
+  {\natexlab{c}}.
+\newblock URL
+  \url{https://upload.wikimedia.org/wikipedia/commons/0/0b/Diffraction_Grating_Equation.jpg}.
+
+\bibitem[noa({\natexlab{d}})]{noauthor_monochromators_nodate}
+Monochromators \& {Spectrographs} - {HORIBA}, {\natexlab{d}}.
+\newblock URL
+  \url{http://www.horiba.com/us/en/scientific/products/optics-tutorial/monochromators-spectrographs/#c3782}.
+
+\bibitem[PhD(2015)]{phd_lineshapes_2015}
+Michael S.~Bradley PhD.
+\newblock Lineshapes in {IR} and {Raman} {Spectroscopy}: {A} {Primer}.
+\newblock \emph{Spectr}, 30\penalty0 (11):\penalty0 42--46, 2015.
+\newblock URL
+  \url{http://www.spectroscopyonline.com/lineshapes-ir-and-raman-spectroscopy-primer}.
+
+\bibitem[Saloman and B.(2004)]{saloman_energy_2004}
+E.~B. Saloman and E.~B.
+\newblock Energy {Levels} and {Observed} {Spectral} {Lines} of {Xenon}, {Xe}
+  {I} through {Xe} {LIV}.
+\newblock \emph{Journal of Physical and Chemical Reference Data}, 33\penalty0
+  (3):\penalty0 765--921, September 2004.
+\newblock \doi{10.1063/1.1649348}.
+\newblock URL \url{http://aip.scitation.org/doi/10.1063/1.1649348}.
+
+\bibitem[Atkins and De~Paula(2010)]{atkins_atkins_2010}
+P.~W. (Peter~William) Atkins and Julio. De~Paula.
+\newblock \emph{Atkins' {Physical} chemistry}.
+\newblock Oxford University Press, 2010.
+\newblock ISBN 0-19-954337-2.
+\newblock URL
+  \url{https://books.google.de/books/about/Atkins_Physical_Chemistry.html?id=BV6cAQAAQBAJ&redir_esc=y}.
+
+\bibitem[Ganesan et~al.(1970)Ganesan, Maradudin, and
+  Oitmaa]{ganesan_lattice_1970}
+S~Ganesan, A.A Maradudin, and J~Oitmaa.
+\newblock A lattice theory of morphic effects in crystals of the diamond
+  structure.
+\newblock \emph{Annals of Physics}, 56\penalty0 (2):\penalty0 556--594,
+  February 1970.
+\newblock \doi{10.1016/0003-4916(70)90029-1}.
+\newblock URL
+  \url{https://www.sciencedirect.com/science/article/pii/0003491670900291}.
+
+\bibitem[Anastassakis et~al.(1990)Anastassakis, Cantarero, and
+  Cardona]{anastassakis_piezo-raman_1990}
+E.~Anastassakis, A.~Cantarero, and M.~Cardona.
+\newblock Piezo-{Raman} measurements and anharmonic parameters in silicon and
+  diamond.
+\newblock \emph{Physical Review B}, 41\penalty0 (11):\penalty0 7529--7535,
+  April 1990.
+\newblock \doi{10.1103/PhysRevB.41.7529}.
+\newblock URL \url{https://link.aps.org/doi/10.1103/PhysRevB.41.7529}.
+
+\bibitem[Zhang et~al.(2014)Zhang, Barrett, Cloetens, Detlefs, and Sanchez~del
+  Rio]{zhang_anisotropic_2014}
+Lin Zhang, Raymond Barrett, Peter Cloetens, Carsten Detlefs, and Manuel
+  Sanchez~del Rio.
+\newblock Anisotropic elasticity of silicon and its application to the
+  modelling of {X}-ray optics.
+\newblock \emph{Journal of Synchrotron Radiation}, 21\penalty0 (3):\penalty0
+  507--517, May 2014.
+\newblock \doi{10.1107/S1600577514004962}.
+\newblock URL \url{http://scripts.iucr.org/cgi-bin/paper?S1600577514004962}.
+
+\bibitem[Wolf(2003)]{wolf_raman_2003}
+Ingrid~De Wolf.
+\newblock Raman {Spectroscopy}: {About} chips and stress.
+\newblock \emph{Spectroscopy Europe}, 15\penalty0 (2), 2003.
+
+\bibitem[Tuschel(2016{\natexlab{b}})]{tuschel_raman_2016}
+David Tuschel.
+\newblock Raman {Thermometry}.
+\newblock \emph{Spectroscopy Online}, 31\penalty0 (12):\penalty0 8--13,
+  2016{\natexlab{b}}.
+\newblock URL \url{http://www.spectroscopyonline.com/raman-thermometry}.
+
+\bibitem[Saltonstall et~al.(2013)Saltonstall, Serrano, Norris, Hopkins, and
+  Beechem]{saltonstall_single_2013}
+Christopher~B. Saltonstall, Justin Serrano, Pamela~M. Norris, Patrick~E.
+  Hopkins, and Thomas~E. Beechem.
+\newblock Single element {Raman} thermometry.
+\newblock \emph{Review of Scientific Instruments}, 84\penalty0 (6):\penalty0
+  064903--064903, June 2013.
+\newblock \doi{10.1063/1.4810850}.
+\newblock URL \url{http://aip.scitation.org/doi/10.1063/1.4810850}.
+
+\bibitem[Korepanov and Sedlovets(2018)]{korepanov_asymmetric_2018}
+Vitaly~I. Korepanov and Daria~M. Sedlovets.
+\newblock An asymmetric fitting function for condensed-phase {Raman}
+  spectroscopy.
+\newblock \emph{The Analyst}, 143\penalty0 (11):\penalty0 2674--2679, May 2018.
+\newblock \doi{10.1039/C8AN00710A}.
+\newblock URL \url{http://xlink.rsc.org/?DOI=C8AN00710A}.
+
+\bibitem[Stancik and Brauns(2008)]{stancik_simple_2008}
+Aaron~L. Stancik and Eric~B. Brauns.
+\newblock A simple asymmetric lineshape for fitting infrared absorption
+  spectra.
+\newblock \emph{Vibrational Spectroscopy}, 47\penalty0 (1):\penalty0 66--69,
+  May 2008.
+\newblock \doi{10.1016/J.VIBSPEC.2008.02.009}.
+\newblock URL
+  \url{https://www.sciencedirect.com/science/article/abs/pii/S0924203108000453}.
+
+\end{thebibliography}
