@@ -103,7 +103,7 @@ class Pump_fermi(Fluid):
 class PlotPump(PlotManager):
 
     def __init__(self):
-        pass
+        super().__init__()
 
     def plot(self):
         self.plot_pump(Pump(), name='pump')

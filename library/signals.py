@@ -68,7 +68,7 @@ class Signal:
 class PlotSignal(PlotManager):
 
     def __init__(self):
-        pass
+        super().__init__()
 
     def plot(self):
 

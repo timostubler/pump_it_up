@@ -59,7 +59,7 @@ class Velve_fermi:
 class PlotVelve(PlotManager):
 
     def __init__(self):
-        pass
+        super().__init__()
 
     def plot(self):
         self.plot_fermi()
