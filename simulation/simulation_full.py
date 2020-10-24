@@ -1,20 +1,15 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-"""
-Created on Thu Oct  3 2019
-
-@author: kristjan
-"""
-
 import pandas as pd
 import numpy as np
 from scipy.integrate import odeint
 
-from components import Fluid, Signal, Pump, Velve, Tube 
+from library.materials import Fluid
+from library.signals import Signal
+from library.componentes.chamber import Pump
+from library.componentes.velves import Velve
+from library.componentes.tubes import Tube
 
 Pump1 = Pump()
 Tube1 = Tube()
-Water = Fluid()
 
 #Druckamplitude und Offset aus Pumpenparametern berechnen
 VAmp = Pump1.VAmp
@@ -22,7 +17,6 @@ VOff = Pump1.VOff
 
 Cp = 1 # pumpkammerkapazität
 Rs = 2 # Dummy schlauchwiderstand
-#Rs = (8*Water.ethaD*Tube.L)/(np.pi*(Tube.D/2)**4) # Schlauchwiderstand
 Rv = 1 # ventilwiderstand
 
 Pr1 = 0 # reservoirdruck
