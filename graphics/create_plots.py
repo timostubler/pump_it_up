@@ -35,7 +35,21 @@ class PlotManager:
         if self.open_figures:
             plt.show()
         else:
-            plt.close()
+            plt.close('all')
+
+    def plot_dict(self, x, y_dict, title='', xlabel='', ylabel='', filename=None):
+        fig, ax = plt.subplots(1, 1)
+        ax.set_title(title)
+        ax.set_xlabel(xlabel)
+        ax.set_ylabel(ylabel)
+        labels = list(y_dict)
+        colors = self.get_cmap(len(labels))
+        for i, label in enumerate(labels):
+            ax.plot(x, y_dict[label], label=label, color=colors[i])
+        plt.legend()
+        self.show()
+        if filename:
+            self._dump(fig, filename)
 
     def plot_colormesh(self, z, xy=None, title='', xlabel='x', ylabel='y', filename=None):
         """

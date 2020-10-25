@@ -13,9 +13,11 @@ class Tube(Fluid):
         self.d = d
         self.l = l
 
+    @property
     def R(self):
         return (8 * self.ethaD * self.l) / (np.pi * (self.d / 2)**4) # Schlauchwiderstand.
 
+    @property
     def reynolds(self):
         # TODO: mit von Fluid verbinden
         ''' Estimate Reynolds-Number as first guess '''
@@ -61,7 +63,7 @@ class PlotTubes(PlotManager):
     def plot_resistance(self):
         tube_resistance = []
         for i, l in enumerate(self.length):
-            tube_resistance.append([Tube(d, l).R() for d in self.diameter])
+            tube_resistance.append([Tube(d, l).R for d in self.diameter])
         tube_resistance = np.array(tube_resistance)
 
         self.plot_colormesh(
@@ -76,7 +78,7 @@ class PlotTubes(PlotManager):
     def plot_reynolds(self):
         tube_reynolds = []
         for i, l in enumerate(self.length):
-            tube_reynolds.append([Tube(d, l).reynolds() for d in self.diameter])
+            tube_reynolds.append([Tube(d, l).reynolds for d in self.diameter])
         tube_resistance = np.array(tube_reynolds)
 
         self.plot_colormesh(
