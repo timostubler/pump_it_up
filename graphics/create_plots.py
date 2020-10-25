@@ -37,6 +37,16 @@ class PlotManager:
         else:
             plt.close('all')
 
+    def plot_single(self, x, y, title='', xlabel='', ylabel='', filename=None, **kwargs):
+        fig, ax = plt.subplots(1, 1)
+        ax.set_title(title)
+        ax.set_xlabel(xlabel)
+        ax.set_ylabel(ylabel)
+        ax.plot(x, y, **kwargs, color=self.get_cmap(2)[0])
+        self.show()
+        if filename:
+            self._dump(fig, filename)
+
     def plot_dict(self, x, y_dict, title='', xlabel='', ylabel='', filename=None):
         fig, ax = plt.subplots(1, 1)
         ax.set_title(title)

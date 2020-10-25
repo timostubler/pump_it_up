@@ -2,11 +2,20 @@ from graphics.create_plots import PlotManager
 from library.materials import Fluid
 import numpy as np
 
-class Tube(Fluid):
+class TubeBase(Fluid):
 
     d = None # m diameter
     l = None # m length
     a = None # deg angle
+
+    def __repr__(self):
+        return str(dict(
+            d=self.d,
+            l=self.l,
+            a =self.a,
+        ))
+
+class Tube(TubeBase):
 
     def __init__(self, d, l):
         super().__init__()

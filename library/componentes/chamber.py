@@ -3,29 +3,51 @@ from graphics.create_plots import PlotManager
 import matplotlib.pyplot as plt
 import numpy as np
 
+class PumpBase(Fluid):
 
-class Pump(Fluid):
+    Pmin=None
+    Pmax=None
+    Vmin=None
+    Vmax=None
+
+    zmax = None
+    zmin = None
+
+    def __repr__(self):
+        return str(dict(
+        ))
+
+class Pump(PumpBase):
     """ TUDOS pump from FH slides """
+
+    Pmin = -38  # kPa suction pressure air
+    Pmax = 50  # kPa back pressure air
+    Vmin = -76  # V operation voltage
+    Vmax = 240  # V operation voltage
+
+    zmax = 35 * 10 ** -6  # m ANNAHME
+    zmin = -15 * 10 ** -6  # m ANNAHME
+    diameter = 5.7 * 10 ** -3  # m
 
     def __init__(self):
         super().__init__()
-        self.diameter = 5.7 * 10 ** -3  # m
-        self.A = np.pi * ((self.diameter) ** 2) / 4
-
-        self.Vmax = 240  # V operation voltage
-        self.Vmin = -76  # V operation voltage
-        self.VAmp = (abs(self.Vmax) + abs(self.Vmin)) / 2
-        self.VOff = self.Vmax - self.VAmp
-
-        self.zmax = 35 * 10 ** -6  # m ANNAHME
-        self.zmin = -15 * 10 ** -6  # m ANNAHME
-        self.zAmp = (abs(self.zmax) + abs(self.zmin)) / 2  # Amplituden-Berechnung
-        self.zOff = self.zmax - self.zAmp  # Offset-Berechnung
-
-        self.Pmax = 50  # kPa back pressure air
-        self.Pmin = -38  # kPa suction pressure air
-        self.PAmp = (abs(self.Pmax) + abs(self.Pmin)) / 2
-        self.POff = self.Pmax - self.PAmp
+        # self.diameter = 5.7 * 10 ** -3  # m
+        # self.A = np.pi * ((self.diameter) ** 2) / 4
+        #
+        # # self.Vmax = 240  # V operation voltage
+        # # self.Vmin = -76  # V operation voltage
+        # self.VAmp = (abs(self.Vmax) + abs(self.Vmin)) / 2
+        # self.VOff = self.Vmax - self.VAmp
+        #
+        # # self.zmax = 35 * 10 ** -6  # m ANNAHME
+        # # self.zmin = -15 * 10 ** -6  # m ANNAHME
+        # self.zAmp = (abs(self.zmax) + abs(self.zmin)) / 2  # Amplituden-Berechnung
+        # self.zOff = self.zmax - self.zAmp  # Offset-Berechnung
+        #
+        # self.Pmax = 50  # kPa back pressure air
+        # self.Pmin = -38  # kPa suction pressure air
+        # self.PAmp = (abs(self.Pmax) + abs(self.Pmin)) / 2
+        # self.POff = self.Pmax - self.PAmp
 
     def stroke(self, voltage):  # Hub
         if voltage > 0:
@@ -41,7 +63,8 @@ class Pump(Fluid):
 
     def C(self, voltage):
         # C = A*z/(Rgs*T)
-        return self.A * self.stroke(voltage) / (self.Rgs * self.T)
+        A = np.pi * ((self.diameter) ** 2) / 4
+        return A * self.stroke(voltage) / (self.Rgs * self.T)
 
     def p(self, voltage):
         if voltage > 0:

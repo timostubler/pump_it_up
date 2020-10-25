@@ -75,13 +75,15 @@ def system_test(signal, pump, velve_in, velve_out, tube_in, tube_out,
 
 if __name__ == '__main__':
 
+    from library.parameter_manager import ParameterManager
     from graphics.create_plots import PlotManager
     from library.componentes.chamber import Pump
     from library.componentes.velves import Velve
     from library.componentes.tubes import Tube
     from library.signals import Fermi, Rectangle, Sinus
 
-    parameter = dict(
+    running_params = dict(
+
         Rv=1,  # ventilwiderstand
         Cp=1,  # pumpkammerkapazität
         Pr1=0,  # reservoirdruck
@@ -89,17 +91,40 @@ if __name__ == '__main__':
         Pc0=0,  # startdruck in der pumpkammer
         T=150,  # simulationsdauer
         steps=500,  # anzahl der zeitschritte
+
+        pump=dict(),
+        signal=dict(
+            amplitude=1,
+            frequency=10e-3,
+            offset=0,
+            a=1,
+        ),
+        velve_in=dict(
+            R_open=1,
+            R_close=1,
+            direction='forward'
+        ),
+        velve_out=dict(
+            R_open=1,
+            R_close=1,
+            direction='backward'
+        ),
+        tube_in=dict(
+            d=1,
+            l=1
+        ),
+        tube_out=dict(
+            d=1,
+            l=1
+        )
     )
 
-    components = dict(
-        pump=Pump(),
-        signal=Fermi(amplitude=1, frequency=1 / 70, a=1),
-        velve_in=Velve(R_open=1, R_close=10, direction='backward'),
-        velve_out=Velve(R_open=1, R_close=10, direction='forward'),
-        tube_in=Tube(d=1, l=1),
-        tube_out=Tube(d=1, l=1),
-    )
+    params = ParameterManager(running_params)
 
+    # params.parameter.Pr1 = 1
+    # params.components.signal.frequency = 1
+
+    components, parameter = params()
     time, y_data = velve_test(**components, **parameter)
 
     pm = PlotManager()

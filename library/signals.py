@@ -4,64 +4,102 @@ import numpy as np
 from scipy.signal import unit_impulse
 
 
-class Signal:
+class SignalBase:
 
-    def __init__(self, amplitude, frequency, offset=0):
+    amplitude = None
+    frequency = None
+    offset = None
+
+    def __init__(self, amplitude=None, frequency=None, offset=None, **kwargs):
         self.amplitude = amplitude
-        self.period = 1 / frequency
+        self.frequency = frequency
         self.offset = offset
 
-    def rect(self, t):
-        if (t % self.period) <= self.period / 2:
+    def __repr__(self):
+        return str(dict(
+            amplitude=self.amplitude,
+            frequency=self.frequency,
+            offset =self.offset
+        ))
+
+class Rectangle(SignalBase):
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+    def __call__(self, t):
+        if (t % (1/self.frequency)) <= (1/self.frequency) / 2:
             return self.amplitude + self.offset
         else:
             return -self.amplitude + self.offset
 
-    def sin(self, t):
-        return self.amplitude * (np.sin(2 * np.pi * t / self.period)) + self.offset
+class Sinus(SignalBase):
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+    def __call__(self, t):
+        return self.amplitude * (np.sin(2 * np.pi * t / (1/self.frequency))) + self.offset
 
     """
     a: Value for slope steepness of fermi edge
     t: Time, fermi edge located by modulo logic
     """
 
-    def fermi_edges(self, t, a):
+class Fermi(SignalBase):
 
-        # a=0.01
+    a = None
 
+    def __init__(self, a, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.a = a
+
+    def __call__(self, t):
         # intermediate points
-        if (t % self.period) == (self.period / 4):  # or t <= self.period/4:
+        if (t % (1/self.frequency)) == ((1/self.frequency) / 4):  # or t <= (1/self.frequency)/4:
             return self.amplitude + self.offset
-        if (t % self.period) == (3 * self.period / 4):
+        if (t % (1/self.frequency)) == (3 * (1/self.frequency) / 4):
             return -self.amplitude + self.offset
 
         # falling edge regime
-        if (t % self.period) < (3 * self.period / 4) and (t % self.period) > (self.period / 4):
+        if (t % (1/self.frequency)) < (3 * (1/self.frequency) / 4) and (t % (1/self.frequency)) > ((1/self.frequency) / 4):
             return 2 * self.amplitude / (
-                        np.exp((t % self.period - self.period / 2) / a) + 1) - self.amplitude + self.offset
+                        np.exp((t % (1/self.frequency) - (1/self.frequency) / 2) / self.a) + 1) - self.amplitude + self.offset
 
         # rising edge regime
         if t == 0:
             return 0 + + self.offset
 
-        if (t % self.period) < (self.period / 4) and t < self.period / 2:
-            return -2 * self.amplitude / (np.exp((t % self.period - 0) / a) + 1) + self.amplitude + self.offset
+        if (t % (1/self.frequency)) < ((1/self.frequency) / 4) and t < (1/self.frequency) / 2:
+            return -2 * self.amplitude / (np.exp((t % (1/self.frequency) - 0) / self.a) + 1) + self.amplitude + self.offset
 
-        if (t % self.period) > (3 * self.period / 4) and (t % self.period) < self.period:
+        if (t % (1/self.frequency)) > (3 * (1/self.frequency) / 4) and (t % (1/self.frequency)) < (1/self.frequency):
             return -2 * self.amplitude / (
-                        np.exp((t % self.period - self.period) / a) + 1) + self.amplitude + self.offset
+                        np.exp((t % (1/self.frequency) - (1/self.frequency)) / self.a) + 1) + self.amplitude + self.offset
 
-        if (t % self.period) == 0:
+        if (t % (1/self.frequency)) == 0:
             return 0 + self.offset
 
-        if (t % self.period) < (self.period / 4) and (t % self.period) > 0 and t > self.period / 2:
-            return -2 * self.amplitude / (np.exp((t % self.period - 0) / a) + 1) + self.amplitude + self.offset
+        if (t % (1/self.frequency)) < ((1/self.frequency) / 4) and (t % (1/self.frequency)) > 0 and t > (1/self.frequency) / 2:
+            return -2 * self.amplitude / (np.exp((t % (1/self.frequency) - 0) / self.a) + 1) + self.amplitude + self.offset
 
+    def __repr__(self):
+        return str(dict(
+            amplitude=self.amplitude,
+            frequency=self.frequency,
+            offset =self.offset,
+            a=self.a
+        ))
 
-    def dirac(self, t):
-        if (t % self.period) == 0:
+class Diraac(SignalBase):
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+    def __call__(self, t):
+        if (t % (1/self.frequency)) == 0:
             return unit_impulse(t)
-        elif (t % self.period and t % self.period/2) == 0:
+        elif (t % (1/self.frequency) and t % (1/self.frequency)/2) == 0:
             return -unit_impulse(t)
 
 
@@ -72,33 +110,18 @@ class PlotSignal(PlotManager):
 
     def plot(self):
 
-        fig, ax1 = plt.subplots(1, 1)
-        ax1.set_xlabel('Time [s]')
-        ax1.set_ylabel('Voltage [V]')
-
         t = np.linspace(0.25, 1.75, 500)
         fermi_params = np.linspace(0.005, 0.025, 5)
-        colors = self.get_cmap(len(fermi_params)+1)
 
-        signal = Signal(amplitude=5, frequency=1)
-        rect = [signal.rect(ti) for ti in t]
+        y_data = dict()
+        for ai in fermi_params:
+            signal = Fermi(amplitude=5, frequency=1, a=ai, offset=0)
+            y_data[f'fermi a={ai}'] = [signal(ti) for ti in t]
 
-        ax1.plot(t, rect, label='rectangle', color=colors[0])
-        for i, ai in enumerate(fermi_params):
-            fermi = [signal.fermi_edges(ti, a=ai) for ti in t]
-            ax1.plot(t, fermi, label=f'fermi a={ai}', color=colors[i+1])
-
-        sinus = [signal.sin(ti) for ti in t]
-        ax1.plot(t, sinus, label='sinus', color=colors[0])
-        
-        # dirac = [signal.dirac(ti) for ti in t]
-        # ax1.plot(t, dirac, label='dirac', color=colors[0])
-
-        plt.legend()
-
-        self._dump(fig, 'signal')
-
-
+        self.plot_dict(t, y_data,
+            title='Fermi',
+            xlabel='Time [s]',
+            ylabel='Voltage [V]')
 
 if __name__ == '__main__':
 

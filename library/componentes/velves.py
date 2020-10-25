@@ -3,10 +3,23 @@ from graphics.create_plots import PlotManager
 import matplotlib.pyplot as plt
 import numpy as np
 
+class VelveBase(Fluid):
 
-class Velve:
+    R_open = None
+    R_close = None
+    direction = None
+
+    def __repr__(self):
+        return str(dict(
+            R_open=self.R_open,
+            R_close=self.R_close,
+            direction =self.direction,
+        ))
+
+class Velve(VelveBase):
 
     def __init__(self, R_open, R_close, direction):
+        super().__init__()
         self.R_open = R_open
         self.R_close = R_close
         self.direction = direction
@@ -30,9 +43,10 @@ class Velve:
             return self.R_close
 
 
-class Velve_fermi:
+class Velve_fermi(VelveBase):
 
     def __init__(self, R_open, R_close, direction, nu=0.1, v_switch=0):
+        super().__init__()
         self.R_open = R_open
         self.R_close = R_close
         self.R_actual = R_open
