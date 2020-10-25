@@ -15,68 +15,81 @@ plots = [
     PlotPump(),
     PlotTubes()
 ]
-for plot in plots:
-    plot.plot()
 
-running_params = dict(
 
-    Rv=1,  # ventilwiderstand
-    Cp=1,  # pumpkammerkapazität
-    Pr1=0,  # reservoirdruck
-    Pr2=0,  # reservoirdruck
-    Pc0=0,  # startdruck in der pumpkammer
-    T=150,  # simulationsdauer
-    steps=500,  # anzahl der zeitschritte
+def backpressure():
 
-    pump=dict(),
-    signal=dict(
-        amplitude=1,
-        frequency=10e-3,
-        offset=0,
-        a=1,
-    ),
-    velve_in=dict(
-        R_open=1,
-        R_close=1,
-        direction='forward'
-    ),
-    velve_out=dict(
-        R_open=1,
-        R_close=1,
-        direction='backward'
-    ),
-    tube_in=dict(
-        d=1,
-        l=1
-    ),
-    tube_out=dict(
-        d=1,
-        l=1
+    running_params = dict(
+
+        Rv=1,  # ventilwiderstand
+        Cp=1,  # pumpkammerkapazität
+        Pr1=0,  # reservoirdruck
+        Pr2=0,  # reservoirdruck
+        Pc0=0,  # startdruck in der pumpkammer
+        T=30,  # simulationsdauer
+        steps=500,  # anzahl der zeitschritte
+
+        pump=dict(
+
+        ),
+        signal=dict(
+            amplitude=1,
+            frequency=100e-3,
+            offset=0,
+            a=1,
+        ),
+        velve_in=dict(
+            R_open=1,
+            R_close=1e6,
+            direction='forward'
+        ),
+        velve_out=dict(
+            R_open=1,
+            R_close=1e6,
+            direction='backward'
+        ),
+        tube_in=dict(
+            d=1,
+            l=1
+        ),
+        tube_out=dict(
+            d=1,
+            l=1
+        )
     )
-)
 
-params = ParameterManager(running_params)
+    params = ParameterManager(running_params)
 
-def change_external_pressure():
+    param_range = np.linspace(0, 10, 10)/10
 
-    param_range = np.linspace(1, 10, 10)/100
-
+    chamber_pressure = dict()
     for new_param in param_range:
 
-        # params.parameter.Pr1 = new_param
-        params.components.signal.frequency = new_param
+        params.parameter.Pr1 = new_param
+        # params.components.signal.frequency = new_param
 
         components, parameter = params()
         time, y_data = system_test(**components, **parameter)
+        chamber_pressure.update({f'{new_param:.4f}':y_data['chamber']})
 
         pm = PlotManager()
         pm.plot_dict(time, y_data,
                      title='Simple Pump',
                      xlabel='Time [s]',
                      ylabel='Voltage [V]',
-                     filename='simulation_full')
+                     filename=f'backpressure/{new_param:.4f}')
+
+    chamber_pressure.update({'signal': y_data['signal']})
+    pm.plot_dict(time, chamber_pressure,
+                 title='Backpressure',
+                 xlabel='Time [s]',
+                 ylabel='Chamber pressure [Pa]',
+                 filename=f'backpressure/pressure_sweep')
 
 
 if __name__ == '__main__':
 
-    change_external_pressure()
+    # for plot in plots:
+    #     plot.plot()
+
+    backpressure()

@@ -12,11 +12,12 @@ def tube_test(signal, tube_in, Cp, Pr1, Pc0, T, steps, **kwargs):
     Pr1 = [Pr1 for _ in t_space]
     i_scale = 5  # hängt auch von der anzahl der zeitschritte ab!
     i = np.gradient(Pc) * i_scale
+    i /= i.max()
     return t_space, dict(
         signal=Ps,
         chamber=Pc,
         reservoir_in=Pr1,
-        flow=i,
+        #flow=i,
     )
 
 def velve_test(signal, velve_in, Cp, Pr1, Pc0, T, steps, **kwargs):
@@ -30,11 +31,12 @@ def velve_test(signal, velve_in, Cp, Pr1, Pc0, T, steps, **kwargs):
     Pr1 = [Pr1 for _ in t_space]
     i_scale = 5  # hängt auch von der anzahl der zeitschritte ab!
     i = np.gradient(Pc) * i_scale
+    i /= i.max()
     return t_space, dict(
         signal=Ps,
         chamber=Pc,
         reservoir_in=Pr1,
-        flow=i,
+        #flow=i,
     )
 
 def system_test(signal, pump, velve_in, velve_out, tube_in, tube_out,
@@ -62,6 +64,7 @@ def system_test(signal, pump, velve_in, velve_out, tube_in, tube_out,
     Pr2 = [Pr2 for _ in t_space]
     i_scale = 5  # hängt auch von der anzahl der zeitschritte ab!
     i = np.gradient(Pc) * i_scale
+    i /= i.max()
     print('nettostrom:', i.sum())
 
     return t_space, dict(
@@ -69,7 +72,7 @@ def system_test(signal, pump, velve_in, velve_out, tube_in, tube_out,
         chamber=Pc,
         reservoir_in=Pr1,
         reservoir_out=Pr2,
-        flow=i,
+        #flow=i,
     )
 
 

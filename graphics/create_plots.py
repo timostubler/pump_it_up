@@ -1,7 +1,7 @@
 import matplotlib.pyplot as plt
 from matplotlib import cm
 import numpy as np
-
+import os
 
 class PlotManager:
 
@@ -28,6 +28,9 @@ class PlotManager:
         return [cmap(c) for c in range(colors)]
 
     def _dump(self, fig, name):
+        filepath = f'{self.root}/{name}'.replace('\\', '/')
+        if not os.path.exists(os.path.dirname(filepath)):
+            os.makedirs(os.path.dirname(filepath))
         fig.savefig(f'{self.root}/{name}.png')
         self.show()
 
