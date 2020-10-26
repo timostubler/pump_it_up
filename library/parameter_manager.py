@@ -1,5 +1,5 @@
 from library.componentes.chamber import PumpBase, PlotPump, Pump
-from library.componentes.velves import VelveBase, PlotVelve, Velve
+from library.componentes.velves import VelveBase, PlotVelve, Velve, Velve_fermi
 from library.componentes.tubes import TubeBase, PlotTubes, Tube
 from library.signals import SignalBase, Fermi, Rectangle, Sinus, PlotSignal
 import yaml
@@ -8,7 +8,6 @@ import yaml
 class ParameterManager:
 
     _reference_parameters = dict(
-        Rv=None,  # ventilwiderstand
         Cp=None,  # pumpkammerkapazität
         Pr1=None,  # reservoirdruck
         Pr2=None,  # reservoirdruck

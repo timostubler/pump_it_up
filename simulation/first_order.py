@@ -40,17 +40,16 @@ def velve_test(signal, velve_in, Cp, Pr1, Pc0, T, steps, **kwargs):
     )
 
 def system_test(signal, pump, velve_in, velve_out, tube_in, tube_out,
-          Rv, Cp, Pr1, Pr2, Pc0, T, steps):
+          Cp, Pr1, Pr2, Pc0, T, steps):
 
     def dp_dt(p, t):
-
-        Vsignal = signal(t)
-        Psignal = pump.p(Vsignal)
+        print('t:', t, velve_in.R_last)
+        Psignal = pump.p(signal(t))
         p = p[0]
         # pv1 = Rv * (Psignal - Pr1 - p) / (Rv + Rs)
         # pv2 = Rv * (Psignal - Pr2 - p) /( Rv + Rs)
-        pv1 = Psignal - Pr1 - p - tube_in.R * (Psignal - Pr1 - p) / (Rv + tube_in.R)
-        pv2 = Psignal - Pr2 - p - tube_out.R * (Psignal - Pr2 - p) / (Rv + tube_out.R)
+        pv1 = Psignal - Pr1 - p - tube_in.R * (Psignal - Pr1 - p) / (velve_in.R_last+ tube_in.R)
+        pv2 = Psignal - Pr2 - p - tube_out.R * (Psignal - Pr2 - p) / (velve_out.R_last + tube_out.R)
         # TODO: unterschiedliche werte für Rv und velve.R()
         i1 = (Psignal - Pr1 - p) / (tube_in.R + velve_in.R(pv1))
         i2 = (Psignal - Pr2 - p) / (tube_out.R + velve_out.R(pv2))
