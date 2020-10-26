@@ -57,6 +57,7 @@ running_params = dict(
 
 params = ParameterManager(running_params)
 
+# Parameter Sweep Exemplary Function:
 def change_external_pressure():
 
     param_range = np.linspace(1, 10, 10)/100

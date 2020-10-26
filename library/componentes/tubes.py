@@ -21,42 +21,44 @@ class Tube(TubeBase):
         super().__init__()
         self.d = d
         self.l = l
+        self.A = np.pi * (self.d / 2) ** 2
 
     @property
     def R(self):
-        return (8 * self.ethaD * self.l) / (np.pi * (self.d / 2)**4) # Schlauchwiderstand.
+        ''' Calculate inherent Tube Resistance based on the friction number lambda '''
+        return (self.lambda_friction) * (self.l/self.d) * (Fluid.rho/(2*self.A**2))
+        # return (8 * self.ethaD * self.l) / (np.pi * (self.d / 2)**4) # Schlauchwiderstand.
+
+    @property
+    def lambda_friction(self):
+        ''' Friction Number for laminar flows and small reynold values '''
+        return (64/self.reynolds)
 
     @property
     def reynolds(self):
-        # TODO: mit von Fluid verbinden
-        ''' Estimate Reynolds-Number as first guess '''
-        # Rohrparameter
-        A = np.pi * (self.d / 2) ** 2
+        ''' Estimate Reynolds-Number as first guess without any tube resistance considerations, since i.e. then the flow velocity would be highest'''
 
-        # Pumpenauslegung und Druckdifferenz
-        delta_p = 50 * 1e3  # Pa
-        # SToffwerte @ 20°C
-        etha_w = 1002.0 * 1e-6  # kg m^-1 s^-1
-        nu_w = 1.004 * 1e-6  # m^2 s^-1
-        rho_w = 998.21  # kg/m^-3
+        # Druckdifferenz zwischen Pumpkammer- und jeweiligen Reservoir Values
+        delta_p = 50 * 1e3  # Pa #TODO: connect with Pmax/Pmin and reservoir pressure values for forwards/backward direction differentiation
+
+        # Stoffwerte Wasser @ 20°C from Fluid Class:
+        etha_w = Fluid.etha
+        nu_w = Fluid.nu
+
         # Hagen-Poiseuille-Law:
-        dV_dt = (np.pi * ((self.d / 2) ** 4) * delta_p) / (8 * etha_w * self.l)
+        dV_dt = (np.pi * ((self.d / 2) ** 4) * delta_p) / (8 * etha_w * self.l) # [m^3 s^-1]
 
         # Mittlere Geschwindigkeit:
-        v_m = dV_dt / A
+        v_m = dV_dt / self.A # [m s^-1]
 
         # Reynolds-Formula:
         reynolds_number = (v_m * self.d) / nu_w
-
-        # Calculate Pipe Friction Parameter lambda:
-        lambda_pipe = 64 / reynolds_number
 
         ''' Get Resistance Support Values for Pipe Elbows '''  # from table
         # Correspondence data of Reynolds number and res. zeta values (for 90° and R/D=4)
         rey_zeta_elbow_data = [[500, 1.6], [550, 1.5], [600, 1.4], [700, 1.2], [800, 1.2], [1000, 0.9],
                                [2000, 0.575]]
         return reynolds_number
-
 
 class PlotTubes(PlotManager):
 

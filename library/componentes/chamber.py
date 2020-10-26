@@ -28,6 +28,11 @@ class Pump(PumpBase):
     zmax = 35 * 10 ** -6  # m ANNAHME
     zmin = -15 * 10 ** -6  # m ANNAHME
     diameter = 5.7 * 10 ** -3  # m
+    A = np.pi * ((diameter) ** 2) / 4 # m**2
+
+    z0 = 1 * 10 ** -3  # m
+    V0 = A * z0
+    P0 = 1 * 10**3 # [Pa]
 
     def __init__(self):
         super().__init__()
@@ -63,8 +68,9 @@ class Pump(PumpBase):
 
     def C(self, voltage):
         # C = A*z/(Rgs*T)
-        A = np.pi * ((self.diameter) ** 2) / 4
-        return A * self.stroke(voltage) / (self.Rgs * self.T)
+        #TODO: Formel woher ? -> C = dV/dp!?
+        return self.A * self.stroke(voltage) / (self.Rgs * self.T)
+        # return abs((self.V0 + self.A*self.stroke(voltage))/(self.P0 + self.p(voltage)))
 
     def p(self, voltage):
         if voltage > 0:
@@ -89,9 +95,11 @@ class Pump_fermi(Fluid):
 
         self.nu = nu  # mass for the slope
         self.diameter = 5.7 * 10 ** -3  # m
-        self.A = np.pi * self.diameter / 4
+        self.A = np.pi * self.diameter**2 / 4
         self.z0 = 1 * 10 ** -3  # m
         self.V0 = self.A * self.z0
+        self.P0 = 1 * 10**3
+
         ''' 
         Auslenkung realer Piezoaktor z.B.: 2um
         (https://www.physikinstrumente.de/de/produkte/piezoelektrische-wandler-transducer-piezoaktoren/pd0xx-runde-picma-chip-aktoren-100850/#specification) 
@@ -117,6 +125,7 @@ class Pump_fermi(Fluid):
 
     def C(self, voltage):
         # return 9.26 * 10 ** -9
+        # return abs((self.V0 + self.A*self.stroke(voltage))/(self.P0 + self.p(voltage)))
         return abs((self.V0 + self.A*self.stroke(voltage))/self.p(voltage))
 
     def p(self, voltage):
@@ -155,5 +164,6 @@ class PlotPump(PlotManager):
 
 if __name__ == '__main__':
 
+    # mit __call__() ?!
     plot = PlotPump()
     plot.plot()
