@@ -25,7 +25,7 @@ class Tube(TubeBase):
 
     @property
     def R(self):
-        ''' Calculate inherent Tube Resistance based on the friction number lambda '''
+        ''' Calculate inherent Tube Resistance based on the friction number lambda and geometric parameters'''
         return (self.lambda_friction) * (self.l/self.d) * (Fluid.rho/(2*self.A**2))
         # return (8 * self.ethaD * self.l) / (np.pi * (self.d / 2)**4) # Schlauchwiderstand.
 
@@ -36,7 +36,7 @@ class Tube(TubeBase):
 
     @property
     def reynolds(self):
-        ''' Estimate Reynolds-Number as first guess without any tube resistance considerations, since i.e. then the flow velocity would be highest'''
+        ''' Estimate Reynolds-Number as first guess without any tube resistance considerations, since i.e. then the flow velocity would be highest, Re should be smaller then Re_krit for laminar flow'''
 
         # Druckdifferenz zwischen Pumpkammer- und jeweiligen Reservoir Values
         delta_p = 50 * 1e3  # Pa #TODO: connect with Pmax/Pmin and reservoir pressure values for forwards/backward direction differentiation

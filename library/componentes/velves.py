@@ -2,6 +2,7 @@ from library.materials import Fluid
 from graphics.create_plots import PlotManager
 import matplotlib.pyplot as plt
 import numpy as np
+from library.componentes.tubes import Tube
 
 class VelveBase(Fluid):
 
@@ -42,6 +43,37 @@ class Velve(VelveBase):
         else: # saughub
             return self.R_close
 
+class VelveFluidic(VelveBase):
+    ''' Implementierung des Ventilmodells basierend auf der abrupten Querschnittsverengung mit variabler Querschnitts-Größe. '''
+    def __init__(self, direction, Av_0):
+        super().__init__()
+        self.direction = direction
+        self.Av_0 = Av_0
+
+        # Needed Parameters: A_tube, A_chamber/2, zeta from LUT, rho_w
+
+    def get_zeta_narrowed(self):
+        zeta_array = np.loadtxt(r'Literature\Fluidic_Charts\zeta_unstetig_verengung.csv', delimiter = ',')
+        zeta = zeta_array[:,0]
+        m = zeta_array[:,1]
+
+    def R(self, u):
+        return getattr(self, self.direction)(u)
+
+    def constant(self, u):
+        return self.R_open #  * u
+
+    def backward(self, u):
+        if u > 0: # druckhub
+            return self.R_close
+        else: # saughub
+            return self.R_open
+
+    def forward(self, u):
+        if u > 0: # druckhub
+            return self.R_open
+        else: # saughub
+            return self.R_close
 
 class Velve_fermi(VelveBase):
 
