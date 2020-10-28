@@ -1,4 +1,4 @@
-from library.componentes.chamber import PumpBase, PlotPump, Pump
+from library.componentes.chamber import PumpBase, PlotPump, Pump, Pump_fermi
 from library.componentes.velves import VelveBase, PlotVelve, Velve, Velve_fermi
 from library.componentes.tubes import TubeBase, PlotTubes, Tube
 from library.signals import SignalBase, Fermi, Rectangle, Sinus, PlotSignal
@@ -35,7 +35,7 @@ class ParameterManager:
         steps=None,  # anzahl der zeitschritte
 
     class components:
-        pump=Pump
+        pump=Pump_fermi
         signal=Rectangle
         velve_in=Velve
         velve_out=Velve

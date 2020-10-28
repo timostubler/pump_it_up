@@ -1,29 +1,12 @@
 from scipy.integrate import odeint
 import numpy as np
 
-def tube_test(signal, tube_in, Cp, Pr1, Pc0, T, steps, **kwargs):
+def velve_test(signal, pump, velve_in, tube_in, Pc0, Pr1, T, steps, **kwargs):
 
     def dp_dt(pc, t):
-        return (signal(t) - pc) / (tube_in.R * Cp)  # f(x)
-
-    t_space = np.linspace(0, T, steps, endpoint=True)
-    Pc = odeint(dp_dt, Pc0, t_space)[:, 0]
-    Ps = [signal(t) for t in t_space]
-    Pr1 = [Pr1 for _ in t_space]
-    i_scale = 5  # hängt auch von der anzahl der zeitschritte ab!
-    i = np.gradient(Pc) * i_scale
-    i /= i.max()
-    return t_space, dict(
-        signal=Ps,
-        chamber=Pc,
-        reservoir_in=Pr1,
-        #flow=i,
-    )
-
-def velve_test(signal, velve_in, Cp, Pr1, Pc0, T, steps, **kwargs):
-
-    def dp_dt(pc, t):
-        return (signal(t) - pc) / (velve_in.R(signal(t)-pc) * Cp)  # f(x)
+        pv_in = 0
+        Cp = pump.C(signal(t))
+        return (signal(t) - pc + Pr1) / ((tube_in.R + velve_in.R(pv_in)) * Cp)  # f(x)
 
     t_space = np.linspace(0, T, steps, endpoint=True)
     Pc = odeint(dp_dt, Pc0, t_space)[:, 0]

@@ -2,7 +2,7 @@ from library.componentes.chamber import Pump, PlotPump
 from library.componentes.velves import Velve, PlotVelve
 from library.componentes.tubes import Tube, PlotTubes
 from library.signals import Fermi, Rectangle, Sinus, PlotSignal
-from simulation.first_order import tube_test, velve_test, system_test
+from simulation.first_order import velve_test, system_test
 from graphics.create_plots import PlotManager
 from library.parameter_manager import ParameterManager
 
@@ -41,7 +41,7 @@ def backpressure():
         velve_in=dict(
             R_open=1,
             R_close=1e6,
-            direction='forward'
+            direction='backward'
         ),
         velve_out=dict(
             R_open=1,
@@ -60,16 +60,16 @@ def backpressure():
 
     params = ParameterManager(running_params)
 
-    param_range = np.linspace(0, 10, 10)/10
+    param_range = np.linspace(0, 10, 10)/1
 
     chamber_pressure = dict()
     for new_param in param_range:
 
-        params.parameter.Pr1 = new_param
+        params.components.tube_in.l += new_param
         # params.components.signal.frequency = new_param
 
         components, parameter = params()
-        time, y_data = system_test(**components, **parameter)
+        time, y_data = velve_test(**components, **parameter)
         chamber_pressure.update({f'{new_param:.4f}':y_data['chamber']})
 
         pm = PlotManager()
