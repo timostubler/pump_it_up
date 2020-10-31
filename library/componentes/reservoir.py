@@ -1,68 +1,78 @@
-from graphics.create_plots import PlotManager
 from library.materials import Fluid
-from library.physical_constants import ConstantsDict
+from graphics.create_plots import PlotManager
+import matplotlib.pyplot as plt
 import numpy as np
 
 class ReservoirBase(Fluid):
 
-    d = None # m diameter
-    h = None # m height
-    h_act = None # Füllstand
+    p_amb = None
+    z_level = None
+    diameter = None
+    direction = None
 
     def __repr__(self):
         return str(dict(
-            d=self.d,
-            h=self.h,
-            h_act=self.h_act
+            p_amb=self.p_amb,
+            z_level=self.z_level,
+            diameter=self.diameter,
+            direction =self.direction,
         ))
 
 class Reservoir(ReservoirBase):
-    # TODO: Link ambient pressure to some imaginary case (e.g. reactor with chemical reaction @ specific pressure)
-    # TODO: Link self.h_act with incoming or outgoing dV_dt
-    def __init__(self, d, h, h_act):
+
+    def __init__(self, p_amb, z_level, diameter, direction):
         super().__init__()
-        self.d = d
-        self.h = h
-        self.h_act = h_act
-        self.A = np.pi * (self.d / 2) ** 2
-        self.g = ConstantsDict.g
+        self.p_amb = p_amb
+        self.z_level = z_level
+        self.diameter = diameter
+        self.direction = direction
+        self.p_last = self.cal_pasc(self.z_level) + self.p_amb
 
-        self.p_amb = 1e5 # [Pa]
+    def p_res(self, z):
+        self.p_last = getattr(self, self.direction)(z)
+        return self.p_last
 
-    @property
-    def P(self):
-        ''' Actual pressure of the reservoir calculated by Pascals Law'''
-        return (Fluid.rho*self.h_act*self.g + self.p_amb)
+    def rear(self, z):
+        p_last = self.cal_pasc(self.z_level+z)
+        return p_last
+
+    def front(self, z):
+        z=0 # keine Füllstandsänderung am vorderen Reservoir
+        p_last = self.cal_pasc(self.z_level+z)
+        return p_last
+
+    def cal_pasc(self, z):
+        ''' Pascal´sches Gesetz '''
+        g = 9.81 # [m/s²]
+        pres = Fluid.rho*g*(z) + self.p_amb
+        return pres
+
+    def area(self):
+        resarea = np.pi*(self.diameter**2)/4
+        return resarea
 
 
 class PlotReservoir(PlotManager):
 
     def __init__(self):
         super().__init__()
-        self.height_act = np.linspace(1e-3, 1000e-3, 1000)
-        self.p_amb = np.linspace(1e5, 10*1e5, 100)
-        self.h = 10000
-        self.d = 100e-3
 
     def plot(self):
-        self.plot_pressure()
+        contanier = dict()
+        configuration = 'rear'
+        levels = np.linspace(0, 3, 251)
 
-    def plot_pressure(self):
-        reservoir_p = []
-        for i, h_act in enumerate(self.height_act):
-            reservoir_p.append([Reservoir(self.d, self.h, h_act).P for p in self.p_amb])
-        reservoir_p = np.array(reservoir_p)
+        reservoir_rear = Reservoir(p_amb=1e5, z_level=0, diameter=0.05, direction=configuration)
+        for pi in np.linspace(0.5, 10, 20):
+            reservoir_rear.p_amb = pi
+            contanier[f'{pi :.2f} p_amb'] = [reservoir_rear.p_res(zi) for zi in levels]
 
-        self.plot_colormesh(
-            reservoir_p,
-            xy=(self.height_act, self.p_amb),
-            title='Pressure at Reservoir Ground',
-            xlabel='Height [m]',
-            ylabel='Ambient Pressure [Pa]',
-            filename='reservoir_ground_pressure'
-        )
-
+        self.plot_dict(levels, contanier,
+                       title=f'Reservoir - {configuration}',
+                       xlabel='Level [m]',
+                       ylabel='Pressure [Pa]')
 
 if __name__ == '__main__':
+
     plot = PlotReservoir()
     plot.plot()
