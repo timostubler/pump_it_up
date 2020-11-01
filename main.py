@@ -33,7 +33,7 @@ def backpressure():
 
         ),
         signal=dict(
-            amplitude=1,
+            amplitude=1e5,
             frequency=100e-3,
             offset=0,
             a=1,

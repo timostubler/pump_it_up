@@ -41,19 +41,19 @@ def system_test(signal, pump, velve_in, velve_out, tube_in, tube_out,
     t_space = np.linspace(0, T, steps, endpoint=True)
     Pc = odeint(dp_dt, Pc0, t_space)[:, 0]
 
-    Ps = [signal(t) for t in t_space]
-    Pr1 = [Pr1 for _ in t_space]
-    Pr2 = [Pr2 for _ in t_space]
-    i_scale = 5  # hängt auch von der anzahl der zeitschritte ab!
-    i = np.gradient(Pc) * i_scale
+    Ps = np.array([signal(t) for t in t_space])
+    Pr1 = np.array([[Pr1 for _ in t_space]])
+    Pr2 = np.array([Pr2 for _ in t_space])
+    #i_scale = 5  # hängt auch von der anzahl der zeitschritte ab!
+    i = np.gradient(Pc) #* i_scale
     i /= i.max()
     print('nettostrom:', i.sum())
 
     return t_space, dict(
-        signal=Ps,
-        chamber=Pc,
-        reservoir_in=Pr1,
-        reservoir_out=Pr2,
+        signal=Ps / Ps.max(),
+        chamber=Pc / Pc.max(),
+        reservoir_in=Pr1 / Pr1.max(),
+        reservoir_out=Pr2 / Pr2.max(),
         #flow=i,
     )
 
@@ -110,7 +110,7 @@ if __name__ == '__main__':
     # params.components.signal.frequency = 1
 
     components, parameter = params()
-    time, y_data = velve_test(**components, **parameter)
+    time, y_data = system_test(**components, **parameter)
 
     pm = PlotManager()
     pm.plot_dict(time, y_data,
