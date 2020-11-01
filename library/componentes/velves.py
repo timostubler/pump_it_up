@@ -48,7 +48,7 @@ class Velve(VelveBase):
 
 class Velve_fermi(VelveBase):
 
-    def __init__(self, R_open, R_close, direction, nu, v_switch=0):
+    def __init__(self, R_open, R_close, direction, nu=0.05, v_switch=0):
         super().__init__()
         self.R_open = R_open
         self.R_close = R_close
@@ -56,9 +56,11 @@ class Velve_fermi(VelveBase):
         self.direction = direction
         self.nu = nu  # mass for the slope
         self.v_switch = v_switch  # voltage to open
+        self.all_R = list()
 
     def R(self, u):
         self.R_last = getattr(self, self.direction)(u)
+        self.all_R.append(self.R_last)
         return self.R_last
 
     def constant(self, u):

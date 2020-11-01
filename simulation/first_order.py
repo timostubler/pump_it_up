@@ -22,25 +22,35 @@ def velve_test(signal, pump, velve_in, tube_in, Pc0, Pr1, T, steps, **kwargs):
         #flow=i,
     )
 
+count = 0
 def system_test(signal, pump, velve_in, velve_out, tube_in, tube_out,
           Cp, Pr1, Pr2, Pc0, T, steps):
+    print(steps)
 
     def dp_dt(p, t):
-        print('t:', t, velve_in.R_last)
+        global count
+        count += 1
+        #print(f't @ {len(velve_in.all_R)}:', t, velve_in.R_last)
+        print(f'count {count}:', t, velve_in.R_last)
         Psignal = pump.p(signal(t))
-        Cp = 1 #1e-12
+        Cp = 1#1e-3 #1e-12
         p = p[0]
         # pv1 = Rv * (Psignal - Pr1 - p) / (Rv + Rs)
         # pv2 = Rv * (Psignal - Pr2 - p) /( Rv + Rs)
-        pv1 = Psignal - Pr1 - p - tube_in.R * (Psignal - Pr1 - p) / (velve_in.R_last+ tube_in.R)
-        pv2 = Psignal - Pr2 - p - tube_out.R * (Psignal - Pr2 - p) / (velve_out.R_last + tube_out.R)
+        pv1 = 1e3 #Psignal - Pr1 - p - tube_in.R * (Psignal - Pr1 - p) / (velve_in.R_last+ tube_in.R)
+        pv2 = 1e3 #Psignal - Pr2 - p - tube_out.R * (Psignal - Pr2 - p) / (velve_out.R_last + tube_out.R)
         # TODO: unterschiedliche werte für Rv und velve.R()
-        i1 = (Psignal - Pr1 - p) / (tube_in.R + velve_in.R(pv1))
-        i2 = (Psignal - Pr2 - p) / (tube_out.R + velve_out.R(pv2))
+        i1 = (Psignal - Pr1 - p) / (tube_in.R + velve_in.R_last)
+        i2 = (Psignal - Pr2 - p) / (tube_out.R + velve_out.R_last)
         return Cp * (i1 + i2)
 
     t_space = np.linspace(0, T, steps, endpoint=True)
-    Pc = odeint(dp_dt, Pc0, t_space)[:, 0]
+    #print(t_space)
+    #raise BaseException('yeeehaaaa')
+    result = odeint(dp_dt, Pc0, t_space, printmessg=True)
+    Pc = result[:, 0]
+    #info = result[1]['hu']
+    #print(f'info: {info}')
 
     Ps = np.array([signal(t) for t in t_space])
     Pr1 = np.array([Pr1 for _ in t_space])

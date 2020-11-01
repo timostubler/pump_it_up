@@ -24,7 +24,7 @@ class Tube(TubeBase):
 
     @property
     def R(self):
-        return (8 * self.ethaD * self.l) / (np.pi * (self.d / 2)**4) # Schlauchwiderstand.
+        return (np.pi * (self.d / 2)**4) / (8 * self.ethaD * self.l) # Schlauchwiderstand.
 
     @property
     def reynolds(self):

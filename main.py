@@ -34,7 +34,7 @@ def backpressure():
         ),
         signal=dict(
             amplitude=1e5,
-            frequency=100e-3,
+            frequency=50e-3,
             offset=0,
             a=1,
         ),
@@ -49,12 +49,12 @@ def backpressure():
             direction='backward'
         ),
         tube_in=dict(
-            d=1,#5e-3,
-            l=1#00e-3
+            d=5e-3,
+            l=100e-3
         ),
         tube_out=dict(
-            d=1,#5e-3,
-            l=1#00e-3
+            d=5e-3,
+            l=100e-3
         )
     )
 
