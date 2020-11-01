@@ -28,6 +28,7 @@ def system_test(signal, pump, velve_in, velve_out, tube_in, tube_out,
     def dp_dt(p, t):
         print('t:', t, velve_in.R_last)
         Psignal = pump.p(signal(t))
+        Cp = 1 #1e-12
         p = p[0]
         # pv1 = Rv * (Psignal - Pr1 - p) / (Rv + Rs)
         # pv2 = Rv * (Psignal - Pr2 - p) /( Rv + Rs)
@@ -42,7 +43,7 @@ def system_test(signal, pump, velve_in, velve_out, tube_in, tube_out,
     Pc = odeint(dp_dt, Pc0, t_space)[:, 0]
 
     Ps = np.array([signal(t) for t in t_space])
-    Pr1 = np.array([[Pr1 for _ in t_space]])
+    Pr1 = np.array([Pr1 for _ in t_space])
     Pr2 = np.array([Pr2 for _ in t_space])
     #i_scale = 5  # hängt auch von der anzahl der zeitschritte ab!
     i = np.gradient(Pc) #* i_scale
@@ -50,8 +51,8 @@ def system_test(signal, pump, velve_in, velve_out, tube_in, tube_out,
     print('nettostrom:', i.sum())
 
     return t_space, dict(
-        signal=Ps / Ps.max(),
-        chamber=Pc / Pc.max(),
+        signal=Ps / np.abs(Ps).max(),
+        chamber=Pc / np.abs(Pc).max(),
         reservoir_in=Pr1 / Pr1.max(),
         reservoir_out=Pr2 / Pr2.max(),
         #flow=i,

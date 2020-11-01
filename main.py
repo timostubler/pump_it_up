@@ -49,12 +49,12 @@ def backpressure():
             direction='backward'
         ),
         tube_in=dict(
-            d=1,
-            l=1
+            d=1,#5e-3,
+            l=1#00e-3
         ),
         tube_out=dict(
-            d=1,
-            l=1
+            d=1,#5e-3,
+            l=1#00e-3
         )
     )
 
