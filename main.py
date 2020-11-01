@@ -41,7 +41,7 @@ def backpressure():
         velve_in=dict(
             R_open=1,
             R_close=1e6,
-            direction='backward'
+            direction='forward'
         ),
         velve_out=dict(
             R_open=1,
@@ -60,16 +60,17 @@ def backpressure():
 
     params = ParameterManager(running_params)
 
-    param_range = np.linspace(0, 10, 10)/1
+    param_range = np.linspace(0, 1e5, 10) / 1
 
     chamber_pressure = dict()
     for new_param in param_range:
 
-        params.components.tube_in.l += new_param
+        # params.components.tube_in.l += new_param
         # params.components.signal.frequency = new_param
+        params.parameter.Pr1 = new_param
 
         components, parameter = params()
-        time, y_data = velve_test(**components, **parameter)
+        time, y_data = system_test(**components, **parameter)
         chamber_pressure.update({f'{new_param:.4f}':y_data['chamber']})
 
         pm = PlotManager()
