@@ -33,7 +33,7 @@ def system_test(signal, pump, velve_in, velve_out, tube_in, tube_out,
         #print(f't @ {len(velve_in.all_R)}:', t, velve_in.R_last)
         print(f'count {count}:', t, velve_in.R_last)
         Psignal = pump.p(signal(t))
-        Cp = 1#1e-3 #1e-12
+        Cp = 5e-7#(np.pi * ((30e-2) / 2)**2 * 5e-2) / 0.5e5
         p = p[0]
         # pv1 = Rv * (Psignal - Pr1 - p) / (Rv + Rs)
         # pv2 = Rv * (Psignal - Pr2 - p) /( Rv + Rs)
@@ -42,7 +42,7 @@ def system_test(signal, pump, velve_in, velve_out, tube_in, tube_out,
         # TODO: unterschiedliche werte für Rv und velve.R()
         i1 = (Psignal - Pr1 - p) / (tube_in.R + velve_in.R_last)
         i2 = (Psignal - Pr2 - p) / (tube_out.R + velve_out.R_last)
-        return Cp * (i1 + i2)
+        return (i1 + i2) / Cp
 
     t_space = np.linspace(0, T, steps, endpoint=True)
     #print(t_space)

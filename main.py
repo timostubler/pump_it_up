@@ -39,13 +39,13 @@ def backpressure():
             a=1,
         ),
         velve_in=dict(
-            R_open=1,
-            R_close=1e6,
-            direction='forward'
+            R_open=65e3,
+            R_close=1e15,
+            direction='backward'
         ),
         velve_out=dict(
-            R_open=1,
-            R_close=1e6,
+            R_open=65e3,
+            R_close=1e15,
             direction='backward'
         ),
         tube_in=dict(

@@ -24,7 +24,7 @@ class Tube(TubeBase):
 
     @property
     def R(self):
-        return (np.pi * (self.d / 2)**4) / (8 * self.ethaD * self.l) # Schlauchwiderstand.
+        return (8 * self.ethaD * self.l) / (np.pi * (self.d / 2)**4) # Schlauchwiderstand.
 
     @property
     def reynolds(self):
@@ -102,5 +102,9 @@ class PlotTubes(PlotManager):
 if __name__ == '__main__':
     
 
-    plot = PlotTubes()
-    plot.plot()
+    # plot = PlotTubes()
+    # plot.plot()
+
+
+    print(Tube(d=5e-6, l=1e-3).R)
+
