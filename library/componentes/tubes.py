@@ -106,5 +106,5 @@ if __name__ == '__main__':
     # plot.plot()
 
 
-    print(Tube(d=5e-6, l=1e-3).R)
+    print(Tube(d=1e-3, l=1e-3).R)
 

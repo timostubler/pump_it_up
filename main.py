@@ -26,7 +26,7 @@ def backpressure():
         Pr1=0,  # reservoirdruck
         Pr2=0,  # reservoirdruck
         Pc0=0,  # startdruck in der pumpkammer
-        T=30,  # simulationsdauer
+        T=100e-6,  # simulationsdauer
         steps=500,  # anzahl der zeitschritte
 
         pump=dict(
@@ -34,26 +34,26 @@ def backpressure():
         ),
         signal=dict(
             amplitude=1e5,
-            frequency=50e-3,
+            frequency=10e3,
             offset=0,
             a=1,
         ),
         velve_in=dict(
-            R_open=65e3,
+            R_open=2e6,
             R_close=1e15,
-            direction='backward'
+            direction='forward'
         ),
         velve_out=dict(
-            R_open=65e3,
+            R_open=2e6,
             R_close=1e15,
             direction='backward'
         ),
         tube_in=dict(
-            d=5e-3,
+            d=1e-3,
             l=100e-3
         ),
         tube_out=dict(
-            d=5e-3,
+            d=1e-3,
             l=100e-3
         )
     )
