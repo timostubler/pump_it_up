@@ -38,7 +38,7 @@ def backpressure():
         ),
         velve_in=dict(
             R_open=2e6,
-            R_close=1e15,
+            R_close=1e11,#5,
             direction='forward',
             #direction='backward',
         ),

@@ -4,21 +4,23 @@ import numpy as np
 def velve_test(signal, pump, velve_in, tube_in, Pc0, Pr1, T, steps, **kwargs):
 
     def dp_dt(pc, t):
+        p = pc[0]
         Cp = pump.C(signal(t))
         Psignal = pump.p(signal(t))
-        pv_in = 0  # Psignal - Pr1 - p - tube_in.R * (Psignal - Pr1 - p) / (velve_in.R_last+ tube_in.R)
-        return (Psignal - pc + Pr1) / ((tube_in.R + velve_in.R(pv_in)) * Cp)  # f(x)
+        pv_in = Psignal - Pr1 - p - tube_in.R * (Psignal - Pr1 - p) / (velve_in.R_last + tube_in.R)
+        return (Psignal - Pr1 - p) / ((tube_in.R + velve_in.R(pv_in)) * Cp)  # f(x)
 
     t_space = np.linspace(0, T, steps, endpoint=True)
     Pc = odeint(dp_dt, Pc0, t_space)[:, 0]
-    Ps = [signal(t) for t in t_space]
-    Pr1 = [Pr1 for _ in t_space]
+    Ps = np.array([signal(t) for t in t_space])
+    Pr1 = np.array([Pr1 for _ in t_space])
     i = np.gradient(Pc)
     i /= i.max()
+    norm = np.abs(Ps).max()
     return t_space, dict(
-        signal=Ps / np.abs(Ps).max(),
-        chamber=Pc / np.abs(Pc).max(),
-        reservoir_in=Pr1 / Pr1.max(),
+        signal=Ps / norm,
+        chamber=Pc / norm,
+        reservoir_in=Pr1 / norm,
         #flow=i,
     )
 
@@ -35,7 +37,7 @@ def system_test(signal, pump, velve_in, velve_out, tube_in, tube_out,
         Psignal = pump.p(signal(t))
         Cp = pump.C(signal(t))
         # TODO: check R_last
-        pv_in = Psignal - Pr1 - p - tube_in.R * (Psignal - Pr1 - p) / (velve_in.R_last+ tube_in.R)
+        pv_in = Psignal - Pr1 - p - tube_in.R * (Psignal - Pr1 - p) / (velve_in.R_last + tube_in.R)
         pv_out = Psignal - Pr2 - p - tube_out.R * (Psignal - Pr2 - p) / (velve_out.R_last + tube_out.R)
         print(f'pv in: {pv_in} pv out: {pv_out}')
         i1 = (Psignal - Pr1 - p) / (tube_in.R + velve_in.R(pv_in))
@@ -52,12 +54,12 @@ def system_test(signal, pump, velve_in, velve_out, tube_in, tube_out,
     i = np.gradient(Pc)
     i /= i.max()
     print('nettostrom:', i.sum())
-
+    norm = np.abs(Ps).max()
     return t_space, dict(
-        signal=Ps / np.abs(Ps).max(),
-        chamber=Pc / np.abs(Pc).max(),
-        reservoir_in=Pr1 / Pr1.max(),
-        reservoir_out=Pr2 / Pr2.max(),
+        signal=Ps / norm,
+        chamber=Pc / norm,
+        reservoir_in=Pr1 / norm,
+        reservoir_out=Pr2 / norm,
         #flow=i,
     )
 
