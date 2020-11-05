@@ -1,7 +1,7 @@
-from library.componentes.chamber import PumpBase, PlotPump, Pump, Pump_fermi
+from library.componentes.chamber import PumpBase, PlotPump, Pump_fermi
 from library.componentes.velves import VelveBase, PlotVelve, Velve, Velve_fermi
 from library.componentes.tubes import TubeBase, PlotTubes, Tube
-from library.signals import SignalBase, Fermi, Rectangle, Sinus, PlotSignal
+from library.signals import SignalBase, Rectangle, Sinus, PlotSignal
 import yaml
 
 

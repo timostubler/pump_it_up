@@ -1,7 +1,7 @@
-from library.materials import Fluid
 from graphics.create_plots import PlotManager
-import matplotlib.pyplot as plt
+from library.materials import Fluid
 import numpy as np
+
 
 class VelveBase(Fluid):
 
