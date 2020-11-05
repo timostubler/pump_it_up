@@ -8,7 +8,6 @@ import yaml
 class ParameterManager:
 
     _reference_parameters = dict(
-        Cp=None,  # pumpkammerkapazität
         Pr1=None,  # reservoirdruck
         Pr2=None,  # reservoirdruck
         Pc0=None,  # startdruck in der pumpkammer
@@ -26,8 +25,6 @@ class ParameterManager:
     )
 
     class parameter:
-        Rv=None,  # ventilwiderstand
-        Cp=None,  # pumpkammerkapazität
         Pr1=None,  # reservoirdruck
         Pr2=None,  # reservoirdruck
         Pc0=None,  # startdruck in der pumpkammer
@@ -37,8 +34,8 @@ class ParameterManager:
     class components:
         pump=Pump_fermi
         signal=Rectangle
-        velve_in=Velve
-        velve_out=Velve
+        velve_in=Velve#_fermi
+        velve_out=Velve#_fermi
         tube_in=Tube
         tube_out=Tube
 

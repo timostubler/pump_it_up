@@ -4,59 +4,52 @@ import numpy as np
 def velve_test(signal, pump, velve_in, tube_in, Pc0, Pr1, T, steps, **kwargs):
 
     def dp_dt(pc, t):
-        pv_in = 0
         Cp = pump.C(signal(t))
-        return (signal(t) - pc + Pr1) / ((tube_in.R + velve_in.R(pv_in)) * Cp)  # f(x)
+        Psignal = pump.p(signal(t))
+        pv_in = 0  # Psignal - Pr1 - p - tube_in.R * (Psignal - Pr1 - p) / (velve_in.R_last+ tube_in.R)
+        return (Psignal - pc + Pr1) / ((tube_in.R + velve_in.R(pv_in)) * Cp)  # f(x)
 
     t_space = np.linspace(0, T, steps, endpoint=True)
     Pc = odeint(dp_dt, Pc0, t_space)[:, 0]
     Ps = [signal(t) for t in t_space]
     Pr1 = [Pr1 for _ in t_space]
-    i_scale = 5  # hängt auch von der anzahl der zeitschritte ab!
-    i = np.gradient(Pc) * i_scale
+    i = np.gradient(Pc)
     i /= i.max()
     return t_space, dict(
-        signal=Ps,
-        chamber=Pc,
-        reservoir_in=Pr1,
+        signal=Ps / np.abs(Ps).max(),
+        chamber=Pc / np.abs(Pc).max(),
+        reservoir_in=Pr1 / Pr1.max(),
         #flow=i,
     )
 
 count = 0
 def system_test(signal, pump, velve_in, velve_out, tube_in, tube_out,
-          Cp, Pr1, Pr2, Pc0, T, steps):
+          Pr1, Pr2, Pc0, T, steps):
     print(steps)
 
     def dp_dt(p, t):
+        p = p[0]
         global count
         count += 1
-        #print(f't @ {len(velve_in.all_R)}:', t, velve_in.R_last)
         print(f'count {count}:', t, velve_in.R_last)
         Psignal = pump.p(signal(t))
-        Cp = 1e-17#(np.pi * ((30e-2) / 2)**2 * 5e-2) / 0.5e5
-        p = p[0]
-        # pv1 = Rv * (Psignal - Pr1 - p) / (Rv + Rs)
-        # pv2 = Rv * (Psignal - Pr2 - p) /( Rv + Rs)
-        pv1 = 1e3 #Psignal - Pr1 - p - tube_in.R * (Psignal - Pr1 - p) / (velve_in.R_last+ tube_in.R)
-        pv2 = 1e3 #Psignal - Pr2 - p - tube_out.R * (Psignal - Pr2 - p) / (velve_out.R_last + tube_out.R)
-        # TODO: unterschiedliche werte für Rv und velve.R()
-        i1 = (Psignal - Pr1 - p) / (tube_in.R + velve_in.R_last)
-        i2 = (Psignal - Pr2 - p) / (tube_out.R + velve_out.R_last)
+        Cp = pump.C(signal(t))
+        # TODO: check R_last
+        pv_in = Psignal - Pr1 - p - tube_in.R * (Psignal - Pr1 - p) / (velve_in.R_last+ tube_in.R)
+        pv_out = Psignal - Pr2 - p - tube_out.R * (Psignal - Pr2 - p) / (velve_out.R_last + tube_out.R)
+        print(f'pv in: {pv_in} pv out: {pv_out}')
+        i1 = (Psignal - Pr1 - p) / (tube_in.R + velve_in.R(pv_in))
+        i2 = (Psignal - Pr2 - p) / (tube_out.R + velve_out.R(pv_out))
         return (i1 + i2) / Cp
 
     t_space = np.linspace(0, T, steps, endpoint=True)
-    #print(t_space)
-    #raise BaseException('yeeehaaaa')
     result = odeint(dp_dt, Pc0, t_space, printmessg=True)
     Pc = result[:, 0]
-    #info = result[1]['hu']
-    #print(f'info: {info}')
 
     Ps = np.array([signal(t) for t in t_space])
     Pr1 = np.array([Pr1 for _ in t_space])
     Pr2 = np.array([Pr2 for _ in t_space])
-    #i_scale = 5  # hängt auch von der anzahl der zeitschritte ab!
-    i = np.gradient(Pc) #* i_scale
+    i = np.gradient(Pc)
     i /= i.max()
     print('nettostrom:', i.sum())
 

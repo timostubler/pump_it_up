@@ -117,7 +117,7 @@ class Pump_fermi(Fluid):
 
     def C(self, voltage):
         # return 9.26 * 10 ** -9
-        Cmin, Cmax = 0.5, 1
+        Cmin, Cmax = 0.5e-17, 1.5e-17
         return (Cmax - Cmin) / (np.exp((voltage) / self.nu) + 1) + Cmin
 
     def p(self, voltage):

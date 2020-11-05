@@ -21,8 +21,6 @@ def backpressure():
 
     running_params = dict(
 
-        Rv=1,  # ventilwiderstand
-        Cp=1,  # pumpkammerkapazität
         Pr1=0,  # reservoirdruck
         Pr2=0,  # reservoirdruck
         Pc0=0,  # startdruck in der pumpkammer
@@ -34,19 +32,21 @@ def backpressure():
         ),
         signal=dict(
             amplitude=1e5,
-            frequency=200e3,
+            frequency=1000e3,
             offset=0,
             a=1,
         ),
         velve_in=dict(
             R_open=2e6,
             R_close=1e15,
-            direction='forward'
+            direction='forward',
+            #direction='backward',
         ),
         velve_out=dict(
             R_open=2e6,
             R_close=1e15,
-            direction='backward'
+            #direction='forward',
+            direction='backward',
         ),
         tube_in=dict(
             d=1e-3,
