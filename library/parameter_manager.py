@@ -8,8 +8,8 @@ import yaml
 class ParameterManager:
 
     _reference_parameters = dict(
-        Pr1=None,  # reservoirdruck
-        Pr2=None,  # reservoirdruck
+        Pr_in=None,  # reservoirdruck
+        Pr_out=None,  # reservoirdruck
         Pc0=None,  # startdruck in der pumpkammer
         T=None,  # simulationsdauer
         steps=None,  # anzahl der zeitschritte
@@ -25,8 +25,8 @@ class ParameterManager:
     )
 
     class parameter:
-        Pr1=None,  # reservoirdruck
-        Pr2=None,  # reservoirdruck
+        Pr_in=None,  # reservoirdruck
+        Pr_out=None,  # reservoirdruck
         Pc0=None,  # startdruck in der pumpkammer
         T=None,  # simulationsdauer
         steps=None,  # anzahl der zeitschritte
@@ -71,51 +71,6 @@ class ParameterManager:
         return f'\nstorage of {self.__class__.__name__}\nparameters:\n{yaml.dump(parameters)}\ncomponents:\n{yaml.dump(components)}'
 
 
-
 if __name__ == '__main__':
 
-    global_parameters = dict(
-
-        Rv=1,  # ventilwiderstand
-        Cp=1,  # pumpkammerkapazität
-        Pr1=0,  # reservoirdruck
-        Pr2=0,  # reservoirdruck
-        Pc0=0,  # startdruck in der pumpkammer
-        T=150,  # simulationsdauer
-        steps=500,  # anzahl der zeitschritte
-
-        pump=dict(),
-        signal=dict(
-            amplitude=1,
-            frequency=1,
-            a=1,
-        ),
-        velve_in=dict(
-            R_open=1,
-            R_close=1,
-            direction='forward'
-        ),
-        velve_out=dict(
-            R_open=1,
-            R_close=1,
-            direction='backward'
-        ),
-        tube_in=dict(
-            d=1,
-            l=1
-        ),
-        tube_out=dict(
-            d=1,
-            l=1
-        )
-    )
-
-    parameter = ParameterManager(global_parameters)
-
-    print(parameter)
-    parameter.parameter.Cp = 89
-    parameter.components.velve_in.R_open = 15235
-
-    v, c = parameter()
-    print(v)
-    print(c)
+    pass

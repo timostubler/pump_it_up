@@ -107,21 +107,19 @@ class Pump_fermi(Fluid):
         self.VAmp = (self.Vmax + abs(self.Vmin)) / 2
         self.VOff = self.Vmax - (self.Vmax + abs(self.Vmin)) / 2
 
-        self.Pmax = 50 * 10 ** 3  # Pa back pressure air
-        self.Pmin = -38 * 10 ** 3  # Pa suction pressure air
-        self.PAmp = (self.Pmax + abs(self.Pmin)) / 2
-        self.POff = self.Pmax - (self.Pmax + abs(self.Pmin)) / 2
+        self.p_max = 50 * 10 ** 3  # Pa back pressure air
+        self.p_min = -38 * 10 ** 3  # Pa suction pressure air
 
     def stroke(self, voltage):
         return (self.zmin - self.zmax) / (np.exp((voltage) / self.nu) + 1) + self.zmax
 
     def C(self, voltage):
         # return 9.26 * 10 ** -9
-        Cmin, Cmax = 0.5e-17, 1.5e-17
-        return (Cmax - Cmin) / (np.exp((voltage) / self.nu) + 1) + Cmin
+        C_min, C_max = 0.5e-17, 1.5e-17
+        return (C_max - C_min) / (np.exp((voltage) / self.nu) + 1) + C_min
 
     def p(self, voltage):
-        return (self.Pmin - self.Pmax) / (np.exp((voltage) / self.nu) + 1) + self.Pmax
+        return (self.p_min - self.p_max) / (np.exp((voltage) / self.nu) + 1) + self.p_max
 
 
 class PlotPump(PlotManager):

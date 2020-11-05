@@ -4,34 +4,34 @@ import numpy as np
 
 class TubeBase(Fluid):
 
-    d = None # m diameter
-    l = None # m length
-    a = None # deg angle
+    diameter = None # m diameter
+    length = None # m length
+    angle = None # deg angle
 
     def __repr__(self):
         return str(dict(
-            d=self.d,
-            l=self.l,
-            a =self.a,
+            diameter = self.diameter,
+            lenght = self.length,
+            angle = self.angle,
         ))
 
 class Tube(TubeBase):
 
-    def __init__(self, d, l):
+    def __init__(self, diameter, length):
         super().__init__()
-        self.d = d
-        self.l = l
+        self.diameter = diameter
+        self.lenght = length
 
     @property
     def R(self):
-        return (8 * self.ethaD * self.l) / (np.pi * (self.d / 2)**4) # Schlauchwiderstand.
+        return (8 * self.ethaD * self.lenght) / (np.pi * (self.diameter / 2)**4) # Schlauchwiderstand.
 
     @property
     def reynolds(self):
         # TODO: mit von Fluid verbinden
         ''' Estimate Reynolds-Number as first guess '''
         # Rohrparameter
-        A = np.pi * (self.d / 2) ** 2
+        A = np.pi * (self.diameter / 2) ** 2
 
         # Pumpenauslegung und Druckdifferenz
         delta_p = 50 * 1e3  # Pa
@@ -40,13 +40,13 @@ class Tube(TubeBase):
         nu_w = 1.004 * 1e-6  # m^2 s^-1
         rho_w = 998.21  # kg/m^-3
         # Hagen-Poiseuille-Law:
-        dV_dt = (np.pi * ((self.d / 2) ** 4) * delta_p) / (8 * etha_w * self.l)
+        dV_dt = (np.pi * ((self.diameter / 2) ** 4) * delta_p) / (8 * etha_w * self.lenght)
 
         # Mittlere Geschwindigkeit:
         v_m = dV_dt / A
 
         # Reynolds-Formula:
-        reynolds_number = (v_m * self.d) / nu_w
+        reynolds_number = (v_m * self.diameter) / nu_w
 
         # Calculate Pipe Friction Parameter lambda:
         lambda_pipe = 64 / reynolds_number
@@ -71,8 +71,8 @@ class PlotTubes(PlotManager):
 
     def plot_resistance(self):
         tube_resistance = []
-        for i, l in enumerate(self.length):
-            tube_resistance.append([Tube(d, l).R for d in self.diameter])
+        for i, lenght in enumerate(self.length):
+            tube_resistance.append([Tube(diameter, lenght).R for diameter in self.diameter])
         tube_resistance = np.array(tube_resistance)
 
         self.plot_colormesh(
@@ -86,8 +86,8 @@ class PlotTubes(PlotManager):
 
     def plot_reynolds(self):
         tube_reynolds = []
-        for i, l in enumerate(self.length):
-            tube_reynolds.append([Tube(d, l).reynolds for d in self.diameter])
+        for i, lenght in enumerate(self.length):
+            tube_reynolds.append([Tube(diameter, lenght).reynolds for diameter in self.diameter])
         tube_resistance = np.array(tube_reynolds)
 
         self.plot_colormesh(
@@ -106,5 +106,5 @@ if __name__ == '__main__':
     # plot.plot()
 
 
-    print(Tube(d=1e-3, l=1e-3).R)
+    print(Tube(diameter=1e-3, lenght=1e-3).R)
 

@@ -8,7 +8,6 @@ from library.parameter_manager import ParameterManager
 
 import numpy as np
 
-
 plots = [
     PlotSignal(),
     PlotVelve(),
@@ -16,19 +15,17 @@ plots = [
     PlotTubes()
 ]
 
-
 def backpressure():
 
     running_params = dict(
 
-        Pr1=0,  # reservoirdruck
-        Pr2=0,  # reservoirdruck
+        Pr_in=0,  # reservoirdruck
+        Pr_out=0,  # reservoirdruck
         Pc0=0,  # startdruck in der pumpkammer
         T=1e-6,  # simulationsdauer
         steps=500,  # anzahl der zeitschritte
 
         pump=dict(
-
         ),
         signal=dict(
             amplitude=1e5,
@@ -38,7 +35,7 @@ def backpressure():
         ),
         velve_in=dict(
             R_open=2e6,
-            R_close=1e11,#5,
+            R_close=1e11,
             direction='forward',
             #direction='backward',
         ),
@@ -49,12 +46,12 @@ def backpressure():
             direction='backward',
         ),
         tube_in=dict(
-            d=1e-3,
-            l=100e-3
+            diameter=1e-3,
+            length=100e-3
         ),
         tube_out=dict(
-            d=1e-3,
-            l=100e-3
+            diameter=1e-3,
+            length=100e-3
         )
     )
 
@@ -65,12 +62,12 @@ def backpressure():
     chamber_pressure = dict()
     for new_param in param_range:
 
-        # params.components.tube_in.l += new_param
+        # params.components.tube_in.length += new_param
         # params.components.signal.frequency = new_param
-        params.parameter.Pr1 = new_param
+        params.parameter.Pr_in = new_param
 
         components, parameter = params()
-        time, y_data = system_test(**components, **parameter)
+        time, y_data = velve_test(**components, **parameter)
         chamber_pressure.update({f'{new_param:.4f}':y_data['chamber']})
 
         pm = PlotManager()
