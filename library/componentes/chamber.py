@@ -16,7 +16,7 @@ class Pump_fermi(Fluid):
     (https://www.physikinstrumente.de/de/produkte/piezoelektrische-wandler-transducer-piezoaktoren/pd0xx-runde-picma-chip-aktoren-100850/#specification)
     '''
 
-    def __init__(self, nu=0.0001):
+    def __init__(self, nu):
         super().__init__()
 
         self.nu = nu  # mass for the slope
@@ -53,26 +53,32 @@ class PlotPump(PlotManager):
 
     def plot(self):
         # self.plot_pump(Pump(), name='pump')
-        self.plot_pump(Pump_fermi(), name='pump_fermi')
+        self.plot_pump(Pump_fermi(nu=5e3), name='pump_fermi')
 
     def plot_pump(self, pump, name):
-        fig, (ax1, ax2, ax3) = plt.subplots(nrows=3, ncols=1, sharex=True)
+        fig, (ax1, ax2) = plt.subplots(nrows=2, ncols=1, sharex=True)
+        ax3 = ax1.twinx()
+        ax4 = ax2.twinx()
         colors = self.get_cmap(3)
 
+        ax1.set_xlabel('Time [s]')
         ax3.set_xlabel('Voltage [V]')
+        ax4.set_xlabel('Voltage [V]')
         ax1.set_ylabel('Pressure [Pa]')
-        ax2.set_ylabel('Stroke [m]')
-        ax3.set_ylabel('Capacity [F]')
+        ax2.set_ylabel('Capacity [F]')
 
-        u = np.linspace(0, 10, 251)
-        signal = Rectangle(amplitude=5, frequency=3e3, offset=0)
+        time = np.linspace(0, 1, 100)
+        signal = Rectangle(amplitude=5, frequency=4, offset=0)
+        voltage = [signal(t) for t in time]
         # stroke = [pump.stroke(ui) for ui in u]
-        capacity = [pump.C(signal(ui)) for ui in u]
-        pressure = [pump.p(signal(ui)) for ui in u]
+        capacity = [pump.C(signal(t)) for t in time]
+        pressure = [pump.p(signal(t)) for t in time]
 
         # ax1.plot(u, stroke, color=colors[0])
-        ax2.plot(u, pressure, color=colors[0])
-        ax3.plot(u, capacity, color=colors[0])
+        ax1.plot(time, pressure, color=colors[0])
+        ax3.plot(time, voltage, color=colors[1], marker='.')
+        ax2.plot(time, capacity, color=colors[0])
+        ax4.plot(time, voltage, color=colors[1], marker='.')
 
         self._dump(fig, name)
 
