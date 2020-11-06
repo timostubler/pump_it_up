@@ -31,12 +31,15 @@ class Pump_fermi(Fluid):
         self.diameter = 5.7 * 10 ** -3  # m
         self.A = np.pi * self.diameter / 4
 
-        self.z_0 = 5e-6 # ruhelage
+        self.z_0 = 5 * 10 ** -6 # ruhelage
         self.z_max = 35 * 10 ** -6  # m ANNAHME
         self.z_min = -15 * 10 ** -6  # m ANNAHME
 
         self.C_min = 0.5e-17
         self.C_max = 1.5e-17
+
+        self.p_max = 50*1e3 # Pa
+        self.p_min = -38*1e3 # Pa
 
         self.p_scale = 5e10 # Pa scale
 
@@ -45,24 +48,26 @@ class Pump_fermi(Fluid):
         self.K = K # s / V
 
         self.stroke = self.get_stroke(time, signal)
+        self.scale = self.stroke
+
+        self.stroke = self.stroke * 2e-6 + self.z_0
         # self.stroke_min = min(self.stroke)
         # self.stroke_max = max(self.stroke)
 
         self.stroke_reference = dict(zip(time, self.stroke))
+        self.scale_reference = dict(zip(time, self.scale))
 
     def get_stroke(self, time, signal):
         def ds_dt(s, t):
             return (self.K * signal(t) - s) / self.RC
-        stroke = -odeint(ds_dt, self.s0, time)
+        stroke = -1 * odeint(ds_dt, self.s0, time)
         return stroke
 
     def C(self, time):
-        z = self.stroke_reference[time] + self.z_0
-        C = self.A * z / self.p(time)
-        return C
+        return (((self.scale_reference[time] + 1)/2 * (abs(self.C_max) + abs(self.C_min))) + self.C_min)
 
     def p(self, time):
-        return (self.z_0 - self.stroke_reference[time]) * self.p_scale
+        return -1 * (((+1*self.scale_reference[time] + 1)/2 * (abs(self.p_max) + abs(self.p_min))) + self.p_min)
 
     def __repr__(self):
         return " TUDOS "
