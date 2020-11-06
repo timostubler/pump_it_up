@@ -115,7 +115,7 @@ if __name__ == '__main__':
     time = np.linspace(0, 1, 1000)
     voltage = [signal(t) for t in time]
 
-    pump = Pump_fermi(K=1e-6, RC=0.1, time=time, signal=signal)
+    pump = Pump_fermi(K=1, RC=0.1, time=time, signal=signal)
     pressure = [pump.p(t) for t in time]
     capacity = [pump.C(t) for t in time]
 
