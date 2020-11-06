@@ -2,7 +2,7 @@ from library.materials import Fluid
 from graphics.create_plots import PlotManager
 import matplotlib.pyplot as plt
 import numpy as np
-
+from library.signals import Sinus, Rectangle
 
 class PumpBase(Fluid):
 
@@ -64,12 +64,13 @@ class PlotPump(PlotManager):
         ax2.set_ylabel('Stroke [m]')
         ax3.set_ylabel('Capacity [F]')
 
-        u = np.linspace(-1, 1, 251)
-        stroke = [pump.stroke(ui) for ui in u]
-        capacity = [pump.C(ui) for ui in u]
-        pressure = [pump.p(ui) for ui in u]
+        u = np.linspace(0, 10, 251)
+        signal = Rectangle(amplitude=5, frequency=3e3, offset=0)
+        # stroke = [pump.stroke(ui) for ui in u]
+        capacity = [pump.C(signal(ui)) for ui in u]
+        pressure = [pump.p(signal(ui)) for ui in u]
 
-        ax1.plot(u, stroke, color=colors[0])
+        # ax1.plot(u, stroke, color=colors[0])
         ax2.plot(u, pressure, color=colors[0])
         ax3.plot(u, capacity, color=colors[0])
 

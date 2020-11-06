@@ -37,7 +37,7 @@ class Sinus(SignalBase):
         super().__init__(*args, **kwargs)
 
     def __call__(self, t):
-        return self.amplitude * (np.sin(2 * np.pi * t / (1/self.frequency))) + self.offset
+        return self.amplitude * (np.sin(2 * np.pi * self.frequency * t)) + self.offset
 
 class PlotSignal(PlotManager):
 
@@ -45,9 +45,11 @@ class PlotSignal(PlotManager):
         super().__init__()
 
     def plot(self):
-        t = np.linspace(0.25, 1.75, 500)
+        t = np.linspace(0, 1e-3, 1000)
+        print(t)
         y_data = dict()
-        signal = Rectangle(amplitude=5, frequency=1, offset=0)
+        signal = Sinus(amplitude=5, frequency=3e3, offset=0)
+        print(signal)
         y_data[f'Rectangle'] = [signal(ti) for ti in t]
 
         self.plot_dict(t, y_data,

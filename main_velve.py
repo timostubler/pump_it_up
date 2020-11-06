@@ -35,7 +35,7 @@ def leakage_current():
         ),
         velve_in=dict(
             R_open=2e6,
-            R_close=1e11,
+            R_close=1e15,
             direction='forward',
             #direction='backward',
         ),
@@ -62,8 +62,6 @@ def leakage_current():
     chamber_pressure = dict()
     for new_param in param_range:
 
-        # params.components.tube_in.length += new_param
-        # params.components.signal.frequency = new_param
         params.parameter.Pr_in = new_param
 
         components, parameter = params()
@@ -93,27 +91,27 @@ def tube_length():
         Pr_in=0,  # reservoirdruck
         Pr_out=0,  # reservoirdruck
         Pc0=0,  # startdruck in der pumpkammer
-        T=1e-6,  # simulationsdauer
-        steps=500,  # anzahl der zeitschritte
+        T=1e-5,  # simulationsdauer
+        steps=600,  # anzahl der zeitschritte
 
         pump=dict(
         ),
         signal=dict(
             amplitude=1e5,
-            frequency=1000e3,
+            frequency=1e5,
             offset=0,
             a=1,
         ),
         velve_in=dict(
             R_open=2e6,
-            R_close=1e11,
+            R_close=1e15,
             direction='forward',
-            #direction='backward',
+            # direction='backward',
         ),
         velve_out=dict(
             R_open=2e6,
             R_close=1e15,
-            #direction='forward',
+            # direction='forward',
             direction='backward',
         ),
         tube_in=dict(
@@ -128,32 +126,36 @@ def tube_length():
 
     params = ParameterManager(running_params)
 
-    param_range = np.linspace(0, 1e5, 10) / 1
+    param_range = np.linspace(10e-3, 2000e-3, 10) / 1
 
     chamber_pressure = dict()
     for new_param in param_range:
 
         # params.components.tube_in.length += new_param
         # params.components.signal.frequency = new_param
-        params.parameter.Pr_in = new_param
+        params.components.tube_in.lenght = new_param
 
         components, parameter = params()
         time, y_data = velve_test(**components, **parameter)
-        chamber_pressure.update({f'{new_param:.4f}':y_data['chamber']})
+
+        label = f'length: {new_param * 1000 :.2f} mm'
+        chamber_pressure.update({label: y_data['chamber']})
 
         pm = PlotManager()
+        #time *= 1000
         pm.plot_dict(time, y_data,
-                     title='Simple Pump',
-                     xlabel='Time [s]',
+                     title='Tube Test',
+                     xlabel='Time [ms]',
                      ylabel='Voltage [V]',
-                     filename=f'backpressure/{new_param:.4f}')
+                     filename=f'velve_test/tube_length')
 
     chamber_pressure.update({'signal': y_data['signal']})
+    #time *= 1000
     pm.plot_dict(time, chamber_pressure,
-                 title='Backpressure',
-                 xlabel='Time [s]',
+                 title='Tube Test Summary',
+                 xlabel='Time [ms]',
                  ylabel='Chamber pressure [Pa]',
-                 filename=f'backpressure/pressure_sweep')
+                 filename=f'velve_test/tube_length_summary')
 
 
 if __name__ == '__main__':
@@ -161,4 +163,4 @@ if __name__ == '__main__':
     # for plot in plots:
     #     plot.plot()
 
-    backpressure()
+    tube_length()

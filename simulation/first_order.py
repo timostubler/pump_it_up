@@ -6,6 +6,8 @@ import numpy as np
 
 def velve_test(signal, pump, velve_in, tube_in, Pc0, Pr_in, T, steps, **kwargs):
 
+    print(f'T: {T}')
+
     def dp_dt(pc, t):
         p = pc[0]
         Cp = pump.C(signal(t))
@@ -15,7 +17,7 @@ def velve_test(signal, pump, velve_in, tube_in, Pc0, Pr_in, T, steps, **kwargs):
 
     t_space = np.linspace(0, T, steps, endpoint=True)
     Pc = odeint(dp_dt, Pc0, t_space)[:, 0]
-    Ps = np.array([signal(t) for t in t_space])
+    Ps = np.array([pump.p(signal(t)) for t in t_space])
     Pr_in = np.array([Pr_in for _ in t_space])
     i = np.gradient(Pc)
     i /= i.max()
