@@ -5,11 +5,6 @@ import numpy as np
 
 class VelveBase(Fluid):
 
-    R_open = None
-    R_close = None
-    direction = None
-    R_last = None
-
     def __repr__(self):
         return str(dict(
             R_open=self.R_open,

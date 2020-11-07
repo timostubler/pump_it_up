@@ -15,7 +15,7 @@ def velve_test(signal, pump, velve_in, tube_in, Pc0, Pr_in, T, steps, **kwargs):
         pv_in = Psignal - Pr_in - p - tube_in.R * (Psignal - Pr_in - p) / (velve_in.R_last + tube_in.R)
         return (Psignal - Pr_in - p) / ((tube_in.R + velve_in.R(pv_in)) * Cp)
 
-    t_space = np.linspace(0, T, steps, endpoint=True)
+    t_space = np.linspace(0, T, steps)
     Pc = odeint(dp_dt, Pc0, t_space)[:, 0]
     Ps = np.array([pump.p(signal(t)) for t in t_space])
     Pr_in = np.array([Pr_in for _ in t_space])
@@ -41,7 +41,7 @@ def system_test(signal, pump, velve_in, velve_out, tube_in, tube_out, Pr_in, Pr_
         i2 = (Psignal - Pr_out - p) / (tube_out.R + velve_out.R(pv_out))
         return (i1 + i2) / Cp
 
-    t_space = np.linspace(0, T, steps, endpoint=True)
+    t_space = np.linspace(0, T, steps)
     result = odeint(dp_dt, Pc0, t_space)
     Pc = result[:, 0]
 

@@ -5,13 +5,10 @@ import numpy as np
 
 class TubeBase(Fluid):
 
-    diameter = None # m diameter
-    length = None # m length
-
     def __repr__(self):
         return str(dict(
             diameter = self.diameter,
-            lenght = self.length,
+            length = self.length,
         ))
 
 class Tube(TubeBase):
@@ -19,11 +16,11 @@ class Tube(TubeBase):
     def __init__(self, diameter, length):
         super().__init__()
         self.diameter = diameter
-        self.lenght = length
+        self.length = length
 
     @property
     def R(self):
-        return (8 * self.ethaD * self.lenght) / (np.pi * (self.diameter / 2)**4) # Schlauchwiderstand.
+        return (8 * self.ethaD * self.length) / (np.pi * (self.diameter / 2)**4) # Schlauchwiderstand.
 
     @property
     def reynolds(self):

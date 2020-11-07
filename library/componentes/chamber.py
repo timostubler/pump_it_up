@@ -11,7 +11,41 @@ class PumpBase(Fluid):
         return str(dict(
         ))
 
+class Pump_old(Fluid):
+    '''
+    Auslenkung realer Piezoaktor z.B.: 2um
+    (https://www.physikinstrumente.de/de/produkte/piezoelektrische-wandler-transducer-piezoaktoren/pd0xx-runde-picma-chip-aktoren-100850/#specification)
+    '''
 
+    def __init__(self, nu=0.0001, **kwargs):
+        super().__init__()
+
+        self.nu = nu  # mass for the slope
+
+        self.diameter = 5.7 * 10 ** -3  # m
+        self.A = np.pi * self.diameter / 4
+
+        self.z_0 = 1 * 10 ** -3  # m
+        self.z_max = 35 * 10 ** -6  # m ANNAHME
+        self.z_min = -15 * 10 ** -6  # m ANNAHME
+
+        self.C_min = 0.5e-17
+        self.C_max = 1.5e-17
+
+        self.p_max = 50 * 10 ** 3  # Pa back pressure air
+        self.p_min = -38 * 10 ** 3  # Pa suction pressure air
+
+    def stroke(self, voltage):
+        return (self.zmin - self.zmax) / (np.exp((voltage) / self.nu) + 1) + self.zmax
+
+    def C(self, voltage):
+        return (self.C_max - self.C_min) / (np.exp((voltage) / self.nu) + 1) + self.C_min
+
+    def p(self, voltage):
+        return (self.p_min - self.p_max) / (np.exp((voltage) / self.nu) + 1) + self.p_max
+
+    def __repr__(self):
+        return " TUDOS "
 
 
 
@@ -21,13 +55,11 @@ class Pump_fermi(Fluid):
     (https://www.physikinstrumente.de/de/produkte/piezoelektrische-wandler-transducer-piezoaktoren/pd0xx-runde-picma-chip-aktoren-100850/#specification)
     '''
 
-    RC = None  # trägheit
-    K = None  # s / V
-
-    def __init__(self, K, RC, time, signal):
+    def __init__(self, K, RC, T, steps, signal):
         super().__init__()
         # self.nu = nu  # mass for the slope
 
+        time = np.linspace(0, T, steps)
         self.diameter = 5.7 * 10 ** -3  # m
         self.A = np.pi * self.diameter / 4
 
@@ -64,10 +96,10 @@ class Pump_fermi(Fluid):
         return stroke
 
     def C(self, time):
-        return (((self.scale_reference[time] + 1)/2 * (abs(self.C_max) + abs(self.C_min))) + self.C_min)
+        return 1e-17 # (((self.scale_reference[time] + 1)/2 * (abs(self.C_max) + abs(self.C_min))) + self.C_min)
 
     def p(self, time):
-        return -1 * (((+1*self.scale_reference[time] + 1)/2 * (abs(self.p_max) + abs(self.p_min))) + self.p_min)
+        return 10e3 # -1 * (((+1*self.scale_reference[time] + 1)/2 * (abs(self.p_max) + abs(self.p_min))) + self.p_min)
 
     def __repr__(self):
         return " TUDOS "
