@@ -64,33 +64,34 @@ def corner_frequency():
 
     system = System()
 
-    param_range = np.linspace(0, 1e5, 10) / 1
-    #param_range = np.linspace(10e-3, 100e-3, 10) / 1
+    frequency_range = np.linspace(2e3, 100e3, 10)
 
     chamber_pressure = dict()
-    for new_param in param_range:
+
+    for frequency in frequency_range:
 
         # system.tube_in.length = new_param
-        system.Pr_in = new_param
+        system.signal.frequency = frequency
+        system.T = 2 / frequency
 
         components = system.get_components()
         parameter = system.get_parameter()
         time, y_data = system_test(**components, **parameter)
-        chamber_pressure.update({f'{new_param:.4f}':y_data['chamber']})
+        chamber_pressure.update({f'{frequency:.4f} Hz':y_data['chamber']})
 
         pm = PlotManager()
-        pm.plot_dict(time, y_data,
-                     title='Simple Pump',
-                     xlabel='Time [s]',
-                     ylabel='Voltage [V]',
-                     filename=f'backpressure/{new_param:.4f}')
+        pm.plot_dict(time*1e3, y_data,
+                     title='',
+                     xlabel='Time [mms]',
+                     ylabel='Pressure [#]',
+                     filename=f'frequency/{frequency:.4f} Hz')
 
     chamber_pressure.update({'signal_voltage': y_data['signal_voltage']})
-    pm.plot_dict(time, chamber_pressure,
-                 title='Backpressure',
-                 xlabel='Time [s]',
-                 ylabel='Chamber pressure [Pa]',
-                 filename=f'backpressure/pressure_sweep')
+    pm.plot_dict(time*1e3, chamber_pressure,
+                 title='',
+                 xlabel='Time [ms]',
+                 ylabel='Chamber pressure [#]',
+                 filename=f'frequency/frequency_sweep')
 
 
 if __name__ == '__main__':
