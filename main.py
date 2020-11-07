@@ -1,13 +1,11 @@
-from library.componentes.chamber import Pump, PlotPump
-from library.componentes.velves import Velve, PlotVelve
+from library.componentes.chamber import PlotPump, Pump_fermi, Pump_old
+from library.componentes.velves import Velve, PlotVelve, Velve_fermi
 from library.componentes.tubes import Tube, PlotTubes
-from library.signals import Fermi, Rectangle, Sinus, PlotSignal
-from simulation.first_order import tube_test, velve_test, system_test
+from library.signals import Rectangle, Sinus, PlotSignal
+from simulation.first_order import velve_test, system_test
 from graphics.create_plots import PlotManager
-from library.parameter_manager import ParameterManager
-
+from system_manager import SystemManager
 import numpy as np
-
 
 plots = [
     PlotSignal(),
@@ -15,68 +13,89 @@ plots = [
     PlotPump(),
     PlotTubes()
 ]
-for plot in plots:
-    plot.plot()
 
-running_params = dict(
 
-    Rv=1,  # ventilwiderstand
-    Cp=1,  # pumpkammerkapazität
-    Pr1=0,  # reservoirdruck
-    Pr2=0,  # reservoirdruck
-    Pc0=0,  # startdruck in der pumpkammer
-    T=150,  # simulationsdauer
-    steps=500,  # anzahl der zeitschritte
+class System(SystemManager):
 
-    pump=dict(),
-    signal=dict(
-        amplitude=1,
-        frequency=10e-3,
-        offset=0,
-        a=1,
-    ),
-    velve_in=dict(
-        R_open=1,
-        R_close=1,
-        direction='forward'
-    ),
-    velve_out=dict(
-        R_open=1,
-        R_close=1,
-        direction='backward'
-    ),
-    tube_in=dict(
-        d=1,
-        l=1
-    ),
-    tube_out=dict(
-        d=1,
-        l=1
-    )
-)
+    Pr_in = 0 # reservoirdruck
+    Pr_out = 0  # reservoirdruck
+    Pc0 = 0  # startdruck in der pumpkammer
+    T = 1e-3  # simulationsdauer
+    steps = 1000  # anzahl der zeitschritte
 
-params = ParameterManager(running_params)
+    class signal:
+        _comp = Rectangle
+        amplitude = 1
+        frequency = 2e3
+        offset = 0
 
-def change_external_pressure():
+    class pump():
+        _comp = Pump_fermi
+        K = 1
+        RC=0.00001
 
-    param_range = np.linspace(1, 10, 10)/100
+    class velve_in:
+        _comp = Velve
+        R_open = 2e6
+        R_close = 1e15
+        direction = 'forward'
+        # direction = 'backward'
 
+    class velve_out:
+        _comp = Velve
+        R_open = 2e6
+        R_close = 1e15
+        # direction = 'forward'
+        direction = 'backward'
+
+    class tube_in:
+        _comp = Tube
+        diameter = 1e-3
+        length = 100e-3
+
+    class tube_out:
+        _comp = Tube
+        diameter = 1e-3
+        length = 100e-3
+
+
+def corner_frequency():
+
+
+    system = System()
+
+    param_range = np.linspace(0, 1e5, 10) / 1
+    #param_range = np.linspace(10e-3, 100e-3, 10) / 1
+
+    chamber_pressure = dict()
     for new_param in param_range:
 
-        # params.parameter.Pr1 = new_param
-        params.components.signal.frequency = new_param
+        # system.tube_in.length = new_param
+        system.Pr_in = new_param
 
-        components, parameter = params()
+        components = system.get_components()
+        parameter = system.get_parameter()
         time, y_data = system_test(**components, **parameter)
+        chamber_pressure.update({f'{new_param:.4f}':y_data['chamber']})
 
         pm = PlotManager()
         pm.plot_dict(time, y_data,
                      title='Simple Pump',
                      xlabel='Time [s]',
                      ylabel='Voltage [V]',
-                     filename='simulation_full')
+                     filename=f'backpressure/{new_param:.4f}')
+
+    chamber_pressure.update({'signal_voltage': y_data['signal_voltage']})
+    pm.plot_dict(time, chamber_pressure,
+                 title='Backpressure',
+                 xlabel='Time [s]',
+                 ylabel='Chamber pressure [Pa]',
+                 filename=f'backpressure/pressure_sweep')
 
 
 if __name__ == '__main__':
 
-    change_external_pressure()
+    # for plot in plots:
+    #     plot.plot()
+
+    corner_frequency()

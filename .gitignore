@@ -1,3 +1,5 @@
+*.pyc
+__pycache__
 /.idea
 graphics/plots
-__pycache__
+library/componentes/graphics/
