@@ -4,6 +4,8 @@ import matplotlib.pyplot as plt
 import numpy as np
 from library.signals import Sinus, Rectangle
 from scipy.integrate import odeint
+from copy import deepcopy
+
 
 class PumpBase(Fluid):
 
@@ -59,7 +61,7 @@ class Pump_fermi(Fluid):
         super().__init__()
         # self.nu = nu  # mass for the slope
 
-        time = np.linspace(0, T, steps)
+        self._time = np.linspace(0, T, steps)
         self.diameter = 5.7 * 10 ** -3  # m
         self.A = np.pi * self.diameter / 4
 
@@ -79,27 +81,36 @@ class Pump_fermi(Fluid):
         self.s0 = 0
         self.K = K # s / V
 
-        self.stroke = self.get_stroke(time, signal)
-        self.scale = self.stroke
+        self.stroke = self.get_stroke(self._time, signal)
+        self.scale = deepcopy(self.stroke)
 
         self.stroke = self.stroke * 2e-6 + self.z_0
         # self.stroke_min = min(self.stroke)
         # self.stroke_max = max(self.stroke)
 
-        self.stroke_reference = dict(zip(time, self.stroke))
-        self.scale_reference = dict(zip(time, self.scale))
+
+        self.stroke_reference = dict(zip(self._time, self.stroke))
+        self.scale_reference = dict(zip(self._time, self.scale))
+
+    @staticmethod
+    def find_nearest(array, value):
+        array = np.asarray(array)
+        idx = (np.abs(array - value)).argmin()
+        return array[idx]
 
     def get_stroke(self, time, signal):
         def ds_dt(s, t):
             return (self.K * signal(t) - s) / self.RC
-        stroke = -1 * odeint(ds_dt, self.s0, time)
+        stroke = -1 * odeint(ds_dt, self.s0, time)[:, 0]
         return stroke
 
     def C(self, time):
-        return 1e-17 # (((self.scale_reference[time] + 1)/2 * (abs(self.C_max) + abs(self.C_min))) + self.C_min)
+        time = self.find_nearest(self._time, time)
+        return (((self.scale_reference[time] + 1)/2 * (abs(self.C_max) + abs(self.C_min))) + self.C_min)
 
     def p(self, time):
-        return 10e3 # -1 * (((+1*self.scale_reference[time] + 1)/2 * (abs(self.p_max) + abs(self.p_min))) + self.p_min)
+        time = self.find_nearest(self._time, time)
+        return -1 * (((+1*self.scale_reference[time] + 1)/2 * (abs(self.p_max) + abs(self.p_min))) + self.p_min)
 
     def __repr__(self):
         return " TUDOS "
@@ -143,11 +154,13 @@ class PlotPump(PlotManager):
 
 if __name__ == '__main__':
 
-    signal = Rectangle(amplitude=1, frequency=2, offset=0)
-    time = np.linspace(0, 1, 1000)
+    signal = Rectangle(amplitude=1, frequency=2e3, offset=0)
+    T = 1e-3
+    steps = 1000
+    time = np.linspace(0, T, steps)
     voltage = [signal(t) for t in time]
-
-    pump = Pump_fermi(K=1, RC=0.1, time=time, signal=signal)
+    print('time:', time)
+    pump = Pump_fermi(K=1, RC=0.00001, T=T, steps=steps, signal=signal)
     pressure = [pump.p(t) for t in time]
     capacity = [pump.C(t) for t in time]
 

@@ -20,18 +20,24 @@ class System(SystemManager):
     Pr_in = 0 # reservoirdruck
     Pr_out = 0  # reservoirdruck
     Pc0 = 0  # startdruck in der pumpkammer
-    T = 1e-6  # simulationsdauer
-    steps = 500  # anzahl der zeitschritte
+    T = 1e-3  # simulationsdauer
+    steps = 1000  # anzahl der zeitschritte
+
+    class signal:
+        _comp = Rectangle
+        amplitude = 1
+        frequency = 2e3
+        offset = 0
 
     class pump():
-        _comp = Pump_old
+        _comp = Pump_fermi
         K = 1
-        RC = 0.1
+        RC=0.00001
 
     class velve_in:
         _comp = Velve
         R_open = 2e6
-        R_close = 1e11
+        R_close = 1e15
         direction = 'forward'
         # direction = 'backward'
 
@@ -52,11 +58,6 @@ class System(SystemManager):
         diameter = 1e-3
         length = 100e-3
 
-    class signal:
-        _comp = Rectangle
-        amplitude = 1e5
-        frequency = 1000e3
-        offset = 0
 
 def corner_frequency():
 
@@ -64,10 +65,12 @@ def corner_frequency():
     system = System()
 
     param_range = np.linspace(0, 1e5, 10) / 1
+    #param_range = np.linspace(10e-3, 100e-3, 10) / 1
 
     chamber_pressure = dict()
     for new_param in param_range:
 
+        # system.tube_in.length = new_param
         system.Pr_in = new_param
 
         components = system.get_components()
@@ -82,7 +85,7 @@ def corner_frequency():
                      ylabel='Voltage [V]',
                      filename=f'backpressure/{new_param:.4f}')
 
-    chamber_pressure.update({'signal': y_data['signal']})
+    chamber_pressure.update({'signal_voltage': y_data['signal_voltage']})
     pm.plot_dict(time, chamber_pressure,
                  title='Backpressure',
                  xlabel='Time [s]',

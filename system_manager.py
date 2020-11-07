@@ -11,7 +11,6 @@ class SystemManager:
         objects = ['signal', 'velve_in', 'velve_out', 'tube_in', 'tube_out', 'pump']
         result = dict()
         for obj in objects:
-            print(obj)
             inst = getattr(self, obj)
             attributes = inst.__dict__
             attributes = [i for i in attributes.keys() if i[:1] != '_']
@@ -20,9 +19,7 @@ class SystemManager:
                 params['T'] = self.T
                 params['steps'] = self.steps
                 params['signal'] = result['signal']
-                print(params)
             result[obj] = inst._comp(**params)
-            print(result)
         return result
 
     def get_parameter(self):

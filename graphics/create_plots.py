@@ -58,6 +58,7 @@ class PlotManager:
         labels = list(y_dict)
         colors = self.get_cmap(len(labels))
         for i, label in enumerate(labels):
+            # print(label, y_dict[label])
             ax.plot(x, y_dict[label], label=label, color=colors[i])#, marker='.')
         plt.legend()
         self.show()
