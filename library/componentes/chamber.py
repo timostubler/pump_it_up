@@ -85,12 +85,7 @@ class Pump_fermi(Fluid):
         self.stroke = self.get_stroke(self._time, signal)
         self.scale = deepcopy(self.stroke)
 
-
         self.stroke = self.stroke * 2e-6 + self.z_0
-        # self.stroke_min = min(self.stroke)
-        # self.stroke_max = max(self.stroke)
-
-
         self.stroke_reference = dict(zip(self._time, self.stroke))
         self.scale_reference = dict(zip(self._time, self.scale))
 
@@ -104,7 +99,6 @@ class Pump_fermi(Fluid):
         def ds_dt(s, t):
             return (self.K * signal(t) - s) / self.RC
         stroke = -1 * odeint(ds_dt, self.s0, time)[:, 0]
-        print('stroke:', stroke)
         return stroke
 
     def C(self, time):

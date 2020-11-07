@@ -32,19 +32,19 @@ class System(SystemManager):
     class pump():
         _comp = Pump_fermi
         K = 1
-        RC=0.00001
+        RC = 0.00001
 
     class velve_in:
         _comp = Velve
         R_open = 2e6
-        R_close = 1e15
+        R_close = 1e20
         direction = 'forward'
         # direction = 'backward'
 
     class velve_out:
         _comp = Velve
         R_open = 2e6
-        R_close = 1e15
+        R_close = 1e20
         # direction = 'forward'
         direction = 'backward'
 
@@ -61,10 +61,14 @@ class System(SystemManager):
 
 def backpressure():
 
+    """
+    veleve in geht bei 44.44 kPa nicht mehr auf
+    vevel_out geht bei 50 kPa nicht mehr auf
+    """
 
     system = System()
 
-    external_pressure = np.linspace(0, 1e5, 10)
+    external_pressure = np.linspace(0, 0.5e5, 10)
 
     chamber_pressure = dict()
 
@@ -72,25 +76,27 @@ def backpressure():
 
         # system.tube_in.length = new_param
         system.Pr_in = pressure
+        system.Pr_out = -pressure
 
         components = system.get_components()
         parameter = system.get_parameter()
         time, y_data = system_test(**components, **parameter)
+
         chamber_pressure.update({f'{pressure:.4f}':y_data['chamber']})
 
         pm = PlotManager()
-        pm.plot_dict(time, y_data,
-                     title='Simple Pump',
-                     xlabel='Time [s]',
-                     ylabel='Voltage [V]',
+        pm.plot_dict(time*1e3, y_data,
+                     title='',
+                     xlabel='Time [ms]',
+                     ylabel='Pressure [#]',
                      filename=f'backpressure/{pressure:.4f}')
 
     chamber_pressure.update({'signal_voltage': y_data['signal_voltage']})
-    pm.plot_dict(time, chamber_pressure,
-                 title='External Pressure on Reservoir',
-                 xlabel='Time [s]',
-                 ylabel='Chamber pressure [Pa]',
-                 filename=f'backpressure/pressure_sweep')
+    pm.plot_dict(time*1e3, chamber_pressure,
+                 title='',
+                 xlabel='Time [ms]',
+                 ylabel='Chamber pressure [#]',
+                 filename=f'backpressure/backpressure_sweep')
 
 
 if __name__ == '__main__':
