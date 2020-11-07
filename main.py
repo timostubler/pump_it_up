@@ -59,35 +59,35 @@ class System(SystemManager):
         length = 100e-3
 
 
-def corner_frequency():
+def backpressure():
 
 
     system = System()
 
-    param_range = np.linspace(0, 1e5, 10) / 1
-    #param_range = np.linspace(10e-3, 100e-3, 10) / 1
+    external_pressure = np.linspace(0, 1e5, 10)
 
     chamber_pressure = dict()
-    for new_param in param_range:
+
+    for pressure in external_pressure:
 
         # system.tube_in.length = new_param
-        system.Pr_in = new_param
+        system.Pr_in = pressure
 
         components = system.get_components()
         parameter = system.get_parameter()
         time, y_data = system_test(**components, **parameter)
-        chamber_pressure.update({f'{new_param:.4f}':y_data['chamber']})
+        chamber_pressure.update({f'{pressure:.4f}':y_data['chamber']})
 
         pm = PlotManager()
         pm.plot_dict(time, y_data,
                      title='Simple Pump',
                      xlabel='Time [s]',
                      ylabel='Voltage [V]',
-                     filename=f'backpressure/{new_param:.4f}')
+                     filename=f'backpressure/{pressure:.4f}')
 
     chamber_pressure.update({'signal_voltage': y_data['signal_voltage']})
     pm.plot_dict(time, chamber_pressure,
-                 title='Backpressure',
+                 title='External Pressure on Reservoir',
                  xlabel='Time [s]',
                  ylabel='Chamber pressure [Pa]',
                  filename=f'backpressure/pressure_sweep')
@@ -98,4 +98,4 @@ if __name__ == '__main__':
     # for plot in plots:
     #     plot.plot()
 
-    corner_frequency()
+    backpressure()
