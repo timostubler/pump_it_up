@@ -74,6 +74,7 @@ class Pump_fermi(Fluid):
 
         self.p_max = 50*1e3 # Pa
         self.p_min = -38*1e3 # Pa
+        self.p_off = self.p_min + (abs(self.p_max) + abs(self.p_min))/2
 
         self.p_scale = 5e10 # Pa scale
 
@@ -83,6 +84,7 @@ class Pump_fermi(Fluid):
 
         self.stroke = self.get_stroke(self._time, signal)
         self.scale = deepcopy(self.stroke)
+
 
         self.stroke = self.stroke * 2e-6 + self.z_0
         # self.stroke_min = min(self.stroke)
@@ -102,15 +104,19 @@ class Pump_fermi(Fluid):
         def ds_dt(s, t):
             return (self.K * signal(t) - s) / self.RC
         stroke = -1 * odeint(ds_dt, self.s0, time)[:, 0]
+        print('stroke:', stroke)
         return stroke
 
     def C(self, time):
         time = self.find_nearest(self._time, time)
-        return (((self.scale_reference[time] + 1)/2 * (abs(self.C_max) + abs(self.C_min))) + self.C_min)
+        return (((self.scale_reference[time] + 1)/2 * (self.C_max - self.C_min)) + self.C_min)
 
     def p(self, time):
         time = self.find_nearest(self._time, time)
-        return -1 * (((+1*self.scale_reference[time] + 1)/2 * (abs(self.p_max) + abs(self.p_min))) + self.p_min)
+        if self.scale_reference[time] <= 0:
+            return -1 * (self.scale_reference[time] * abs(self.p_min))
+        else:
+            return -1 * (self.scale_reference[time] * abs(self.p_max))
 
     def __repr__(self):
         return " TUDOS "
@@ -159,7 +165,7 @@ if __name__ == '__main__':
     steps = 1000
     time = np.linspace(0, T, steps)
     voltage = [signal(t) for t in time]
-    print('time:', time)
+    # print('time:', time)
     pump = Pump_fermi(K=1, RC=0.00001, T=T, steps=steps, signal=signal)
     pressure = [pump.p(t) for t in time]
     capacity = [pump.C(t) for t in time]

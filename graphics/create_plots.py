@@ -50,6 +50,22 @@ class PlotManager:
         if filename:
             self._dump(fig, filename)
 
+    def plot_twin(self, x, y1, y2, title='', xlabel='', ylabel1='', ylabel2='', filename=None, **kwargs):
+        fig, ax1 = plt.subplots(1, 1)
+        ax1.set_title(title)
+        ax1.set_xlabel(xlabel)
+        ax1.set_ylabel(ylabel1)
+
+        ax2 = ax1.twinx()
+        ax2.set_ylabel(ylabel2)
+
+        ax1.plot(x, y1, **kwargs, color=self.get_cmap(2)[0])
+        ax2.plot(x, y2, **kwargs, color=self.get_cmap(2)[1])
+
+        self.show()
+        if filename:
+            self._dump(fig, filename)
+
     def plot_dict(self, x, y_dict, title='', xlabel='', ylabel='', filename=None):
         fig, ax = plt.subplots(1, 1)
         ax.set_title(title)
