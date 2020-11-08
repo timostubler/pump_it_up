@@ -38,15 +38,15 @@ class System(SystemManager):
         _comp = Velve
         R_open = 2e6
         R_close = 1e20
-        direction = 'forward'
-        # direction = 'backward'
+        # direction = 'forward'
+        direction = 'backward'
 
     class velve_out:
         _comp = Velve
         R_open = 2e6
         R_close = 1e20
-        # direction = 'forward'
-        direction = 'backward'
+        direction = 'forward'
+        # direction = 'backward'
 
     class tube_in:
         _comp = Tube
@@ -61,7 +61,7 @@ class System(SystemManager):
 
 def tube_length_sweep():
 
-    fname = 'tube_both_length_wflow'
+    fname = 'tube_both_length'
 
     system = System()
 
@@ -78,8 +78,8 @@ def tube_length_sweep():
         components = system.get_components()
         parameter = system.get_parameter()
         time, y_data = system_test(**components, **parameter)
-        # tube_length.update({f'{new_param:.4f}'+f'{sweep_unit}':y_data['chamber']})
-        tube_length.update({f'{new_param:.4f}' + f'{sweep_unit}': y_data['flow']})
+        tube_length.update({f'{round(new_param)}'+f'{sweep_unit}':y_data['chamber']})
+        # tube_length.update({f'{round(new_param)}' + f'{sweep_unit}': y_data['flow']})
 
         pm = PlotManager()
         # pm.plot_twin(time, y_data['signal_voltage'], y_data['chamber'],
@@ -89,17 +89,17 @@ def tube_length_sweep():
         #              ylabel2='Pressure [Pa]',
         #              filename=f'{fname}/{new_param:.4f}')
 
-        # pm.plot_dict(time, y_data,
-        #              title='',
-        #              xlabel='Time [s]',
-        #              ylabel='Voltage / Pressure (normal.)',
-        #              filename=f'{fname}/{new_param:.4f}')
+        pm.plot_dict(time, y_data,
+                     title='',
+                     xlabel='Time [s]',
+                     ylabel='Voltage / Pressure (normal.)',
+                     filename=f'{fname}/{round(new_param)}')
 
     tube_length.update({'signal_voltage': y_data['signal_voltage']})
     pm.plot_dict(time, tube_length,
                  title='',
                  xlabel='Time [s]',
-                 ylabel='Voltage / Flow (normal.)',
+                 ylabel='Voltage / Pressure (normal.)',
                  filename=f'{fname}/length_sweep')
 
 
