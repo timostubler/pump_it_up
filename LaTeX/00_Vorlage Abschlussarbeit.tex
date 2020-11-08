@@ -6,7 +6,7 @@
 
 % Dokumentinformationen
 \usepackage[
-	pdftitle={Titel der Abschlussarbeit},
+	pdftitle={Simulationsstudie},
 	pdfsubject={},
 	pdfauthor={Timo Stubler},
 	pdfkeywords={},	
@@ -77,8 +77,6 @@
 
 \include{01_titel}
 
-\include{02_zusammenfassung}
-
 % Beendet eine Seite und erzwingt auf den nachfolgenden Seiten die Ausgabe aller Gleitobjekte (z.B. Abbildungen), die bislang definiert, aber noch nicht ausgegeben wurden. Dieser Befehl fügt, falls nötig, eine leere Seite ein, sodaß die nächste Seite nach den Gleitobjekten eine ungerade Seitennummer hat. 
 \cleardoubleoddpage
 
@@ -88,28 +86,36 @@
 %Inhaltsverzeichnis
 \tableofcontents
 
-%Verzeichnis aller Bilder
-\listoffigures
-
 %Verzeichnis aller Tabellen
 %\listoftables
 
-\include{03_einleitung}
+\include{02_einleitung}
 
-\include{04_grundlagen}
+\include{03_komponenten}
 
-\include{05_standdertechnik}
+\include{04_theorie}
 
-\include{06_methoden}
+\include{05_sweep_tubelength}
 
-\include{07_ergebnisse}
+\include{06_sweep_velveresistance}
 
-\include{08_diskussion}
+\include{07_sweep_backpressure}
+
+\include{08_sweep_frequency}
+
+\include{09_outlook}
+
+
+%Verzeichnis aller Bilder
+\listoffigures
 
 %Literaturverzeichnis
 
 \bibliography{References}
 %\bibliographystyle{unsrtdin}
 \bibliographystyle{unsrtnat}
+
+
+\include{10_appendix}
 
 \end{document}
