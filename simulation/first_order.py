@@ -57,7 +57,7 @@ def system_test(signal, pump, velve_in, velve_out, tube_in, tube_out, Pr_in, Pr_
         chamber=Pc / norm,
         reservoir_in=Pr_in / norm,
         reservoir_out=Pr_out / norm,
-        #flow=i,
+        flow=i,
     )
 
 
