@@ -14,14 +14,13 @@ plots = [
     PlotTubes()
 ]
 
-
 class System(SystemManager):
 
-    Pr_in = 0 # reservoirdruck
-    Pr_out = 0  # reservoirdruck
+    Pr_in = 10e3 # reservoirdruck
+    Pr_out = -10e3  # reservoirdruck
     Pc0 = 0  # startdruck in der pumpkammer
     T = 1e-3  # simulationsdauer
-    steps = 1000  # anzahl der zeitschritte
+    steps = 100  # anzahl der zeitschritte
 
     class signal:
         _comp = Rectangle
@@ -37,14 +36,14 @@ class System(SystemManager):
     class velve_in:
         _comp = Velve
         R_open = 2e6
-        R_close = 1e15
+        R_close = 1e20
         direction = 'forward'
         # direction = 'backward'
 
     class velve_out:
         _comp = Velve
         R_open = 2e6
-        R_close = 1e15
+        R_close = 1e20
         # direction = 'forward'
         direction = 'backward'
 
@@ -59,38 +58,50 @@ class System(SystemManager):
         length = 100e-3
 
 
-def corner_frequency():
+def leakage_sweep():
 
+    fname = 'velve_in_Rclose'
 
     system = System()
 
-    param_range = np.linspace(0, 1e5, 10) / 1
+    param_range = np.linspace(1e10, 1e15, 10) / 1
     #param_range = np.linspace(10e-3, 100e-3, 10) / 1
 
-    chamber_pressure = dict()
+    velve_leakage = dict()
     for new_param in param_range:
 
-        # system.tube_in.length = new_param
-        system.Pr_in = new_param
+        sweep_unit = ' [Res.]'
+        system.velve_in.R_close = new_param
+        # system.velve_out.R_close = new_param
+
+        print('R_close:', new_param)
 
         components = system.get_components()
         parameter = system.get_parameter()
         time, y_data = system_test(**components, **parameter)
-        chamber_pressure.update({f'{new_param:.4f}':y_data['chamber']})
+        velve_leakage.update({f'{new_param:.4f}'+f'{sweep_unit}':y_data['chamber']})
+        # velve_leakage.update({f'{new_param:.4f}' + f'{sweep_unit}': y_data['flow']})
 
         pm = PlotManager()
-        pm.plot_dict(time, y_data,
-                     title='Simple Pump',
-                     xlabel='Time [s]',
-                     ylabel='Voltage [V]',
-                     filename=f'backpressure/{new_param:.4f}')
+        # pm.plot_twin(time, y_data['signal_voltage'], y_data['chamber'],
+        #              title='',
+        #              xlabel='Time [s]',
+        #              ylabel1='Voltage [V]',
+        #              ylabel2='Pressure [Pa]',
+        #              filename=f'{fname}/{new_param:.4f}')
 
-    chamber_pressure.update({'signal_voltage': y_data['signal_voltage']})
-    pm.plot_dict(time, chamber_pressure,
-                 title='Backpressure',
+        # pm.plot_dict(time, y_data,
+        #              title='',
+        #              xlabel='Time [s]',
+        #              ylabel='Voltage / Pressure (normal.)',
+        #              filename=f'{fname}/{new_param:.4f}')
+
+    velve_leakage.update({'signal_voltage': y_data['signal_voltage']})
+    pm.plot_dict(time, velve_leakage,
+                 title='',
                  xlabel='Time [s]',
-                 ylabel='Chamber pressure [Pa]',
-                 filename=f'backpressure/pressure_sweep')
+                 ylabel='Voltage / Pressure (normal.)',
+                 filename=f'{fname}/length_sweep')
 
 
 if __name__ == '__main__':
@@ -98,4 +109,4 @@ if __name__ == '__main__':
     # for plot in plots:
     #     plot.plot()
 
-    corner_frequency()
+    leakage_sweep()

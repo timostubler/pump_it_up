@@ -23,6 +23,7 @@ class Velve(VelveBase):
 
     def R(self, u):
         self.R_last = getattr(self, self.direction)(u)
+        # print(self.R_last)
         return self.R_last
 
     def constant(self, u):
