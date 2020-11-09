@@ -41,7 +41,7 @@
 
 % ### titleseite
 \usepackage{titling}
-\title{Systemmodelierung einer Membranpump für die Mikro-Fluidik}
+\title{Systemmodelierung einer Membranpumpe für die Mikro-Fluidik}
 \author{Kristjan Axelsson, Timo Stubler}
 \date{\today}               
 
@@ -85,9 +85,90 @@ Fakultät für angewandte Wissenschaften und Mechatronik \\
 \section{Einleitung}
 \pagenumbering{arabic}		% turn on page numbers
 
+
+
 \section{Theorie}
 
-\section{Gegendruck}
+Im Folgenden wird die Modellierung der Membranpumpe besprochen. Der Antrieb der Pump wird durch einen Piezoaktor realisiert. Dieser wird über einen Wechselspannung betrieben und erzeugt so abwechselnd einen Über- bzw. Unterdruck in der Pumpkammer. Die Ventile sind passive Klappenventile welche nur in eine Richtung öffnen. Je nach Anordnung dient dieses Ventil einmal als Auslass und einmal als Einlass. Die Klappenventile sind über einen Schlauch jeweils mit einem Reservoir verbunden.
+
+Im Folgenden werden zwei Modelle vorgestellt. Das erste Besteht aus der Pumpkammer mit einem Klappenventil und einer Zuleitung welche an eine Reservoir angeschlossen ist (einarmiges Model). Diese Model dient der Untersuchung der Ventile auf Leckströme und der Untersuchung der Zuleitungen auf deren Geometrie. Das zweite Model umfasst die Gesamte Pumpe welche auf ihre Funktionsweise bezogen auf Gegendruck und Antriebsfrequenz untersucht wird (zweiarmiges Model).
+
+Für die Simulation wird ein fluidisches Ersatzmodel verwendet [Quelle Skript]
+
+\[ Widerstand = Strömungswiderstand = \frac{m^3/s}{Pa} \]
+\[ Kapazität = fluidische Kapazität = \frac{m^3}{Pa} \]
+\[ Spannung = Druck = Pa \]
+
+\[ P = R\dot{V} \]
+\[ P = \frac{V}{C} \]
+\[ P = P \]
+
+\subsection{Reservoir}
+Das Reservoir wird als unendlich groß angenommen und daher mit einem Konstanten Druck modelliert.
+
+
+\[ Pr = Umgebungsdruck \]
+
+Die Zuleitung wird durch einen einfachen Strömungswiderstand modelliert. Da diese Strömung als laminar betrachtet wird ist der Strömungswiderstand über das Gesetz von Hagen-Poiseuille zu beschreiben
+
+\[ \dot{V} = \frac{pi * r^4 * dP}{8* eta *l} \]
+
+\[ R = \frac{8* eta *l}{pi * r^4} \]
+
+\subsection{Klappenventile}
+
+Die Klappenventile werden durch einen Widerstand beschrieben welcher vom Druck abhängt. Für Drücke > 0 ist das Ventil geöffnent. Für Drücke < 0 ist das Ventil geschlossen. Die Widerstände für den geöffneten und geschlossenen Zustand werden über das oben beschriebene Gesetz von Hagen-Poiseuille beschrieben.
+
+[Evtl. Grafik]
+
+\subsection{Pumpkammer}
+Real wird die Auslenkung der Pumpkammer durch Anlegen eines elektrischen Signales erzeugt. Dadurch verändert sich der Druck in der Pumpkammer, sowie dessen Kapazität. Die Pumpkammer ist in erster Näherung durch einen Kolben zu beschreiben. Die Höhe der Druckamplitude wird durch einen Proportionalitätsfaktor von der Spannung abhängig gemacht, ebenso die fluidische Kapazität. Die Extremwerte für Druck und Kapazität der Pumpkammer werden aus [Quelle ??] entnommen.
+
+Die Trägheit der Pumpe wird über ein RC angenähert.
+
+Der Wert für die Zeitkonstante wird abgeschätzt.
+
+Hinterlegung der Kennlinie um in der Simulation zeitabhängige Werte für Pumpkammerdruck und -Kapazität zu bekommen.
+
+[Kennlinien der Pumkammer]
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.98\textwidth]{bilder/theorie/pumpe_prinzipskizze.PNG}
+	\caption{1) Reservoir 2) Zulauf 3) Ventil 4) Pumpkammer}
+\end{figure}
+
+
+\section{Modellierung}
+
+Im Folgenden wird die Modellierung des einarmigen und zweiarmigen Models behandelt.
+
+\subsection{Einarmig}
+
+[Hier Ersatzschaltbild - Einarmig]
+
+\[ Pin - Pt - Pv - Pc - Ps = 0 \]
+
+\[ Pin - Rt\dot{V} - Rv(P)\dot{V} - \frac{V}{C(P)} - Ps(t) = 0 \]
+
+\[ \dot{V} = \frac{Pin - Ps(t) - \frac{V}{C(P)}}{Rt - Rv(P)} \]
+
+
+\subsection{Zweiarmig}
+
+[Hier Ersatzschaltbild - Zweiarmig]
+
+\section{Simulation}
+
+Diese Kapitel umfasst die Untersuchungen des einarmigen und zweiarmigen Models der Membranpumpe
+
+\subsection{Zuleitungen}
+
+
+\subsection{Leckströme}
+
+
+\subsection{Gegendruck}
 
 \begin{figure}[H]
     \centering
@@ -115,16 +196,13 @@ Fakultät für angewandte Wissenschaften und Mechatronik \\
     \caption{•}
 \end{figure}
 
-
-
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.7\textwidth]{bilder/backpressure/backpressure_result.png}
 	\caption{•}
 \end{figure}
 
-\section{Grenzfrequenz}
-
+\subsection{Grenzfrequenz}
 
 \begin{figure}[H]
     \centering
@@ -152,6 +230,9 @@ Fakultät für angewandte Wissenschaften und Mechatronik \\
     \caption{•}
 \end{figure}
 
+\section{Fazit}
+
+\section{Ausblick}
 
 \printbibliography
 
