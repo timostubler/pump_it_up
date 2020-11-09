@@ -52,11 +52,11 @@ def system_test(signal, pump, velve_in, velve_out, tube_in, tube_out, Pr_in, Pr_
     i /= i.max()
     norm = 50e3 # np.abs(Ps).max()
     return t_space, dict(
-        signal_voltage= voltage,
-        signal_pressure=Ps / norm,
-        chamber=Pc / norm,
-        reservoir_in=Pr_in / norm,
-        reservoir_out=Pr_out / norm,
+        signal= voltage,
+        # signal_pressure=Ps / norm,
+        chamber=Pc# / norm,
+        # reservoir_in=Pr_in / norm,
+        # reservoir_out=Pr_out / norm,
         # flow=i,
     )
 

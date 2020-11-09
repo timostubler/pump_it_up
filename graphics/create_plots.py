@@ -24,8 +24,10 @@ class PlotManager:
         :param colors: int
         :return: list of colors
         """
-        cmap = cm.get_cmap(self.cmap_type, colors)
-        return [cmap(c) for c in range(colors)]
+        cmap = cm.get_cmap(self.cmap_type, colors+1)
+        cmap = [cmap(c) for c in range(colors+1)]
+        cmap.pop()
+        return cmap
 
     def _dump(self, fig, name):
         filepath = f'{self.root}/{name}'.replace('\\', '/')
