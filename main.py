@@ -60,7 +60,7 @@ class System(SystemManager):
 
 def leakage_sweep():
 
-    fname = 'velve_both_Rclose_wflow'
+    fname = 'velve_out_Rclose'
 
     system = System()
 
@@ -70,8 +70,8 @@ def leakage_sweep():
     velve_leakage = dict()
     for new_param in param_range:
 
-        sweep_unit = ' [$kg/m^7$]'
-        system.velve_in.R_close = new_param
+        sweep_unit = ' [$m^3 s^{-1}/Pa$]'
+        # system.velve_in.R_close = new_param
         system.velve_out.R_close = new_param
 
         print('R_close:', new_param)
@@ -79,8 +79,8 @@ def leakage_sweep():
         components = system.get_components()
         parameter = system.get_parameter()
         time, y_data = system_test(**components, **parameter)
-        # velve_leakage.update({f'{round(new_param*1e-9)}'+f' *1e9 {sweep_unit}':y_data['chamber']})
-        velve_leakage.update({f'{round(new_param*1e-9)}' + f' *1e9 {sweep_unit}': y_data['flow']})
+        velve_leakage.update({f'{round(new_param*1e-9)}'+f' *1e9 {sweep_unit}':y_data['chamber']})
+        # velve_leakage.update({f'{round(new_param*1e-9)}' + f' *1e9 {sweep_unit}': y_data['flow']})
 
         pm = PlotManager()
         # pm.plot_twin(time, y_data['signal_voltage'], y_data['chamber'],
@@ -90,17 +90,17 @@ def leakage_sweep():
         #              ylabel2='Pressure [Pa]',
         #              filename=f'{fname}/{new_param:.4f}')
 
-        # pm.plot_dict(time, y_data,
-        #              title='',
-        #              xlabel='Time [s]',
-        #              ylabel='Voltage / Pressure (normal.)',
-        #              filename=f'{fname}/{round(new_param*1e-9)}')
+        pm.plot_dict(time, y_data,
+                     title='',
+                     xlabel='Time [s]',
+                     ylabel='Voltage / Pressure (normal.)',
+                     filename=f'{fname}/{round(new_param*1e-9)}')
 
     velve_leakage.update({'signal_voltage': y_data['signal_voltage']})
     pm.plot_dict(time, velve_leakage,
                  title='',
                  xlabel='Time [s]',
-                 ylabel='Voltage / Flow (normal.)',
+                 ylabel='Voltage / Pressure (normal.)',
                  filename=f'{fname}/leakage_sweep')
 
 
