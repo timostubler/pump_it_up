@@ -142,27 +142,34 @@ Hinterlegung der Kennlinie um in der Simulation zeitabhängige Werte für Pumpka
 
 \section{Modellierung}
 
-Im Folgenden wird die Modellierung des einarmigen und zweiarmigen Models behandelt.
+Im Folgenden wird die Modellierung des Einzelstrangs und des Gesamtsystems Pumpe behandelt.
+Wie bereits erwähnt, werden elektrische Ersatzschaltbilder herangezogen, welche dann mithilfe der elektrisch-fluidischen Analogiegesetze untersucht werden.
 
-\subsection{Einarmig}
+\subsection{Einzelstrang}
 
-[Hier Ersatzschaltbild - Einarmig]
+Das Gesamtsystem Pumpe kann in zwei Einzelstränge (ein-, ausleitend) unterteilt werden, welche jeweils einen in sich geschlossenen Kreislauf im Ersatzschaltbild darstellen.
+Die Betrachtung eines Strangs kann analog auf den anderen übertragen werden. Folglich wird hier nur ein Strang erläutert.
 
 \begin{center}
 	\includesvg[scale = 0.6]{bilder/circuits/single_branch}
 \end{center}
 
+Der Eingangsdruck ($U_{in}$), der Reservoir-bedingt anliegt, bildet mit dem durch den Piezoaktor erzeugten Kammerdruck ($U_{Signal}(t)$) eine Druckdifferenz. Nach Hagen-Poiseuille resultiert daraus ein Volumenstrom in eine vom Vorzeichen der Druckdifferenz ($U_{Signal}(t)-U_{in}$) vorgegebene Richtung. Der Leitungswiderstand ($R_{T}$) und der Ventilwiderstand ($R_{V}$) begrenzen die resultierenden Volumenströme. Dabei beherbergt das Modell des Ventils eine Abhängigkeit von der Druckdifferenz. Im gezeigten Einzelstrang ist der Ventilwiderstand für negative Druckdifferenzen gering, für positive Druckdifferenzen sehr hoch, sodass das Ventil in diese Richtung schließt. Am Ende des Einzelstranges befindet sich die Pumpkammer und die Quelle des Drucksignals. Das Aufnahmevermögen der Pumpkammer wird durch ein Kondensatorelement beschrieben. Die hierin stattfindenden Druckänderungen ($P_{C}$) gilt es zeitlich zu ermitteln.
 
-\[ Pin - Pt - Pv - Pc - Ps = 0 \]
+Dazu wird die Differentialgleichung mithilfe des Kirchhoff´schen Gesetz ermittelt:
 
-\[ Pin - Rt\dot{V} - Rv(P)\dot{V} - \frac{V}{C(P)} - Ps(t) = 0 \]
+\[ U_{Signal}(t) - U_{in} + U_{C} + U_{R_{t}} + U_{R_{V}} = 0 \]
 
-\[ \dot{V} = \frac{Pin - Ps(t) - \frac{V}{C(P)}}{Rt - Rv(P)} \]
+\[ \dot{U}_{C} = \frac{1}{C_{C}} * \frac{U_{Signal}(t)-U_{in}-U_{C}}{R_{T}+R_{V}} \]
+
+\[ P_{Signal}(t) - P_{in} + P_{C} + P_{R_{t}} + P_{R_{V}} = 0 \]
+
+\[ \dot{P}_{C} = \frac{1}{C_{C}} * \frac{P_{Signal}(t)-P_{in}-P_{C}}{R_{T}+R_{V}} \]
 
 
-\subsection{Zweiarmig}
 
-[Hier Ersatzschaltbild - Zweiarmig]
+\subsection{Gesamtsystem}
+
 
 \begin{center}
 	\includesvg[scale = 0.75]{bilder/circuits/first_order_circuit}
