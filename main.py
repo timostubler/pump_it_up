@@ -61,7 +61,7 @@ class System(SystemManager):
 
 def tube_length_sweep():
 
-    fname = 'tube_in_length_wflow'
+    fname = 'tube_out_length_wflow'
 
     system = System()
 
@@ -72,8 +72,8 @@ def tube_length_sweep():
     for new_param in param_range:
 
         sweep_unit = ' [m]'
-        system.tube_in.length = new_param
-        # system.tube_out.length = new_param
+        # system.tube_in.length = new_param
+        system.tube_out.length = new_param
 
         components = system.get_components()
         parameter = system.get_parameter()
