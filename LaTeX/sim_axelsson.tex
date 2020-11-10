@@ -21,6 +21,7 @@
 \usepackage{subcaption}
 \usepackage{float}			% platziert figures am gewünschten platz
 \usepackage[export]{adjustbox}% http://ctan.org/pkg/adjustbox
+\usepackage{svg}
 
 % ### matplotlib plots
 \usepackage{pgf}
@@ -147,6 +148,11 @@ Im Folgenden wird die Modellierung des einarmigen und zweiarmigen Models behande
 
 [Hier Ersatzschaltbild - Einarmig]
 
+\begin{center}
+	\includesvg[scale = 0.6]{bilder/circuits/single_branch}
+\end{center}
+
+
 \[ Pin - Pt - Pv - Pc - Ps = 0 \]
 
 \[ Pin - Rt\dot{V} - Rv(P)\dot{V} - \frac{V}{C(P)} - Ps(t) = 0 \]
@@ -157,6 +163,10 @@ Im Folgenden wird die Modellierung des einarmigen und zweiarmigen Models behande
 \subsection{Zweiarmig}
 
 [Hier Ersatzschaltbild - Zweiarmig]
+
+\begin{center}
+	\includesvg[scale = 0.75]{bilder/circuits/first_order_circuit}
+\end{center}
 
 \section{Simulation}
 
@@ -192,7 +202,7 @@ Diese Kapitel umfasst die Untersuchungen des einarmigen und zweiarmigen Models d
 
 \begin{figure}[H]
 	\centering
-	\begin{subfigure}[H]{0.4\textwidth}
+	\begin{subfigure}[H]{0.48\textwidth}
 		\includegraphics[width=\textwidth, valign=t]{bilder/tubelength/tl_in_branch_multisweep_flow.png}
 		\caption{•}
 	\end{subfigure}
