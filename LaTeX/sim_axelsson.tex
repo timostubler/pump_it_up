@@ -22,6 +22,8 @@
 \usepackage{float}			% platziert figures am gewünschten platz
 \usepackage[export]{adjustbox}% http://ctan.org/pkg/adjustbox
 \usepackage{svg}
+\usepackage{amsmath}
+\usepackage{bm}
 
 % ### matplotlib plots
 \usepackage{pgf}
@@ -336,6 +338,37 @@ Beschreibung wie Abhängigkeit Ventilwideer stand <-> Druckdifferenz gelöst ist
 \section{Fazit}
 
 \section{Ausblick}
+
+Das Systemmodell kann hinsichtlich der einzelnen Komponenten nahezu beliebig komplex erweitert werden. Um einen Einblick zu erlangen, welche Konsequenzen ein höherer Detailierungsgrad nach sich zieht, wird die Beschreibung der Ventile und der Rohrleitungen erweitert. Das Ventil besitzt durch die zugrundeliegende Geometrie auch kapazitive Eigenschaften, verursacht durch elastische Verformungen des Bauteils. Dieser Effekt wird im folgenden Modell durch parallele Kondensatoren ($C_V_{in}$ und $C_V_{out}$) berücksichtigt. Zusätzlich kann der Fluid-inherente Widerstand gegen Beschleunigungen innerhalb von Rohrleitungen durch eine Induktivität ($L_V_{in}$ und $L_V_{out}$) beschrieben werden. Dabei gilt folgende elektro-fluidische Analogie:
+
+
+\[ L_{fluid} = \frac{P}{\ddot{V}} \:\:\widehat{=}\:\: L_{elek.} = \frac{U}{dI/dt} \]
+
+\begin{center}
+	\includesvg[scale = 0.6]{bilder/circuits/second_order_circuit}
+\end{center}
+
+Eine Herleitung der Differentialgleichung für dargestelltes System führt zu folgendem Zusammenhang nach Trennung der Variablen:
+
+
+\begin{equation}
+	\begin{split}
+		&+ \left[\left(1+\frac{R_{T_{out}}}{R_{V_{out}}}\right)C_{V_{in}}L_{T_{in}}C_{C}\right]\bm{\frac{d\textsuperscript{3}U_{C}}{dt\textsuperscript{3}}} \\
+		&+ \left[\left(1+\frac{R_{T_{out}}}{R_{V_{out}}}\right)C_{V_{in}}R_{C}C_{C} + \left(1+\frac{R_{T_{in}}}{R_{V_{in}}}\right)C_{V_{out}}R_{C}C_{C}\right]\bm{\frac{d\textsuperscript{2}U_{C}}{dt\textsuperscript{2}}} \\
+		&+ \biggl[\left(1+\frac{R_{T_{in}}}{R_{V_{in}}}\right)\left(1+\frac{R_{T_{out}}}{R_{V_{out}}}\right)C_{C} + \left(1+\frac{R_{T_{out}}}{R_{V_{out}}}\right)\left(\frac{R_{C}C_{C}}{R_{V_{in}}}+C_{V_{in}}\right) + \\
+		& \left(1+\frac{R_{T_{in}}}{R_{V_{in}}}\right)\left(\frac{R_{C}C_{C}}{R_{V_{out}}}+C_{V_{out}}\right)\biggr] \bm{\frac{dU_{C}}{dt}}  \\
+		&+ \left[\left(1+\frac{R_{T_{out}}}{R_{V_{out}}}\right)\frac{1}{R_{V_{out}}} + \left(1+\frac{R_{T_{in}}}{R_{V_{in}}}\right)\frac{1}{R_{V_{out}}}\right]\bm{U_{C}} \\
+		&= \biggl[\left(1+\frac{R_{T_{out}}}{R_{V_{out}}}\right)\left(\frac{L_{T_{in}}}{R_{V_{in}}}+C_{V_{in}}R_{V_{in}}\right) - \left(1+\frac{R_{T_{in}}}{R_{V_{in}}}\right)\left(\frac{L_{T_{out}}}{R_{V_{out}}}+C_{V_{out}}R_{V_{out}}\right)\biggr]\bm{\frac{dI_{2}}{dt}} \\
+		&+ \left[\left(1+\frac{R_{T_{out}}}{R_{V_{out}}}\right)C_{V_{in}}L_{T_{in}} - \left(1+\frac{R_{T_{in}}}{R_{V_{in}}}\right)C_{V_{out}}L_{T_{out}}\right]\bm{\frac{d\textsuperscript{2}I_{2}}{dt\textsuperscript{2}}} \\
+		&+ \left(1+\frac{R_{T_{out}}}{R_{V_{out}}}\right)\frac{1}{R_{T_{in}}}\bm{(U_{Signal} - U_{in})}+ \left(1+\frac{R_{T_{out}}}{R_{V_{out}}}\right)C_{V_{in}}\bm{\frac{d(U_{Signal} - U_{in})}{dt}} \\
+		&+ \left(1+\frac{R_{T_{in}}}{R_{V_{in}}}\right)\frac{1}{R_{T_{out}}}\bm{(U_{Signal} - U_{out})} + \left(1+\frac{R_{T_{in}}}{R_{V_{in}}}\right)C_{V_{out}}\bm{\frac{d(U_{Signal} - U_{out})}{dt}}
+	\end{split}
+\end{equation}
+
+%\[ L_{fluid} = \frac{P}{\ddot{V}} \:\:\widehat{=}\:\: L_{elek.} = \frac{U}{dI/dt} \]
+
+Es ist ersichtlich, dass die Simulation in dieser Detailierung den Rahmen dieser Arbeit übersteigt.
+
 
 \printbibliography
 
