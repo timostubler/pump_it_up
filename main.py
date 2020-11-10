@@ -60,7 +60,7 @@ class System(SystemManager):
 
 def leakage_sweep():
 
-    fname = 'velve_out_Rclose'
+    fname = 'velve_out_Rclose_wflow'
 
     system = System()
 
@@ -68,6 +68,7 @@ def leakage_sweep():
     #param_range = np.linspace(10e-3, 100e-3, 10) / 1
 
     velve_leakage = dict()
+    i=0
     for new_param in param_range:
 
         sweep_unit = ' [$m^3 s^{-1}/Pa$]'
@@ -79,28 +80,27 @@ def leakage_sweep():
         components = system.get_components()
         parameter = system.get_parameter()
         time, y_data = system_test(**components, **parameter)
-        velve_leakage.update({f'{round(new_param*1e-9)}'+f' *1e9 {sweep_unit}':y_data['chamber']})
-        # velve_leakage.update({f'{round(new_param*1e-9)}' + f' *1e9 {sweep_unit}': y_data['flow']})
+
+        if i==0:
+            velve_leakage.update({'signal_voltage': y_data['signal_voltage']})
+
+        # velve_leakage.update({f'{round(new_param*1e-9)}'+f' *1e9 {sweep_unit}':y_data['chamber']})
+        velve_leakage.update({f'{round(new_param*1e-9)}' + f' *1e9 {sweep_unit}': y_data['flow']})
 
         pm = PlotManager()
-        # pm.plot_twin(time, y_data['signal_voltage'], y_data['chamber'],
-        #              title='',
-        #              xlabel='Time [s]',
-        #              ylabel1='Voltage [V]',
-        #              ylabel2='Pressure [Pa]',
-        #              filename=f'{fname}/{new_param:.4f}')
 
         pm.plot_dict(time, y_data,
                      title='',
                      xlabel='Time [s]',
-                     ylabel='Voltage / Pressure (normal.)',
+                     ylabel='Voltage / Pressure / Flow (normal.)',
                      filename=f'{fname}/{round(new_param*1e-9)}')
 
-    velve_leakage.update({'signal_voltage': y_data['signal_voltage']})
+        i+=1
+
     pm.plot_dict(time, velve_leakage,
                  title='',
                  xlabel='Time [s]',
-                 ylabel='Voltage / Pressure (normal.)',
+                 ylabel='Voltage / Flow (normal.)',
                  filename=f'{fname}/leakage_sweep')
 
 
