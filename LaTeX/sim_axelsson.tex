@@ -57,10 +57,10 @@
 \begin{center}
 \begin{figure}[H]
     \centering
-    \begin{subfigure}[B]{0.2\textwidth}
+    \begin{subfigure}[B]{0.30\textwidth}
         \includegraphics[width=\textwidth, valign=t]{bilder/Logo_MNM_EN_Farbe_ohneHM (1).png}
     \end{subfigure}
-    \begin{subfigure}[B]{0.45\textwidth}
+    \begin{subfigure}[B]{0.60\textwidth}
         \includegraphics[width=\textwidth, valign=t]{bilder/Hochschule_Muenchen_Logo.png}
     \end{subfigure}
 \end{figure}
@@ -229,11 +229,9 @@ Beschreibung wie Abhängigkeit Ventilwiderstand <-> Druckdifferenz gelöst ist. 
 	\centering
 	\begin{subfigure}[H]{0.48\textwidth}
 		\includegraphics[width=\textwidth, valign=t]{bilder/tubelength/tl_in_branch_singlesweep.png}
-		\caption{•}
 	\end{subfigure}
 	\begin{subfigure}[H]{0.48\textwidth}
 		\includegraphics[width=\textwidth, valign=t]{bilder/tubelength/tl_in_branch_multisweep.png}
-		\caption{•}
 	\end{subfigure}
 	\caption{•}
 \end{figure}
@@ -242,11 +240,9 @@ Beschreibung wie Abhängigkeit Ventilwiderstand <-> Druckdifferenz gelöst ist. 
 	\centering
 	\begin{subfigure}[H]{0.48\textwidth}
 		\includegraphics[width=\textwidth, valign=t]{bilder/tubelength/tl_out_branch_multisweep.png}
-		\caption{•}
 	\end{subfigure}
 	\begin{subfigure}[H]{0.48\textwidth}
 		\includegraphics[width=\textwidth, valign=t]{bilder/tubelength/tl_both_branch_multisweep.png}
-		\caption{•}
 	\end{subfigure}
 	\caption{•}
 \end{figure}
@@ -255,15 +251,12 @@ Beschreibung wie Abhängigkeit Ventilwiderstand <-> Druckdifferenz gelöst ist. 
 	\centering
 	\begin{subfigure}[H]{0.48\textwidth}
 		\includegraphics[width=\textwidth, valign=t]{bilder/tubelength/tl_in_branch_multisweep_flow.png}
-		\caption{•}
 	\end{subfigure}
 	\begin{subfigure}[H]{0.48\textwidth}
 	\includegraphics[width=\textwidth, valign=t]{bilder/tubelength/tl_out_branch_multisweep_flow.png}
-	\caption{•}
 	\end{subfigure}
 	\begin{subfigure}[H]{0.48\textwidth}
 		\includegraphics[width=\textwidth, valign=t]{bilder/tubelength/tl_both_branch_multisweep_flow.png}
-		\caption{•}
 	\end{subfigure}
 	\caption{•}
 \end{figure}
@@ -274,11 +267,9 @@ Beschreibung wie Abhängigkeit Ventilwiderstand <-> Druckdifferenz gelöst ist. 
 	\centering
 	\begin{subfigure}[H]{0.48\textwidth}
 		\includegraphics[width=\textwidth, valign=t]{bilder/velveresistance/vr_in_branch_singlesweep.png}
-		\caption{•}
 	\end{subfigure}
 	\begin{subfigure}[H]{0.48\textwidth}
 		\includegraphics[width=\textwidth, valign=t]{bilder/velveresistance/vr_in_branch_multisweep.png}
-		\caption{•}
 	\end{subfigure}
 	\caption{•}
 \end{figure}
@@ -287,76 +278,68 @@ Beschreibung wie Abhängigkeit Ventilwiderstand <-> Druckdifferenz gelöst ist. 
 	\centering
 	\begin{subfigure}[H]{0.48\textwidth}
 		\includegraphics[width=\textwidth, valign=t]{bilder/velveresistance/vr_out_branch_multisweep.png}
-		\caption{•}
 	\end{subfigure}
 	\begin{subfigure}[H]{0.48\textwidth}
 		\includegraphics[width=\textwidth, valign=t]{bilder/velveresistance/vr_both_branch_multisweep.png}
-		\caption{•}
 	\end{subfigure}
 	\caption{•}
 \end{figure}
 
 \subsection{Gegendruck}
 
+Ansteuerung und Auslenkung vertauscht?
 
+Zur Bestimmung des maximalen Druckes, welcher in der Pumpkammer aufgebaut wird, ist eine Simulation bei veränderlichem Druck der Reservoire durchzuführen. Für die folgende Simulation wird die Pumpe mit einem Rechtecksignal bei einer Frequenz von 2 kHz angesteuert. In Abbildung \ref{fig:gegendruck_ohne} ist der Druck in der Pumpkammer zu sehen. Der externe Druck der Reservoire beträgt kPa. In Abbildung \ref{fig:gegendruck_mit} ist die Ansteuerung identisch, nur sind in diesem Fall die externen Drücke höher. Der Druck am Einlassventil ist höher als der Druck in der Pumpkammer während einem Saughub wodurch kein effektiver Druck entsteht, welcher zu einem Stromfluss führt. Im Fall des Auslassventiles reicht kann die Pumpkammer gerade noch so gegen den extern angelegten Druckarbeiten was in der geringen Amplitude währen dem Druckhub zu erkennen ist.
 
 \begin{figure}[H]
     \centering
     \begin{subfigure}[H]{0.48\textwidth}
         \includegraphics[width=\textwidth, valign=t]{bilder/backpressure/backpressure_free.png}
+        \label{fig:gegendruck_ohne}
     \end{subfigure}
     \begin{subfigure}[H]{0.48\textwidth}
         \includegraphics[width=\textwidth, valign=t]{bilder/backpressure/backpressure_example.png}
+        \label{fig:gegendruck_mit}
     \end{subfigure}
-    \caption{a) Ohne externen Gegendruck b) Mit externem Gegendruck an Ein- und Auslass.}
-\end{figure}
-
-\begin{figure}[H]
-    \centering
     \begin{subfigure}[H]{0.48\textwidth}
         \includegraphics[width=\textwidth, valign=t]{bilder/backpressure/backpressure_at_pr_in_and_pr_out.png}
-        \caption{•}
+        \label{fig:gegendruck_sweep_double}
     \end{subfigure}
     \begin{subfigure}[H]{0.48\textwidth}
-        \includegraphics[width=\textwidth, valign=t]{bilder/backpressure/backpressure_at_pr_in.png}
-        \caption{•}
+        \includegraphics[width=\textwidth, valign=t]{bilder/backpressure/backpressure_result.png}
+        \label{fig:gegendruck_result}
     \end{subfigure}
-    \caption{•}
+    \caption{a) Ohne externen Gegendruck b) Mit externem Gegendruck an Ein- und Auslass. c) Variation der Gegendrücke an Ein- und Auslassventil. d) Maximaler Gegendruck bei dem die Amplitude an Ein- und Auslassventil auf null abfällt.}
 \end{figure}
 
-\begin{figure}[H]
-	\centering
-	\includegraphics[width=0.7\textwidth]{bilder/backpressure/backpressure_result.png}
-	\caption{•}
-\end{figure}
+Zur Bestimmung des maximalen Gegendruckes werden nun die Drücke an den Beiden Reservoirs variiert. Dazu wird am Einlassventil ein Überdruck und am Auslassventil ein Unterdruck angelegt. Die Auswirkungen auf das Signal des Druckes in der Pumpkammer ist Abbildung \ref{fig:gegendruck_sweep_double} zu entnehmen. Da hier jedoch nicht der genaue Druck bestimmt werden kann bei dem die Pump aufhört zu pumpen wird die Simulation mit einer geringen Schrittweite der Gegendrücke durchgeführt. Das Ergebnis dieser Simularion ist in Abbildung \ref{fig:gegendruck_result} zu sehen. Der maximale Gegendruck für das Einlassventil beträgt demnach 38 kPa und für das Auslassventil 50 kPa. Da die Ventile ideal sind entspricht der maximale Gegendruck genau der maximalen Amplitude des Druckes in der Pumpkammer. Bei realen Ventilen, welche zum Öffnen einen Über- bzw. Unterdruck benötigen würde die Pumpe schon bei geringeren externen Drücken zum erliegen kommen.
 
 \subsection{Grenzfrequenz}
 
+Um die maximale Betriebsfrequenz der Pumpe zu bestimmen wird eine Variation der Antriebsfrequenz simuliert. Da die Pump eine Trägheit besitzt welche durch ein RC-Glied beschrieben wird, kann die Pumpe nicht mit beliebig hohen Frequenzen betrieben werden. Das Spannungssignal in der Pumpe ist in Abbildung \ref{fig:frequency_normal} zu sehen. Die Antriebsfrequenz des Aktors beträgt 1 kHz. Es ist gut zu erkennen das die Anstiegszeit des Pumpkammerdruckes ausreicht um die maximale Druckamplitude in der Pumpkammer aufzubauen. In Abbildung \ref{fig:frequency_fast} ist das Verhalten bei hohen Frequenzen zu sehen, die Frequenz beträgt hier etwas mehr als 11 kHz. Bei dieser hohen Frequenz ist die Auslenkung des Aktors zu träge und das Signal der Pumpkammer kann dem Eingangssignal nicht mehr folgen, was zu einer Minderung der Pumpleistung führt, die Abhängigkeit der Amplitude von der Frequenz ist über den Frequenzbereich von 2 kHz bis zu 200 kHz ist in Abbildung \ref{fig:frequency_sweep} zu sehen.
+ 
 \begin{figure}[H]
     \centering
     \begin{subfigure}[H]{0.48\textwidth}
         \includegraphics[width=\textwidth, valign=t]{bilder/frequency/frequency_default_2kHz.png}
-        \caption{•}
+        \label{fig:frequency_normal}
     \end{subfigure}
     \begin{subfigure}[H]{0.48\textwidth}
         \includegraphics[width=\textwidth, valign=t]{bilder/frequency/frequency_to_fast_21_8 khz.png}
-        \caption{•}
+        \label{fig:frequency_fast}
     \end{subfigure}
-    \caption{•}
-\end{figure}
-
-\begin{figure}[H]
-    \centering
     \begin{subfigure}[H]{0.48\textwidth}
         \includegraphics[width=\textwidth, valign=t]{bilder/frequency/frequency_sweep.png}
-        \caption{•}
+        \label{fig:frequency_sweep}
     \end{subfigure}
     \begin{subfigure}[H]{0.48\textwidth}
         \includegraphics[width=\textwidth, valign=t]{bilder/frequency/bode_diagram.png}
-        \caption{•}
+        \label{fig:frequency_bode}
     \end{subfigure}
-    \caption{•}
+    \caption{a) Ansteuerung der Pumpe bei 1 kHz. b) Ansteuerung der Pumpe bei 11 kHz, der Aktor kann dem Eingangssignal nicht mehr folgen. c) Variation der Antriebsfrequenz zwischen 2 kHz und 200 kHz. d) Darstellung der Frequenzabhängigkeit der Amplitude im Bode-Diagramm.}
 \end{figure}
+
+Für die Darstellung des Frequenzabhängigen Verhaltens der Membranpumpe wird Frequenzen bis zu 500 kHz simuliert. Die dabei resultierende Amplitude wird in einem Bode-Diagramm über die Frequenz aufgetragen. Nun kann die Grenzfrequenz bestimmt werden, welche bei -3 dB liegt. Die Grenzfrequenz beträgt demnach 28,3 kHz.
 
 \section{Fazit}
 
