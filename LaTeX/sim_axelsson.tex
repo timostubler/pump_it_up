@@ -156,28 +156,47 @@ Die Betrachtung eines Strangs kann analog auf den anderen übertragen werden. Fo
 
 Der Eingangsdruck ($U_{in}$), der Reservoir-bedingt anliegt, bildet mit dem durch den Piezoaktor erzeugten Kammerdruck ($U_{Signal}(t)$) eine Druckdifferenz. Nach Hagen-Poiseuille resultiert daraus ein Volumenstrom in eine vom Vorzeichen der Druckdifferenz ($U_{Signal}(t)-U_{in}$) vorgegebene Richtung. Der Leitungswiderstand ($R_{T}$) und der Ventilwiderstand ($R_{V}$) begrenzen die resultierenden Volumenströme. Dabei beherbergt das Modell des Ventils eine Abhängigkeit von der Druckdifferenz. Im gezeigten Einzelstrang ist der Ventilwiderstand für negative Druckdifferenzen gering, für positive Druckdifferenzen sehr hoch, sodass das Ventil in diese Richtung schließt. Am Ende des Einzelstranges befindet sich die Pumpkammer und die Quelle des Drucksignals. Das Aufnahmevermögen der Pumpkammer wird durch ein Kondensatorelement beschrieben. Die hierin stattfindenden Druckänderungen ($P_{C}$) gilt es zeitlich zu ermitteln.
 
-Dazu wird die Differentialgleichung mithilfe des Kirchhoff´schen Gesetz ermittelt:
+Dazu wird die Differentialgleichung mithilfe des Kirchhoff´schen Gesetz (Maschenbedingung) ermittelt:
 
-\[ U_{Signal}(t) - U_{in} + U_{C} + U_{R_{t}} + U_{R_{V}} = 0 \]
+\[ U_{Signal}(t) - U_{in} + U_{C} + U_{R_{T}} + U_{R_{V}} = 0 \]
 
-\[ \dot{U}_{C} = \frac{1}{C_{C}} * \frac{U_{Signal}(t)-U_{in}-U_{C}}{R_{T}+R_{V}} \]
+\[ \dot{U}_{C} = \frac{1}{C_{C}} * \frac{-U_{Signal}(t)+U_{in}-U_{C}}{R_{T}+R_{V}} \]
 
-\[ P_{Signal}(t) - P_{in} + P_{C} + P_{R_{t}} + P_{R_{V}} = 0 \]
+\[ P_{Signal}(t) - P_{in} + P_{C} + P_{R_{T}} + P_{R_{V}} = 0 \]
 
-\[ \dot{P}_{C} = \frac{1}{C_{C}} * \frac{P_{Signal}(t)-P_{in}-P_{C}}{R_{T}+R_{V}} \]
+\[ \dot{P}_{C} = \frac{1}{C_{C}} * \frac{-P_{Signal}(t)+P_{in}-P_{C}}{R_{T}+R_{V}} \]
 
 
 
 \subsection{Gesamtsystem}
+
+Die gezeigten Einzelstränge sind über die Pumpkammer gekoppelt und ergeben das Gesamtsystem (siehe Abbildung).
 
 
 \begin{center}
 	\includesvg[scale = 0.75]{bilder/circuits/first_order_circuit}
 \end{center}
 
+Um einen Volumenstrom zwischen den beiden Reservoirs zu erreichen sind die Ventile gegensätzlich angeordnet, so dass diese bei Änderung der Druckdifferenz abwechselnd schalten. 
+
+Um das System analytisch beschreiben zu können, wird wieder die Differentialgleichung hergeleitet. Dabei muss neben der Maschenbedingungn auch die Knotenbedingung berücksichtigt werden:
+
+\[ I_{C} = I_{in} + I_{out} \]
+\[ U_{Signal}(t) - U_{in} + U_{C} + U_{R_{T_{in}}} + U_{R_{V_{in}}} = 0 \]
+\[ U_{Signal}(t) - U_{out} + U_{C} + U_{R_{T_{out}}} + U_{R_{V_{out}}} = 0 \]
+
+\[ \dot{U}_{C} = - \frac{1}{C_{C}} * \biggl[\frac{U_{Signal}(t)-U_{in}+U_{C}}{R_{T_{in}}+R_{V_{in}}} + \frac{U_{Signal}(t)-U_{out}+U_{C}}{R_{T_{out}}+R_{V_{out}}}\biggr] \]
+\[ \dot{P}_{C} = - \frac{1}{C_{C}} * \biggl[\frac{P_{Signal}(t)-P_{in}+P_{C}}{R_{T_{in}}+R_{V_{in}}} + \frac{P_{Signal}(t)-P_{out}+P_{C}}{R_{T_{out}}+R_{V_{out}}}\biggr] \]
+
+Wie schon angedeutet, hängen die Werte $R_V_{in}(P_V_{in})$ und $R_V_{out}(P_V_{out})$ von der über dem jeweiligen Ventil anliegenden Druckdifferenz ab. Diese wird über einen Spannungsteiler ermittelt, sodass die Simulation in jedem Zeitschritt den druckbasierten Widerstandswert der Ventile anpassen kann.
+
 \section{Simulation}
 
 Diese Kapitel umfasst die Untersuchungen des einarmigen und zweiarmigen Models der Membranpumpe
+
+Beschreibung ODEINT
+
+Beschreibung wie Abhängigkeit Ventilwideer stand <-> Druckdifferenz gelöst ist.
 
 \subsection{Zuleitungen}
 
