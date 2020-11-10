@@ -61,45 +61,46 @@ class System(SystemManager):
 
 def tube_length_sweep():
 
-    fname = 'tube_both_length'
+    fname = 'tube_in_length_wflow'
 
     system = System()
 
     param_range = np.linspace(100*1e-3, 100000*1e-3, 10) / 1
     #param_range = np.linspace(10e-3, 100e-3, 10) / 1
-
+    i=0
     tube_length = dict()
     for new_param in param_range:
 
         sweep_unit = ' [m]'
         system.tube_in.length = new_param
-        system.tube_out.length = new_param
+        # system.tube_out.length = new_param
 
         components = system.get_components()
         parameter = system.get_parameter()
         time, y_data = system_test(**components, **parameter)
-        tube_length.update({f'{round(new_param)}'+f'{sweep_unit}':y_data['chamber']})
-        # tube_length.update({f'{round(new_param)}' + f'{sweep_unit}': y_data['flow']})
+
+        if i==0:
+            tube_length.update({'signal_voltage': y_data['signal_voltage']})
+
+
+        # tube_length.update({f'{round(new_param)}'+f'{sweep_unit}':y_data['chamber']})
+        tube_length.update({f'{round(new_param)}' + f'{sweep_unit}': y_data['flow']})
 
         pm = PlotManager()
-        # pm.plot_twin(time, y_data['signal_voltage'], y_data['chamber'],
-        #              title='',
-        #              xlabel='Time [s]',
-        #              ylabel1='Voltage [V]',
-        #              ylabel2='Pressure [Pa]',
-        #              filename=f'{fname}/{new_param:.4f}')
 
         pm.plot_dict(time, y_data,
                      title='',
                      xlabel='Time [s]',
-                     ylabel='Voltage / Pressure (normal.)',
+                     ylabel='Voltage / Pressure / Flow (normal.)',
                      filename=f'{fname}/{round(new_param)}')
 
-    tube_length.update({'signal_voltage': y_data['signal_voltage']})
+        i += 1
+
+    # tube_length.update({'signal_voltage': y_data['signal_voltage']})
     pm.plot_dict(time, tube_length,
                  title='',
                  xlabel='Time [s]',
-                 ylabel='Voltage / Pressure (normal.)',
+                 ylabel='Voltage / Flow (normal.)',
                  filename=f'{fname}/length_sweep')
 
 
