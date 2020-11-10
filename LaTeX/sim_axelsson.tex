@@ -114,9 +114,13 @@ Das Reservoir wird als unendlich groß angenommen und daher mit einem Konstanten
 
 Die Zuleitung wird durch einen einfachen Strömungswiderstand modelliert. Da diese Strömung als laminar betrachtet wird ist der Strömungswiderstand über das Gesetz von Hagen-Poiseuille zu beschreiben
 
-\[ \dot{V} = \frac{pi * r^4 * dP}{8* eta *l} \]
+\begin{equation}
+	\dot{V} = \frac{pi * r^4 * dP}{8* eta *l}
+\end{equation}
 
-\[ R = \frac{8* eta *l}{pi * r^4} \]
+\begin{equation}
+	R = \frac{8* eta *l}{pi * r^4}
+\end{equation}
 
 \subsection{Klappenventile}
 
@@ -160,14 +164,21 @@ Der Eingangsdruck ($U_{in}$), der Reservoir-bedingt anliegt, bildet mit dem durc
 
 Dazu wird die Differentialgleichung mithilfe des Kirchhoff´schen Gesetz (Maschenbedingung) ermittelt:
 
-\[ U_{Signal}(t) - U_{in} + U_{C} + U_{R_{T}} + U_{R_{V}} = 0 \]
+\begin{equation}
+	U_{Signal}(t) - U_{in} + U_{C} + U_{R_{T}} + U_{R_{V}} = 0
+\end{equation}
 
-\[ \dot{U}_{C} = \frac{1}{C_{C}} * \frac{-U_{Signal}(t)+U_{in}-U_{C}}{R_{T}+R_{V}} \]
+\begin{equation}
+	\dot{U}_{C} = \frac{1}{C_{C}} * \frac{-U_{Signal}(t)+U_{in}-U_{C}}{R_{T}+R_{V}}
+\end{equation}
 
-\[ P_{Signal}(t) - P_{in} + P_{C} + P_{R_{T}} + P_{R_{V}} = 0 \]
+\begin{equation}
+	P_{Signal}(t) - P_{in} + P_{C} + P_{R_{T}} + P_{R_{V}} = 0
+\end{equation}
 
-\[ \dot{P}_{C} = \frac{1}{C_{C}} * \frac{-P_{Signal}(t)+P_{in}-P_{C}}{R_{T}+R_{V}} \]
-
+\begin{equation}
+	\dot{P}_{C} = \frac{1}{C_{C}} * \frac{-P_{Signal}(t)+P_{in}-P_{C}}{R_{T}+R_{V}}
+\end{equation}
 
 
 \subsection{Gesamtsystem}
@@ -183,13 +194,25 @@ Um einen Volumenstrom zwischen den beiden Reservoirs zu erreichen sind die Venti
 
 Um das System analytisch beschreiben zu können, wird wieder die Differentialgleichung hergeleitet. Dabei muss neben der Maschenbedingungn auch die Knotenbedingung berücksichtigt werden:
 
-\[ I_{C} = I_{in} + I_{out} \]
-\[ U_{Signal}(t) - U_{in} + U_{C} + U_{R_{T_{in}}} + U_{R_{V_{in}}} = 0 \]
-\[ U_{Signal}(t) - U_{out} + U_{C} + U_{R_{T_{out}}} + U_{R_{V_{out}}} = 0 \]
+\begin{equation}
+	I_{C} = I_{in} + I_{out}
+\end{equation}
 
-\[ \dot{U}_{C} = - \frac{1}{C_{C}} * \biggl[\frac{U_{Signal}(t)-U_{in}+U_{C}}{R_{T_{in}}+R_{V_{in}}} + \frac{U_{Signal}(t)-U_{out}+U_{C}}{R_{T_{out}}+R_{V_{out}}}\biggr] \]
-\[ \dot{P}_{C} = - \frac{1}{C_{C}} * \biggl[\frac{P_{Signal}(t)-P_{in}+P_{C}}{R_{T_{in}}+R_{V_{in}}} + \frac{P_{Signal}(t)-P_{out}+P_{C}}{R_{T_{out}}+R_{V_{out}}}\biggr] \]
+\begin{equation}
+	U_{Signal}(t) - U_{in} + U_{C} + U_{R_{T_{in}}} + U_{R_{V_{in}}} = 0
+\end{equation}
 
+\begin{equation}
+	U_{Signal}(t) - U_{out} + U_{C} + U_{R_{T_{out}}} + U_{R_{V_{out}}} = 0
+\end{equation}
+
+\begin{equation}
+	\dot{U}_{C} = - \frac{1}{C_{C}} * \biggl[\frac{U_{Signal}(t)-U_{in}+U_{C}}{R_{T_{in}}+R_{V_{in}}} + \frac{U_{Signal}(t)-U_{out}+U_{C}}{R_{T_{out}}+R_{V_{out}}}\biggr]
+\end{equation}
+
+\begin{equation}
+	\dot{P}_{C} = - \frac{1}{C_{C}} * \biggl[\frac{P_{Signal}(t)-P_{in}+P_{C}}{R_{T_{in}}+R_{V_{in}}} + \frac{P_{Signal}(t)-P_{out}+P_{C}}{R_{T_{out}}+R_{V_{out}}}\biggr]
+\end{equation}
 Wie schon angedeutet, hängen die Werte $R_V_{in}(P_V_{in})$ und $R_V_{out}(P_V_{out})$ von der über dem jeweiligen Ventil anliegenden Druckdifferenz ab. Diese wird über einen Spannungsteiler ermittelt, sodass die Simulation in jedem Zeitschritt den druckbasierten Widerstandswert der Ventile anpassen kann.
 
 \section{Simulation}
@@ -342,7 +365,13 @@ Beschreibung wie Abhängigkeit Ventilwideer stand <-> Druckdifferenz gelöst ist
 Das Systemmodell kann hinsichtlich der einzelnen Komponenten nahezu beliebig komplex erweitert werden. Um einen Einblick zu erlangen, welche Konsequenzen ein höherer Detailierungsgrad nach sich zieht, wird die Beschreibung der Ventile und der Rohrleitungen erweitert. Das Ventil besitzt durch die zugrundeliegende Geometrie auch kapazitive Eigenschaften, verursacht durch elastische Verformungen des Bauteils. Dieser Effekt wird im folgenden Modell durch parallele Kondensatoren ($C_V_{in}$ und $C_V_{out}$) berücksichtigt. Zusätzlich kann der Fluid-inherente Widerstand gegen Beschleunigungen innerhalb von Rohrleitungen durch eine Induktivität ($L_V_{in}$ und $L_V_{out}$) beschrieben werden. Dabei gilt folgende elektro-fluidische Analogie:
 
 
-\[ L_{fluid} = \frac{P}{\ddot{V}} \:\:\widehat{=}\:\: L_{elek.} = \frac{U}{dI/dt} \]
+\begin{equation}
+	L_{fluid} = \frac{P}{\ddot{V}} \:\:\widehat{=}\:\: L_{elek.} = \frac{U}{dI/dt}
+\end{equation}
+
+\begin{equation}
+	I_{C} = I_{in} + I_{out}
+\end{equation}
 
 \begin{center}
 	\includesvg[scale = 0.6]{bilder/circuits/second_order_circuit}
@@ -358,10 +387,10 @@ Eine Herleitung der Differentialgleichung für dargestelltes System führt zu fo
 		&+ \biggl[\left(1+\frac{R_{T_{in}}}{R_{V_{in}}}\right)\left(1+\frac{R_{T_{out}}}{R_{V_{out}}}\right)C_{C} + \left(1+\frac{R_{T_{out}}}{R_{V_{out}}}\right)\left(\frac{R_{C}C_{C}}{R_{V_{in}}}+C_{V_{in}}\right) + \\
 		& \left(1+\frac{R_{T_{in}}}{R_{V_{in}}}\right)\left(\frac{R_{C}C_{C}}{R_{V_{out}}}+C_{V_{out}}\right)\biggr] \bm{\frac{dU_{C}}{dt}}  \\
 		&+ \left[\left(1+\frac{R_{T_{out}}}{R_{V_{out}}}\right)\frac{1}{R_{V_{out}}} + \left(1+\frac{R_{T_{in}}}{R_{V_{in}}}\right)\frac{1}{R_{V_{out}}}\right]\bm{U_{C}} \\
-		&= \biggl[\left(1+\frac{R_{T_{out}}}{R_{V_{out}}}\right)\left(\frac{L_{T_{in}}}{R_{V_{in}}}+C_{V_{in}}R_{V_{in}}\right) - \left(1+\frac{R_{T_{in}}}{R_{V_{in}}}\right)\left(\frac{L_{T_{out}}}{R_{V_{out}}}+C_{V_{out}}R_{V_{out}}\right)\biggr]\bm{\frac{dI_{2}}{dt}} \\
-		&+ \left[\left(1+\frac{R_{T_{out}}}{R_{V_{out}}}\right)C_{V_{in}}L_{T_{in}} - \left(1+\frac{R_{T_{in}}}{R_{V_{in}}}\right)C_{V_{out}}L_{T_{out}}\right]\bm{\frac{d\textsuperscript{2}I_{2}}{dt\textsuperscript{2}}} \\
-		&+ \left(1+\frac{R_{T_{out}}}{R_{V_{out}}}\right)\frac{1}{R_{T_{in}}}\bm{(U_{Signal} - U_{in})}+ \left(1+\frac{R_{T_{out}}}{R_{V_{out}}}\right)C_{V_{in}}\bm{\frac{d(U_{Signal} - U_{in})}{dt}} \\
-		&+ \left(1+\frac{R_{T_{in}}}{R_{V_{in}}}\right)\frac{1}{R_{T_{out}}}\bm{(U_{Signal} - U_{out})} + \left(1+\frac{R_{T_{in}}}{R_{V_{in}}}\right)C_{V_{out}}\bm{\frac{d(U_{Signal} - U_{out})}{dt}}
+		&= \biggl[\left(1+\frac{R_{T_{out}}}{R_{V_{out}}}\right)\left(\frac{L_{T_{in}}}{R_{V_{in}}}+C_{V_{in}}R_{V_{in}}\right) - \left(1+\frac{R_{T_{in}}}{R_{V_{in}}}\right)\left(\frac{L_{T_{out}}}{R_{V_{out}}}+C_{V_{out}}R_{V_{out}}\right)\biggr]\bm{\frac{dI_{out}}{dt}} \\
+		&+ \left[\left(1+\frac{R_{T_{out}}}{R_{V_{out}}}\right)C_{V_{in}}L_{T_{in}} - \left(1+\frac{R_{T_{in}}}{R_{V_{in}}}\right)C_{V_{out}}L_{T_{out}}\right]\bm{\frac{d\textsuperscript{2}I_{out}}{dt\textsuperscript{2}}} \\
+		&+ \left(1+\frac{R_{T_{out}}}{R_{V_{out}}}\right)\frac{1}{R_{T_{in}}}\bm{(U_{Signal}(t) - U_{in})}+ \left(1+\frac{R_{T_{out}}}{R_{V_{out}}}\right)C_{V_{in}}\bm{\frac{d(U_{Signal}(t) - U_{in})}{dt}} \\
+		&+ \left(1+\frac{R_{T_{in}}}{R_{V_{in}}}\right)\frac{1}{R_{T_{out}}}\bm{(U_{Signal}(t) - U_{out})} + \left(1+\frac{R_{T_{in}}}{R_{V_{in}}}\right)C_{V_{out}}\bm{\frac{d(U_{Signal}(t) - U_{out})}{dt}}
 	\end{split}
 \end{equation}
 
