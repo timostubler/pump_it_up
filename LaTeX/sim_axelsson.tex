@@ -213,7 +213,7 @@ Um das System analytisch beschreiben zu können, wird wieder die Differentialgle
 \begin{equation}
 	\dot{P}_{C} = - \frac{1}{C_{C}} * \biggl[\frac{P_{Signal}(t)-P_{in}+P_{C}}{R_{T_{in}}+R_{V_{in}}} + \frac{P_{Signal}(t)-P_{out}+P_{C}}{R_{T_{out}}+R_{V_{out}}}\biggr]
 \end{equation}
-Wie schon angedeutet, hängen die Werte $R_V_{in}(P_V_{in})$ und $R_V_{out}(P_V_{out})$ von der über dem jeweiligen Ventil anliegenden Druckdifferenz ab. Diese wird über einen Spannungsteiler ermittelt, sodass die Simulation in jedem Zeitschritt den druckbasierten Widerstandswert der Ventile anpassen kann.
+Wie schon angedeutet, hängen die Werte $R_{V_{in}}(P_{V_{in}})$ und $R_{V_{out}}(P_{V_{out}})$ von der über dem jeweiligen Ventil anliegenden Druckdifferenz ab. Diese wird über einen Spannungsteiler ermittelt, sodass die Simulation in jedem Zeitschritt den druckbasierten Widerstandswert der Ventile anpassen kann.
 
 \section{Simulation}
 
@@ -221,7 +221,7 @@ Diese Kapitel umfasst die Untersuchungen des einarmigen und zweiarmigen Models d
 
 Beschreibung ODEINT
 
-Beschreibung wie Abhängigkeit Ventilwideer stand <-> Druckdifferenz gelöst ist.
+Beschreibung wie Abhängigkeit Ventilwiderstand <-> Druckdifferenz gelöst ist. (Denke da haben wir einen Bug :D)
 
 \subsection{Zuleitungen}
 
@@ -298,17 +298,17 @@ Beschreibung wie Abhängigkeit Ventilwideer stand <-> Druckdifferenz gelöst ist
 
 \subsection{Gegendruck}
 
+
+
 \begin{figure}[H]
     \centering
     \begin{subfigure}[H]{0.48\textwidth}
         \includegraphics[width=\textwidth, valign=t]{bilder/backpressure/backpressure_free.png}
-        \caption{•}
     \end{subfigure}
     \begin{subfigure}[H]{0.48\textwidth}
         \includegraphics[width=\textwidth, valign=t]{bilder/backpressure/backpressure_example.png}
-        \caption{•}
     \end{subfigure}
-    \caption{•}
+    \caption{a) Ohne externen Gegendruck b) Mit externem Gegendruck an Ein- und Auslass.}
 \end{figure}
 
 \begin{figure}[H]
@@ -362,7 +362,7 @@ Beschreibung wie Abhängigkeit Ventilwideer stand <-> Druckdifferenz gelöst ist
 
 \section{Ausblick}
 
-Das Systemmodell kann hinsichtlich der einzelnen Komponenten nahezu beliebig komplex erweitert werden. Um einen Einblick zu erlangen, welche Konsequenzen ein höherer Detailierungsgrad nach sich zieht, wird die Beschreibung der Ventile und der Rohrleitungen erweitert. Das Ventil besitzt durch die zugrundeliegende Geometrie auch kapazitive Eigenschaften, verursacht durch elastische Verformungen des Bauteils. Dieser Effekt wird im folgenden Modell durch parallele Kondensatoren ($C_V_{in}$ und $C_V_{out}$) berücksichtigt. Zusätzlich kann der Fluid-inherente Widerstand gegen Beschleunigungen innerhalb von Rohrleitungen durch eine Induktivität ($L_V_{in}$ und $L_V_{out}$) beschrieben werden. Dabei gilt folgende elektro-fluidische Analogie:
+Das Systemmodell kann hinsichtlich der einzelnen Komponenten nahezu beliebig komplex erweitert werden. Um einen Einblick zu erlangen, welche Konsequenzen ein höherer Detailierungsgrad nach sich zieht, wird die Beschreibung der Ventile und der Rohrleitungen erweitert. Das Ventil besitzt durch die zugrundeliegende Geometrie auch kapazitive Eigenschaften, verursacht durch elastische Verformungen des Bauteils. Dieser Effekt wird im folgenden Modell durch parallele Kondensatoren ($C_{V_{in}}$ und $C_{V_{out}}$) berücksichtigt. Zusätzlich kann der Fluid-inherente Widerstand gegen Beschleunigungen innerhalb von Rohrleitungen durch eine Induktivität ($L_{V_{in}}$ und $L_{V_{out}}$) beschrieben werden. Dabei gilt folgende elektro-fluidische Analogie:
 
 
 \begin{equation}
