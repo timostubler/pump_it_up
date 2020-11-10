@@ -63,7 +63,7 @@ class PlotManager:
             # print(label, y_dict[label])
             else:
                 ax.plot(x, y_dict[label], label=label, color=colors[i])#, marker='.')
-        plt.legend()
+        plt.legend(title='[$1e9*m^3 s^{-1}/Pa$]')
         self.show()
         if filename:
             self._dump(fig, filename)

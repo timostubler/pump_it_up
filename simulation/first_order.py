@@ -44,6 +44,7 @@ def system_test(signal, pump, velve_in, velve_out, tube_in, tube_out, Pr_in, Pr_
     t_space = np.linspace(0, T, steps)
     result = odeint(dp_dt, Pc0, t_space)
     Pc = result[:, 0]
+    norm_pc = np.abs(Pc).max()
     voltage = np.array([signal(t) for t in t_space])
     Ps = np.array([pump.p(t) for t in t_space])
     Pr_in = np.array([Pr_in for _ in t_space])

@@ -84,23 +84,23 @@ def leakage_sweep():
         if i==0:
             velve_leakage.update({'signal_voltage': y_data['signal_voltage']})
 
-        # velve_leakage.update({f'{round(new_param*1e-9)}'+f' *1e9 {sweep_unit}':y_data['chamber']})
-        velve_leakage.update({f'{round(new_param*1e-9)}' + f' *1e9 {sweep_unit}': y_data['flow']})
+        velve_leakage.update({f'{round(new_param*1e-9)}':y_data['chamber']})
+        # velve_leakage.update({f'{round(new_param*1e-9)}':y_data['flow']})
 
         pm = PlotManager()
 
-        pm.plot_dict(time, y_data,
-                     title='',
-                     xlabel='Time [s]',
-                     ylabel='Voltage / Pressure / Flow (normal.)',
-                     filename=f'{fname}/{round(new_param*1e-9)}')
+        # pm.plot_dict(time, y_data,
+        #              title='',
+        #              xlabel='Time [s]',
+        #              ylabel='Voltage / Pressure / Flow (normal.)',
+        #              filename=f'{fname}/{round(new_param*1e-9)}')
 
         i+=1
 
     pm.plot_dict(time, velve_leakage,
                  title='',
                  xlabel='Time [s]',
-                 ylabel='Voltage / Flow (normal.)',
+                 ylabel='Voltage / Pressure (normal.)',
                  filename=f'{fname}/leakage_sweep')
 
 
