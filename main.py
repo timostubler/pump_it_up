@@ -105,7 +105,7 @@ def leakage_sweep():
     pm.plot_dict(time*1e3, velve_leakage,
                  title='',
                  xlabel='Time [ms]',
-                 ylabel='Voltage / Flow (normal.)',
+                 ylabel='Voltage / Pressure (normal.)',
                  filename=f'{fname}/leakage_sweep')
 
 
