@@ -50,15 +50,24 @@ def system_test(signal, pump, velve_in, velve_out, tube_in, tube_out, Pr_in, Pr_
     Pr_in = np.array([Pr_in for _ in t_space])
     Pr_out = np.array([Pr_out for _ in t_space])
     i = np.gradient(Pc)
-    i /= i.max()
-    norm = np.abs(Ps).max()
+    norm_i = np.abs(i).max()
+
+    if np.abs(Pr_in).max() > np.abs(Pr_out).max():
+        res_max = np.abs(Pr_in).max()
+        res_min = np.abs(Pr_out).max()
+    else:
+        res_max = np.abs(Pr_out).max()
+        res_min = np.abs(Pr_in).max()
+
+    norm = np.abs(Ps).max()+res_max
+
     return t_space, dict(
         signal_voltage= voltage,
         signal_pressure=Ps / norm,
         chamber=Pc / norm,
         reservoir_in=Pr_in / norm,
         reservoir_out=Pr_out / norm,
-        flow=i,
+        flow=i / norm_i,
     )
 
 

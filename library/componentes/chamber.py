@@ -106,7 +106,7 @@ class Pump_fermi(Fluid):
 
     def C(self, time):
         time = self.find_nearest(self._time, time)
-        return (((self.scale_reference[time] + 1)/2 * (abs(self.C_max) + abs(self.C_min))) + self.C_min)
+        return (((self.scale_reference[time] + 1)/2 * (self.C_max - self.C_min)) + self.C_min)
 
     def p(self, time):
         time = self.find_nearest(self._time, time)

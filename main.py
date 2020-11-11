@@ -17,7 +17,7 @@ plots = [
 class System(SystemManager):
 
     Pr_in = 1e3 # reservoirdruck
-    Pr_out = 10e3  # reservoirdruck
+    Pr_out = 1e3  # reservoirdruck
     Pc0 = 0  # startdruck in der pumpkammer
     T = 1e-3  # simulationsdauer
     steps = 1000  # anzahl der zeitschritte
@@ -60,20 +60,20 @@ class System(SystemManager):
 
 def leakage_sweep():
 
-    fname = 'velve_out_Rclose_wflow'
+    fname = 'leakage_velve_in_Rclose'
 
     system = System()
 
-    param_range = np.linspace(1e10, 1e13, 10) / 1
-    #param_range = np.linspace(10e-3, 100e-3, 10) / 1
+    param_range = np.linspace(1e17, 1e20, 10) / 1
+    param_range = param_range[::-1]
 
     velve_leakage = dict()
     i=0
     for new_param in param_range:
 
         sweep_unit = ' [$m^3 s^{-1}/Pa$]'
-        # system.velve_in.R_close = new_param
-        system.velve_out.R_close = new_param
+        system.velve_in.R_close = new_param
+        # system.velve_out.R_close = new_param
 
         print('R_close:', new_param)
 
