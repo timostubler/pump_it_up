@@ -1,7 +1,7 @@
 from library.componentes.chamber import PlotPump, Pump_fermi, Pump_old
 from library.componentes.velves import Velve, PlotVelve, Velve_fermi
 from library.componentes.tubes import Tube, PlotTubes
-from library.signals import Rectangle, Sinus, PlotSignal
+from library.signals import Rectangle, Sinus, PlotSignal, RectangleCount
 from simulation.first_order import velve_test, system_test
 from graphics.create_plots import PlotManager
 from system_manager import SystemManager
@@ -94,20 +94,18 @@ def leakage_sweep():
 
         pm = PlotManager()
 
-        # pm.plot_dict(time, y_data,
-        #              title='',
-        #              xlabel='Time [s]',
-        #              ylabel='Voltage / Pressure / Flow (normal.)',
-        #              filename=f'{fname}/{round(new_param*1e-9)}')
+        pm.plot_dict(time*1e3, y_data,
+                     title='',
+                     xlabel='Time [ms]',
+                     ylabel='Voltage / Pressure / Flow (normal.)',
+                     filename=f'{fname}/{round(new_param*1e-9)}')
 
         i+=1
 
-
-
-    pm.plot_dict(time, velve_leakage,
+    pm.plot_dict(time*1e3, velve_leakage,
                  title='',
-                 xlabel='Time [s]',
-                 ylabel='Voltage / Pressure (normal.)',
+                 xlabel='Time [ms]',
+                 ylabel='Voltage / Flow (normal.)',
                  filename=f'{fname}/leakage_sweep')
 
 

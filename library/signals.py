@@ -20,6 +20,33 @@ class SignalBase:
             offset =self.offset
         ))
 
+class Constant(SignalBase):
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+    def __call__(self, t):
+            return self.amplitude + self.offset
+
+class RectangleCount(SignalBase):
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.i=0
+
+    def __call__(self, t):
+        if (t % (1/self.frequency)) <= (1/self.frequency) / 2:
+            self.i += 1
+            if self.i < 2:
+                return self.amplitude + self.offset
+            else:
+                return 0.001
+        else:
+            if self.i == 1:
+                return -self.amplitude + self.offset
+            else:
+                return 0.001
+
 class Rectangle(SignalBase):
 
     def __init__(self, *args, **kwargs):
