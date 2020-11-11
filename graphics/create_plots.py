@@ -79,7 +79,7 @@ class PlotManager:
             # print(label, y_dict[label])
             else:
                 ax.plot(x, y_dict[label], label=label, color=colors[i])#, marker='.')
-        plt.legend()
+        plt.legend(loc="upper right")
         self.show()
         if filename:
             self._dump(fig, filename)

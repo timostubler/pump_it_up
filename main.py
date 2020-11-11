@@ -61,7 +61,7 @@ class System(SystemManager):
 
 def tube_length_sweep():
 
-    fname = 'tube_out_length_wflow'
+    fname = 'tube_in_length'
 
     system = System()
 
@@ -72,8 +72,8 @@ def tube_length_sweep():
     for new_param in param_range:
 
         sweep_unit = ' [m]'
-        # system.tube_in.length = new_param
-        system.tube_out.length = new_param
+        system.tube_in.length = new_param
+        # system.tube_out.length = new_param
 
         components = system.get_components()
         parameter = system.get_parameter()
@@ -83,12 +83,12 @@ def tube_length_sweep():
             tube_length.update({'signal_voltage': y_data['signal_voltage']})
 
 
-        # tube_length.update({f'{round(new_param)}'+f'{sweep_unit}':y_data['chamber']})
-        tube_length.update({f'{round(new_param)}' + f'{sweep_unit}': y_data['flow']})
+        tube_length.update({f'{round(new_param)}'+f'{sweep_unit}':y_data['chamber']})
+        # tube_length.update({f'{round(new_param)}' + f'{sweep_unit}': y_data['flow']})
 
         pm = PlotManager()
 
-        pm.plot_dict(time, y_data,
+        pm.plot_dict(time*1e3, y_data,
                      title='',
                      xlabel='Time [s]',
                      ylabel='Voltage / Pressure / Flow (normal.)',
@@ -97,10 +97,10 @@ def tube_length_sweep():
         i += 1
 
     # tube_length.update({'signal_voltage': y_data['signal_voltage']})
-    pm.plot_dict(time, tube_length,
+    pm.plot_dict(time*1e3, tube_length,
                  title='',
                  xlabel='Time [s]',
-                 ylabel='Voltage / Flow (normal.)',
+                 ylabel='Voltage / Pressure (normal.)',
                  filename=f'{fname}/length_sweep')
 
 
