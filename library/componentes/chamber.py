@@ -72,8 +72,8 @@ class Pump_fermi(Fluid):
         self.C_min = 0.5e-17
         self.C_max = 1.5e-17
 
-        self.p_max = 50*1e3 # Pa
-        self.p_min = -38*1e3 # Pa
+        self.p_max = 38*1e3 # Pa
+        self.p_min = -50*1e3 # Pa
 
         self.p_scale = 5e10 # Pa scale
 

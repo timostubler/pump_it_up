@@ -16,8 +16,8 @@ plots = [
 
 class System(SystemManager):
 
-    Pr_in = 1e3 # reservoirdruck
-    Pr_out = 1e3  # reservoirdruck
+    Pr_in = 0e3 # reservoirdruck
+    Pr_out = 0e3  # reservoirdruck
     Pc0 = 0  # startdruck in der pumpkammer
     T = 1e-3  # simulationsdauer
     steps = 1000  # anzahl der zeitschritte
@@ -64,9 +64,14 @@ def leakage_sweep():
 
     system = System()
 
-    param_range = np.linspace(1e17, 1e20, 10) / 1
-    param_range = param_range[::-1]
+    param_range1 = np.linspace(1e14, 1e15, 8) / 1
+    # param_range1 = param_range1[::-1]
 
+    param_range2 = np.linspace(2e15, 1e16, 2) / 1
+    # param_range2 = param_range2[::-1]
+
+    param_range = np.concatenate([param_range1,param_range2])
+    param_range = param_range[::-1]
     velve_leakage = dict()
     i=0
     for new_param in param_range:
@@ -79,7 +84,7 @@ def leakage_sweep():
 
         components = system.get_components()
         parameter = system.get_parameter()
-        time, y_data = system_test(**components, **parameter)
+        time, y_data = velve_test(**components, **parameter)
 
         if i==0:
             velve_leakage.update({'signal_voltage': y_data['signal_voltage']})
@@ -96,6 +101,8 @@ def leakage_sweep():
         #              filename=f'{fname}/{round(new_param*1e-9)}')
 
         i+=1
+
+
 
     pm.plot_dict(time, velve_leakage,
                  title='',
