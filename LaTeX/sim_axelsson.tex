@@ -52,7 +52,7 @@
 \usepackage{hyperref}
 
 \begin{document}
-\setlength{\tabcolsep}{18pt} % set col spacing for tables
+\setlength{\tabcolsep}{12pt} % set col spacing for tables
 \pagenumbering{gobble}		% turn off page numbers
 \begin{titlingpage}
 \begin{center}
@@ -110,7 +110,7 @@ Dies führt für den Druckabfall über den Komponenten zu folgenden Beziehungen 
 \[Kapazität \rightarrow P = \frac{V}{C} \]
 \[Quelle \rightarrow P = P \]
 
-\subsection{Reservoir}
+\subsection{Leitungsströmung}
 \label{subsec:reservoirsection}
 Das Reservoir wird als unendlich groß angenommen und daher mit einem Konstanten Druck modelliert.
 
@@ -121,6 +121,7 @@ Die Zuleitung wird durch einen einfachen Strömungswiderstand modelliert. Da fü
 
 \begin{equation}
 	\dot{V} = \frac{\pi \cdot r^4 \cdot dP}{8 \cdot \eta \cdot l}
+	\label{eq:hagenpois}
 \end{equation}
 
 Mit dem oben definierten Zusammenhang zwischen Fluidstrom \(\dot{V}\) und dem Druckabfall \(dP\) folgt für den Strömungswiderstand \(R\)
@@ -129,6 +130,29 @@ Mit dem oben definierten Zusammenhang zwischen Fluidstrom \(\dot{V}\) und dem Dr
 	R = \frac{8 \cdot \eta \cdot l}{\pi \cdot r^4}
 \label{eq:leckagestrom}
 \end{equation}
+
+Ob die Einordnung der Strömung in den laminaren Bereich Gültigkeit behält wird anhand einer einfach Abschätzung für die Reynoldszahl geprüft. Für die Reynoldszahl in Rohrströmungen gilt folgender Zusammenhang:
+ 
+\begin{equation}
+	Re = \frac{v_{m} \cdot d}{\nu}
+	\label{eq:reynoldstube}
+\end{equation}
+
+Die mittlere Geschwindigkeit kann mit dem Gesetz von Hagen-Poiseuille (Gleichung \ref{eq:hagenpois}) berechnet werden:
+
+\begin{equation}
+	v_m = \frac{\dot{V}}{A} = \frac{\pi \cdot r^4 \cdot dP}{8 \cdot \eta \cdot l \cdot A}
+	\label{eq:meanvelocity}
+\end{equation}
+
+Um die maximale Reynoldszahl zu errechnen werden die Parameter eingesetzt, welche zur höchstmöglichen mittleren Geschwindigkeit der Leitungsströmung führen. Mit einem Leitungsradius von $r=0.5 mm$ ($A=0.79mm^2$) und einer Länge von $l = 100 mm$, maximaler Druckdifferenz zwischen Pumpkammer und Reservoir von $dP_{max} = 50 \cdot 10^{3} Pa$ sowie der dynamischen Viskosität von Wasser $\eta=1.002 \cdot 10^{-3} kg m^{-1} s^{-1}$ erhält man:
+
+\begin{equation}
+	Re = 1941.5 < 2040 = Re_{krit}
+	\label{eq:Reynoldresult}
+\end{equation}
+
+Damit befindet man sich unterhalb der kritischen Reynoldszahl und damit im laminaren Bereich. In dieser Arbeit wird als Arbeitsfluid immer Wasser angenommen.
 
 \subsection{Klappenventile}
 \label{subsec:ventilsection}
@@ -170,17 +194,20 @@ Aus diesen Überlegungen ergeben sich für die Pumpkammer das in Abbildung \ref{
 
 \section{Modellierung}
 
-Im Folgenden wird die Modellierung des Einzelstrangs und des Gesamtsystems behandelt.
-Wie bereits erwähnt, werden elektrische Ersatzschaltbilder herangezogen, welche dann mithilfe der elektrisch-fluidischen Analogiegesetze untersucht werden.
-
-[Hier eine Übersicht der Komponenten und die verwendete Dimensionierung]
-wir verwenden wasser als fluid !!
+Im Folgenden wird die Modellierung des Einzelstrangs und des Gesamtsystems behandelt. Wie bereits erwähnt, werden elektrische Ersatzschaltbilder herangezogen, welche dann mithilfe der elektrisch-fluidischen Analogiegesetze untersucht werden. Für die Simulationen wird von folgenden Basis-Parametern ausgegangen (siehe Tabelle \ref{tab:modelparameters}), welche aber in den Parameterstudien teilweise unter Variation stehen.
 
 \begin{table}[H]
 \begin{tabular}[h]{c|c|c|c|c|c|c}
 	  & Wert & Einheit & & & Wert & Einheit\\
 	\hline
-	Name & 100 & [m] & & Name & 1 & [s] \\
+	Leit. Längen & 100 & [mm] & & Sig. Amplitude & 1 & [-] \\
+	Leit. Radien & 0.5 & [mm] & & Sig. Frequenz & 2 & [kHz] \\
+	Ven. $R_{open}$ & 2e6 & [$\frac{m^3/s}{Pa}$] & & Sig. Offset & 0 & [-] \\
+	Ven. $R_{close}$ & 1e20 & [$\frac{m^3/s}{Pa}$] & & PT-1, K & 1 & [-] \\
+	Ka. $P_{min}$ & -38e3 & [Pa] & & PT-1, T & 1e-3 & [s] \\
+	Ka. $P_{max}$ & 50e3 & [Pa] & & Sim. Time & 1e-3 & [s] \\
+	Ka. $C_{min}$ & 0.5e-17 & [$m^3/Pa$] & & Sim. Steps & 1000 & [-] \\
+	Ka. $C_{max}$ & 1.5e-17 & [$m^3/Pa$] & & Fluid Temp. & 293.15 & [K]
 \end{tabular}
 \caption{\label{tab:modelparameters} Model Parameters}
 \end{table}
