@@ -52,6 +52,7 @@
 \usepackage{hyperref}
 
 \begin{document}
+\setlength{\tabcolsep}{18pt} % set col spacing for tables
 \pagenumbering{gobble}		% turn off page numbers
 \begin{titlingpage}
 \begin{center}
@@ -93,9 +94,9 @@ Im Rahmen dieser Simulationsstudie wird eine piezoelektrische Mikromembranpumpe 
 
 \section{Theorie}
 
-Im Folgenden wird die Modellierung der Membranpumpe besprochen. Der Antrieb der Pump wird durch einen Piezoaktor realisiert. Dieser wird über einen Wechselspannung betrieben und erzeugt so abwechselnd einen Über- bzw. Unterdruck in der Pumpkammer. Die Ventile sind passive Klappenventile welche nur in eine Richtung öffnen. Je nach Anordnung dient dieses Ventil einmal als Auslass und einmal als Einlass. Die Klappenventile sind über einen Schlauch jeweils mit einem Reservoir verbunden.
+Im Folgenden wird die Modellierung der Membranpumpe besprochen. Der Antrieb der Pumpe wird durch einen Piezoaktor realisiert. Dieser wird über eine Wechselspannung betrieben und erzeugt so abwechselnd einen Über- bzw. Unterdruck in der Pumpkammer. Die Ventile sind passive Klappenventile welche nur in eine Richtung öffnen. Je nach Anordnung dient dieses Ventil einmal als Auslass und einmal als Einlass. Die Klappenventile sind über einen Schlauch jeweils mit einem Reservoir verbunden.
 
-Im Folgenden werden zwei Modelle vorgestellt. Das erste Besteht aus der Pumpkammer mit einem Klappenventil und einer Zuleitung welche an eine Reservoir angeschlossen ist (einarmiges Model). Diese Model dient der Untersuchung der Ventile auf Leckströme und der Untersuchung der Zuleitungen auf deren Geometrie. Das zweite Model umfasst die Gesamte Pumpe welche auf ihre Funktionsweise bezogen auf Gegendruck und Antriebsfrequenz untersucht wird (zweiarmiges Model).
+Im Folgenden werden zwei Modelle vorgestellt. Das erste Besteht aus der Pumpkammer mit einem Klappenventil und einer Zuleitung welche an einem Reservoir angeschlossen ist (Einzelstrang). Dieses Modell dient der Untersuchung der Ventile auf Leckströme. Das zweite Modell umfasst die gesamte Pumpe welche auf ihre Funktionsweise bezogen auf Gegendruck, Antriebsfrequenz und Leitungsgeometrie untersucht wird (Gesamtsystem).
 
 Für die Simulation wird ein fluidisches Ersatzmodell verwendet [Quelle Skript]
 
@@ -103,19 +104,20 @@ Für die Simulation wird ein fluidisches Ersatzmodell verwendet [Quelle Skript]
 \[ Kapazität  \:\widehat{=}\:  fluidische Kapazität = \biggl[\frac{m^3}{Pa}\biggr] \]
 \[ Spannung  \:\widehat{=}\:  Druck = [Pa] \]
 
-Dies führt zu folgenden für den Druckabfall über den Komponenten zu folgenden Beziehungen zwischen Druck \(P\), Fluidstrom \(\dot{V}\) und Strömungswiderstand \(R\).
+Dies führt für den Druckabfall über den Komponenten zu folgenden Beziehungen zwischen Druck \(P\), Fluidstrom \(\dot{V}\) und Strömungswiderstand \(R\).
 
 \[Widerstand \rightarrow P = R\dot{V} \]
 \[Kapazität \rightarrow P = \frac{V}{C} \]
 \[Quelle \rightarrow P = P \]
 
 \subsection{Reservoir}
+\label{subsec:reservoirsection}
 Das Reservoir wird als unendlich groß angenommen und daher mit einem Konstanten Druck modelliert.
 
 
 \[ P_r = Umgebungsdruck \]
 
-Die Zuleitung wird durch einen einfachen Strömungswiderstand modelliert. Da für dieses Model die Strömung als laminar betrachtet wird ist der Strömungswiderstand über das Gesetz von Hagen-Poiseuille zu beschreiben. Dabei ist \( r \) der Radius der Zuleitung, \(l\) die Länge, \(dP\) der Druck über dem Rohrabschnitt und \(\eta\) die Viskosität des Mediums.
+Die Zuleitung wird durch einen einfachen Strömungswiderstand modelliert. Da für dieses Modell die Strömung als laminar betrachtet wird ist der Strömungswiderstand über das Gesetz von Hagen-Poiseuille zu beschreiben. Dabei ist \( r \) der Radius der Zuleitung, \(l\) die Länge, \(dP\) der Druck über dem Rohrabschnitt und \(\eta\) die Viskosität des Mediums.
 
 \begin{equation}
 	\dot{V} = \frac{\pi \cdot r^4 \cdot dP}{8 \cdot \eta \cdot l}
@@ -125,30 +127,45 @@ Mit dem oben definierten Zusammenhang zwischen Fluidstrom \(\dot{V}\) und dem Dr
 
 \begin{equation}
 	R = \frac{8 \cdot \eta \cdot l}{\pi \cdot r^4}
+\label{eq:leckagestrom}
 \end{equation}
 
 \subsection{Klappenventile}
+\label{subsec:ventilsection}
 
-Die Klappenventile werden durch einen Widerstand beschrieben welcher vom Druck abhängt. Für Drücke > 0 ist das Ventil geöffnet. Für Drücke < 0 ist das Ventil geschlossen. Die Widerstände für den geöffneten und geschlossenen Zustand werden über das oben beschriebene Gesetz von Hagen-Poiseuille abgeschätz.
+Die Klappenventile werden durch Widerstandswerte beschrieben welche vom Druck abhängen. Für das vorwärts gerichtete Ventil (Auslass) gilt: Bei Drücken > 0 ist das Ventil geöffnet. Für Drücke < 0 ist das Ventil geschlossen. Für das nach hinten gerichtete Ventil (Einlass) gilt das Gegenteil. Die Widerstände für den geöffneten und geschlossenen Zustand werden über das oben beschriebene Gesetz von Hagen-Poiseuille abgeschätzt. Die Kennlinien der beiden Ventiltypen sind in Abbildung \ref{fig:ventilkennlinie} aufgezeigt.
 
-[Plots des idealen Klappenventils]
+\begin{figure}[H]
+	\centering
+	\begin{subfigure}[H]{0.48\textwidth}
+		\includegraphics[width=\textwidth, valign=t]{bilder/Kennlinien/velve_backwards.png}
+	\end{subfigure}
+	\begin{subfigure}[H]{0.48\textwidth}
+		\includegraphics[width=\textwidth, valign=t]{bilder/Kennlinien/velve_forwards.png}
+	\end{subfigure}
+	\caption{Signalabhängiger Widerstandswert eines Klappenventils für den a) Einlass und b) Auslass}
+	\label{fig:ventilkennlinie}
+\end{figure}
 
-\subsection{Pumpkammer} [genauer erklären]
-Real wird die Auslenkung der Pumpkammer durch Anlegen eines elektrischen Signales erzeugt. Dadurch verändert sich der Druck in der Pumpkammer, sowie dessen Kapazität. Die Pumpkammer ist in erster Näherung durch einen Kolben zu beschreiben. Die Höhe der Druckamplitude wird durch einen Proportionalitätsfaktor von der Spannung abhängig gemacht, ebenso die fluidische Kapazität. Die Extremwerte für Druck und Kapazität der Pumpkammer werden aus [Quelle ??] entnommen.
-
-Die Trägheit der Pumpe wird über ein RC angenähert.
-
-Der Wert für die Zeitkonstante wird abgeschätzt.
-
-Hinterlegung der Kennlinie um in der Simulation zeitabhängige Werte für Pumpkammerdruck und -Kapazität zu bekommen.
-
-[Kennlinien der Pumkammer]
+\subsection{Pumpkammer}
+Real wird die Auslenkung der Pumpkammer durch Anlegen eines elektrischen Signales erzeugt. Dadurch verändert sich der Druck in der Pumpkammer, sowie deren Kapazität. Die Pumpkammer ist in erster Näherung durch einen Kolben zu beschreiben (siehe Abbildung \ref{fig:kammerkonzept}). Die Höhe der Druckamplitude wird durch einen Proportionalitätsfaktor von der Spannung abhängig gemacht, ebenso die fluidische Kapazität. Die Extremwerte für Druck und Kapazität der Pumpkammer werden aus [Quelle ??] entnommen. Die Trägheit der Pumpkammer wird über ein RC Glied (PT-1) in erster Näherung berücksichtigt und wird mit einer abgeschätzten Zeitkonstante konkretisiert.
+Aus diesen Überlegungen ergeben sich für die Pumpkammer das in Abbildung \ref{fig:kammerkennlinie} dargestellte Verhalten für die Größen Auslenkung (Stroke), Kapazität und Druck, welche die Kennlinien darstellen.
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.98\textwidth]{bilder/theorie/pumpe_prinzipskizze.PNG}
 	\caption{1) Reservoir 2) Zulauf 3) Ventil 4) Pumpkammer}
+	\label{fig:kammerkonzept}
 \end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.98\textwidth]{bilder/Kennlinien/Chamber_kennlinie.PNG}
+	\caption{Kennlinien der Pumpkammer für a) Druck-/Saughub b) Kapazität c) Druck}
+	\label{fig:kammerkennlinie}
+\end{figure}
+
+
 
 
 \section{Modellierung}
@@ -157,13 +174,25 @@ Im Folgenden wird die Modellierung des Einzelstrangs und des Gesamtsystems behan
 Wie bereits erwähnt, werden elektrische Ersatzschaltbilder herangezogen, welche dann mithilfe der elektrisch-fluidischen Analogiegesetze untersucht werden.
 
 [Hier eine Übersicht der Komponenten und die verwendete Dimensionierung]
+wir verwenden wasser als fluid !!
+
+\begin{table}[H]
+\begin{tabular}[h]{c|c|c|c|c|c|c}
+	  & Wert & Einheit & & & Wert & Einheit\\
+	\hline
+	Name & 100 & [m] & & Name & 1 & [s] \\
+\end{tabular}
+\caption{\label{tab:modelparameters} Model Parameters}
+\end{table}
+
+\newpage
 
 \subsection{Einzelstrang}
 
 Das Gesamtsystem Pumpe kann in zwei Einzelstränge (ein-, ausleitend) unterteilt werden, welche jeweils einen in sich geschlossenen Kreislauf im Ersatzschaltbild darstellen.
 Die Betrachtung eines Strangs kann analog auf den anderen übertragen werden. Folglich wird hier nur ein Strang erläutert.
 
-\begin{figure}
+\begin{figure}[H]
 	\includesvg[scale = 0.6]{bilder/circuits/single_branch}
 	\caption{Einzelstrang des Pumpensystems als elektrisches Ersatzschaltbild}
 	\label{singlebranch}
@@ -195,9 +224,9 @@ Dazu wird die Differentialgleichung mithilfe des Kirchhoff´schen Gesetz (Masche
 Die gezeigten Einzelstränge sind über die Pumpkammer gekoppelt und ergeben das Gesamtsystem (siehe Abbildung).
 
 
-\begin{figure}
+\begin{figure}[H]
 	\includesvg[scale = 0.75]{bilder/circuits/first_order_circuit}
-	\caption{Einzelstrang des Pumpensystems als elektrisches Ersatzschaltbild}
+	\caption{Gesamtes Pumpensystems als elektrisches Ersatzschaltbild}
 	\label{systemcircuit}
 \end{figure}
 
@@ -224,11 +253,12 @@ Um das System analytisch beschreiben zu können, wird wieder die Differentialgle
 \begin{equation}
 	\dot{P}_{C} = - \frac{1}{C_{C}} * \biggl[\frac{P_{Signal}(t)-P_{in}+P_{C}}{R_{T_{in}}+R_{V_{in}}} + \frac{P_{Signal}(t)-P_{out}+P_{C}}{R_{T_{out}}+R_{V_{out}}}\biggr]
 \end{equation}
+
 Wie schon angedeutet, hängen die Werte $R_{V_{in}}(P_{V_{in}})$ und $R_{V_{out}}(P_{V_{out}})$ von der über dem jeweiligen Ventil anliegenden Druckdifferenz ab. Diese wird über einen Spannungsteiler ermittelt, sodass die Simulation in jedem Zeitschritt den druck-basierten Widerstandswert der Ventile anpassen kann.
 
 \section{Simulation}
 
-Dieses Kapitel umfasst die Simulationsstrategie sowie Parameterstudien hinsichtlich des Einzelstrang Modells (Leckagestrom) und des Gesamtsystems Membranpumpe (Zuleitungen, Gegendruck, Grenzfrequenz).
+Dieses Kapitel umfasst die Simulationsstrategie sowie Parameterstudien hinsichtlich des Einzelstrang Modells (Leckagestrom) und des Gesamtsystems Membranpumpe (Leitungen, Gegendruck, Grenzfrequenz).
 
 \subsection{Algorithmus}
 
@@ -236,7 +266,9 @@ Beschreibung ODEINT
 Beschreibung wie Abhängigkeit Ventilwiderstand <-> Druckdifferenz gelöst ist. (Denke da haben wir einen Bug :D)
 Normalisierungsverfahren der Parameter -> Plotverständlichkeit
 
-\subsection{Leckagestromanalyse}
+\subsection{Leckagestrom}
+
+Die Leckagestrom-Analyse bezieht sich auf die Komponente Klappenventil, wofür das beschriebene Einzelstrang-Modell verwendet wird. Wie im Abschnitt \ref{subsec:ventilsection} dargestellt, sind den Ventilen zwei Widerstandswerte zugeordnet: Ein Öffnungswiderstand und ein Schließwiderstand, die je nach anliegendem Druckzustand aktiv sind. Um einen Rückfluss des Fluids in die nicht erwünschte Richtung zu vermeiden, muss derjenige Widerstandswert abgeschätzt werden, mit welchem das Ventil zum Verschließen gebracht werden kann. Abbildung \ref{fig:leckagedruck} a) zeigt das Verhalten des Einlassventils bei zu geringen Verschlusswiderstandswerten: Bei positiven Drucksignalen (Druckhub) fällt nicht der gesamte Druck ab und es resultiert ein geringer Leckagestrom entlang des abfallenden Druckgradienten. Bei negativen Drucksignalen (Saughub) ist das Ventil geöffnet und der erwartete Volumenstrom setzt ein. Für das zweite Druckhub-Ereignis in Abbildung \ref{fig:leckagedruck} b) wird bei zunehmenden Werten für den Verschlusswiderstand ersichtlich, dass der gesamte Druck abfällt und demnach das Ventil nahezu vollständig schließt. Der in  Abbildung \ref{fig:leckagestrom} dargestellte Volumenstrom für das zweite Saughub-Ereignis bekräftigt dies, denn die noch möglichen Volumenströme in gewünschter Richtung verringern sich im Laufe der Variation, da sich kein Druckgefälle mehr aufbaut. Ideal ist dann der Wert für den Verschlusswiderstand, der keinen Strom mehr zulässt. Im Falle einer realen Ventil-Auslegung erlaubt ein solcher Wert Rückschlüsse auf das Ventildesign.
 
 \begin{figure}[H]
 	\centering
@@ -246,7 +278,8 @@ Normalisierungsverfahren der Parameter -> Plotverständlichkeit
 	\begin{subfigure}[H]{0.48\textwidth}
 		\includegraphics[width=\textwidth, valign=t]{bilder/leakage/leakage_in_branch_multiweep.png}
 	\end{subfigure}
-	\caption{•}
+    \caption{a) Volumenstrom- und Druckverläufe eines nicht verschließenden Klappenventils, b) Druckverläufe für variierte Verschluss-Widerstandswerte}
+    \label{fig:leckagedruck}
 \end{figure}
 
 \begin{figure}[H]
@@ -254,10 +287,13 @@ Normalisierungsverfahren der Parameter -> Plotverständlichkeit
 	\begin{subfigure}[H]{0.48\textwidth}
 		\includegraphics[width=\textwidth, valign=t]{bilder/leakage/leakage_in_branch_multiweep_flow.png}
 	\end{subfigure}
-	\caption{•}
+    \caption{Pumpstromverläufe für variierte Verschluss-Widerstandswerte während des zweiten Saughubs}
+    \label{fig:leckagestrom}
 \end{figure}
 
-\subsection{Zuleitungen}
+\subsection{Leitungen}
+
+Abhängig vom Einsatzbereich und Einbauverhältnis können variierende Leitungslängen zwischen Pumpe und den jeweiligen Reservoirs auftreten. Um die eintretenden Effekte zu visualisieren sind hier relativ hohe Leitungslängen angenommen worden. Jedoch ist ein qualitativ ähnliches Verhalten für geringere Längen-Variationen zu erwarten. Abbildung \ref{fig:zuleitungen} zeigt die Ausgangssituation und den verzögerten Druckaufbau für erhöhte Zuleitungs-Längen für die Saughub-Phasen. Wie in Abschnitt \ref{reservoirsection} beschrieben steht der Strömungswiderstand der Leitung in linearen Zusammenhang mit ihrer Länge (Gleichung \ref{eq:leckagestrom}). Der verzögerte Druckaufbau (wie er analog auch in Abbildung \ref{fig:sweepleitungen} zu beobachten ist) führt zu einem abgesenkten Volumenstrom, der aber länger anhält (siehe Abbildung \ref{fig:sweepströme}). Das von der Pumpe beförderte Volumen ergibt sich aus der Fläche unter der jeweiligen Kurve. Ein den Volumenstrom beschränkender Faktor wäre dann eine erhöhte Frequenz, die einen verzögerten Druckaufbau bis zum Endwert nicht mehr zulässt.
 
 \begin{figure}[H]
 	\centering
@@ -267,7 +303,8 @@ Normalisierungsverfahren der Parameter -> Plotverständlichkeit
 	\begin{subfigure}[H]{0.48\textwidth}
 		\includegraphics[width=\textwidth, valign=t]{bilder/tubelength/tl_in_branch_multisweep.png}
 	\end{subfigure}
-	\caption{•}
+    \caption{a) Volumenstrom- und Druckverläufe für geringe Zuleitungs-Länge b) Variation der Zuleitungs-Länge}
+    \label{fig:zuleitungen}
 \end{figure}
 
 \begin{figure}[H]
@@ -278,7 +315,8 @@ Normalisierungsverfahren der Parameter -> Plotverständlichkeit
 	\begin{subfigure}[H]{0.48\textwidth}
 		\includegraphics[width=\textwidth, valign=t]{bilder/tubelength/tl_both_branch_multisweep.png}
 	\end{subfigure}
-	\caption{•}
+    \caption{a) Variation der Ausleitungs-Länge b) Variation beider Leitungs-Längen}
+    \label{fig:sweepleitungen}
 \end{figure}
 
 \begin{figure}[H]
@@ -292,7 +330,8 @@ Normalisierungsverfahren der Parameter -> Plotverständlichkeit
 	\begin{subfigure}[H]{0.48\textwidth}
 		\includegraphics[width=\textwidth, valign=t]{bilder/tubelength/tl_both_branch_multisweep_flow.png}
 	\end{subfigure}
-	\caption{•}
+    \caption{Volumenstromverläufe für Längenvariation von a) Zuleitungen b) Ausleitungen c) beider Leitungen}
+    \label{fig:sweepströme}
 \end{figure}
 
 \subsection{Gegendruck}
@@ -322,11 +361,11 @@ Zur Bestimmung des maximalen Druckes, welcher in der Pumpkammer aufgebaut wird, 
     \caption{a) Ohne externen Gegendruck b) Mit externem Gegendruck an Ein- und Auslass. c) Variation der Gegendrücke an Ein- und Auslassventil. d) Maximaler Gegendruck bei dem die Amplitude an Ein- und Auslassventil auf null abfällt.}
 \end{figure}
 
-Zur Bestimmung des maximalen Gegendruckes werden nun die Drücke an den Beiden Reservoirs variiert. Dazu wird am Einlassventil ein Überdruck und am Auslassventil ein Unterdruck angelegt. Die Auswirkungen auf das Signal des Druckes in der Pumpkammer ist Abbildung \ref{fig:gegendruck_sweep_double} zu entnehmen. Da hier jedoch nicht der genaue Druck bestimmt werden kann bei dem die Pump aufhört zu pumpen wird die Simulation mit einer geringen Schrittweite der Gegendrücke durchgeführt. Das Ergebnis dieser Simularion ist in Abbildung \ref{fig:gegendruck_result} zu sehen. Der maximale Gegendruck für das Einlassventil beträgt demnach 38 kPa und für das Auslassventil 50 kPa. Da die Ventile ideal sind entspricht der maximale Gegendruck genau der maximalen Amplitude des Druckes in der Pumpkammer. Bei realen Ventilen, welche zum Öffnen einen Über- bzw. Unterdruck benötigen würde die Pumpe schon bei geringeren externen Drücken zum erliegen kommen.
+Zur Bestimmung des maximalen Gegendruckes werden nun die Drücke an den beiden Reservoirs variiert. Dazu wird am Einlassventil ein Überdruck und am Auslassventil ein Unterdruck angelegt. Die Auswirkungen auf das Signal des Druckes in der Pumpkammer ist Abbildung \ref{fig:gegendruck_sweep_double} zu entnehmen. Da hier jedoch nicht der genaue Druck bestimmt werden kann bei dem die Pumpe aufhört zu pumpen wird die Simulation mit einer geringen Schrittweite der Gegendrücke durchgeführt. Das Ergebnis dieser Simulation ist in Abbildung \ref{fig:gegendruck_result} zu sehen. Der maximale Gegendruck für das Einlassventil beträgt demnach 38 kPa und für das Auslassventil 50 kPa. Da die Ventile ideal sind entspricht der maximale Gegendruck genau der maximalen Amplitude des Druckes in der Pumpkammer. Bei realen Ventilen, welche zum Öffnen einen Über- bzw. Unterdruck benötigen würde die Pumpe schon bei geringeren externen Drücken zum erliegen kommen.
 
 \subsection{Grenzfrequenz}
 
-Um die maximale Betriebsfrequenz der Pumpe zu bestimmen wird eine Variation der Antriebsfrequenz simuliert. Da die Pump eine Trägheit besitzt welche durch ein RC-Glied beschrieben wird, kann die Pumpe nicht mit beliebig hohen Frequenzen betrieben werden. Das Spannungssignal in der Pumpe ist in Abbildung \ref{fig:frequency_normal} zu sehen. Die Antriebsfrequenz des Aktors beträgt 1 kHz. Es ist gut zu erkennen das die Anstiegszeit des Pumpkammerdruckes ausreicht um die maximale Druckamplitude in der Pumpkammer aufzubauen. In Abbildung \ref{fig:frequency_fast} ist das Verhalten bei hohen Frequenzen zu sehen, die Frequenz beträgt hier etwas mehr als 11 kHz. Bei dieser hohen Frequenz ist die Auslenkung des Aktors zu träge und das Signal der Pumpkammer kann dem Eingangssignal nicht mehr folgen, was zu einer Minderung der Pumpleistung führt, die Abhängigkeit der Amplitude von der Frequenz ist über den Frequenzbereich von 2 kHz bis zu 200 kHz ist in Abbildung \ref{fig:frequency_sweep} zu sehen.
+Um die maximale Betriebsfrequenz der Pumpe zu bestimmen wird eine Variation der Antriebsfrequenz simuliert. Da die Pumpe eine Trägheit besitzt welche durch ein RC-Glied beschrieben wird, kann die Pumpe nicht mit beliebig hohen Frequenzen betrieben werden. Das Spannungssignal in der Pumpe ist in Abbildung \ref{fig:frequency_normal} zu sehen. Die Antriebsfrequenz des Aktors beträgt 1 kHz. Es ist gut zu erkennen das die Anstiegszeit des Pumpkammerdruckes ausreicht um die maximale Druckamplitude in der Pumpkammer aufzubauen. In Abbildung \ref{fig:frequency_fast} ist das Verhalten bei hohen Frequenzen zu sehen, die Frequenz beträgt hier etwas mehr als 11 kHz. Bei dieser hohen Frequenz ist die Auslenkung des Aktors zu träge und das Signal der Pumpkammer kann dem Eingangssignal nicht mehr folgen, was zu einer Minderung der Pumpleistung führt, die Abhängigkeit der Amplitude von der Frequenz ist über den Frequenzbereich von 2 kHz bis zu 200 kHz ist in Abbildung \ref{fig:frequency_sweep} zu sehen.
  
 \begin{figure}[H]
     \centering
@@ -349,7 +388,7 @@ Um die maximale Betriebsfrequenz der Pumpe zu bestimmen wird eine Variation der 
     \caption{a) Ansteuerung der Pumpe bei 1 kHz. b) Ansteuerung der Pumpe bei 11 kHz, der Aktor kann dem Eingangssignal nicht mehr folgen. c) Variation der Antriebsfrequenz zwischen 2 kHz und 200 kHz. d) Darstellung der Frequenzabhängigkeit der Amplitude im Bode-Diagramm.}
 \end{figure}
 
-Für die Darstellung des Frequenzabhängigen Verhaltens der Membranpumpe wird Frequenzen bis zu 500 kHz simuliert. Die dabei resultierende Amplitude wird in einem Bode-Diagramm über die Frequenz aufgetragen. Nun kann die Grenzfrequenz bestimmt werden, welche bei -3 dB liegt. Die Grenzfrequenz beträgt demnach 28,3 kHz.
+Für die Darstellung des frequenzabhängigen Verhaltens der Membranpumpe werden Frequenzen bis zu 500 kHz simuliert. Die dabei resultierende Amplitude wird in einem Bode-Diagramm über die Frequenz aufgetragen. Nun kann die Grenzfrequenz bestimmt werden, welche bei -3 dB liegt. Die Grenzfrequenz beträgt demnach 28,3 kHz.
 
 \section{Fazit}
 
@@ -357,7 +396,7 @@ Im Rahmen dieser Simulationsstudie konnte gezeigt werden, das mit einem relativ 
 
 \section{Ausblick}
 
-Das Systemmodell kann hinsichtlich der einzelnen Komponenten nahezu beliebig komplex erweitert werden. Um einen Einblick zu erlangen, welche Konsequenzen ein höherer Detailierungsgrad nach sich zieht, wird die Beschreibung der Ventile und der Rohrleitungen erweitert. Das Ventil besitzt durch die zugrundeliegende Geometrie auch kapazitive Eigenschaften, verursacht durch elastische Verformungen des Bauteils. Dieser Effekt wird im folgenden Modell durch parallele Kondensatoren ($C_{V_{in}}$ und $C_{V_{out}}$) berücksichtigt. Zusätzlich kann der Fluid-inherente Widerstand gegen Beschleunigungen innerhalb von Rohrleitungen durch eine Induktivität ($L_{V_{in}}$ und $L_{V_{out}}$) beschrieben werden. Dabei gilt folgende elektro-fluidische Analogie:
+Das Systemmodell kann hinsichtlich der einzelnen Komponenten nahezu beliebig komplex erweitert werden. Um einen Einblick zu erlangen, welche Konsequenzen ein höherer Detailierungsgrad nach sich zieht, wird die Beschreibung der Ventile, der Rohrleitungen und der Pumpkammer erweitert. Die geometrische Gestaltung der Pumpkammer führt zu Strömungswiderständen, welche in einem Widerstand $R_C$ zusammengefasst werden können. Das Ventil besitzt durch die zugrundeliegende Geometrie auch kapazitive Eigenschaften, verursacht durch elastische Verformungen des Bauteils. Dieser Effekt wird im folgenden Modell durch parallele Kondensatoren ($C_{V_{in}}$ und $C_{V_{out}}$) berücksichtigt. Zusätzlich kann der Fluid-inherente Widerstand gegen Beschleunigungen innerhalb von Rohrleitungen durch eine Induktivität ($L_{V_{in}}$ und $L_{V_{out}}$) beschrieben werden. Dabei gilt folgende elektro-fluidische Analogie:
 
 
 \begin{equation}
@@ -370,12 +409,11 @@ Das Systemmodell kann hinsichtlich der einzelnen Komponenten nahezu beliebig kom
 
 \begin{figure}[H]
 	\includesvg[scale = 0.6]{bilder/circuits/second_order_circuit}
-	\caption{Second Order Circuit}
+	\caption{Erweitertes Pumpenmodell in Ersatzschaltbild-Darstellung}
 	\label{outlookcircuit}
 \end{figure}
 
 Eine Herleitung der Differentialgleichung für dargestelltes System (siehe Abbildung \ref{outlookcircuit}) führt zu folgendem Zusammenhang nach Trennung der Variablen:
-
 
 \begin{equation}
 	\begin{split}
@@ -383,7 +421,7 @@ Eine Herleitung der Differentialgleichung für dargestelltes System (siehe Abbil
 		&+ \left[\left(1+\frac{R_{T_{out}}}{R_{V_{out}}}\right)C_{V_{in}}R_{C}C_{C} + \left(1+\frac{R_{T_{in}}}{R_{V_{in}}}\right)C_{V_{out}}R_{C}C_{C}\right]\bm{\frac{d\textsuperscript{2}U_{C}}{dt\textsuperscript{2}}} \\
 		&+ \biggl[\left(1+\frac{R_{T_{in}}}{R_{V_{in}}}\right)\left(1+\frac{R_{T_{out}}}{R_{V_{out}}}\right)C_{C} + \left(1+\frac{R_{T_{out}}}{R_{V_{out}}}\right)\left(\frac{R_{C}C_{C}}{R_{V_{in}}}+C_{V_{in}}\right) + \\
 		& \left(1+\frac{R_{T_{in}}}{R_{V_{in}}}\right)\left(\frac{R_{C}C_{C}}{R_{V_{out}}}+C_{V_{out}}\right)\biggr] \bm{\frac{dU_{C}}{dt}}  \\
-		&+ \left[\left(1+\frac{R_{T_{out}}}{R_{V_{out}}}\right)\frac{1}{R_{V_{out}}} + \left(1+\frac{R_{T_{in}}}{R_{V_{in}}}\right)\frac{1}{R_{V_{out}}}\right]\bm{U_{C}} \\
+		&+ \left[\left(1+\frac{R_{T_{out}}}{R_{V_{out}}}\right)\frac{1}{R_{V_{in}}} + \left(1+\frac{R_{T_{in}}}{R_{V_{in}}}\right)\frac{1}{R_{V_{out}}}\right]\bm{U_{C}} \\
 		&= \left[\left(1+\frac{R_{T_{out}}}{R_{V_{out}}}\right)C_{V_{in}}L_{T_{in}} - \left(1+\frac{R_{T_{in}}}{R_{V_{in}}}\right)C_{V_{out}}L_{T_{out}}\right]\bm{\frac{d\textsuperscript{2}I_{out}}{dt\textsuperscript{2}}} \\
 		&+ \biggl[\left(1+\frac{R_{T_{out}}}{R_{V_{out}}}\right)\left(\frac{L_{T_{in}}}{R_{V_{in}}}+C_{V_{in}}R_{V_{in}}\right) - \left(1+\frac{R_{T_{in}}}{R_{V_{in}}}\right)\left(\frac{L_{T_{out}}}{R_{V_{out}}}+C_{V_{out}}R_{V_{out}}\right)\biggr]\bm{\frac{dI_{out}}{dt}} \\
 		&+ \left(1+\frac{R_{T_{out}}}{R_{V_{out}}}\right)C_{V_{in}}\bm{\frac{d(U_{Signal}(t) - U_{in})}{dt}} + \left(1+\frac{R_{T_{out}}}{R_{V_{out}}}\right)\frac{1}{R_{T_{in}}}\bm{(U_{Signal}(t) - U_{in})} \\
@@ -391,9 +429,9 @@ Eine Herleitung der Differentialgleichung für dargestelltes System (siehe Abbil
 	\end{split}
 \end{equation}
 
-%\[ L_{fluid} = \frac{P}{\ddot{V}} \:\:\widehat{=}\:\: L_{elek.} = \frac{U}{dI/dt} \]
+Es handelt sich dabei um eine lineare, inhomogene DGL dritter Ordnung, die evtl. durch weiteres Umformen von den $I_{out}$ Termen befreit werden kann. 
 
-Es ist ersichtlich, dass die Simulation in dieser Detailierung den Rahmen dieser Arbeit übersteigt.
+Es ist ersichtlich, dass die Simulation in dieser Detaillierung den Rahmen dieser Arbeit übersteigt.
 
 
 \printbibliography

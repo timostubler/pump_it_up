@@ -158,7 +158,7 @@ class PlotPump(PlotManager):
 if __name__ == '__main__':
 
     signal = Rectangle(amplitude=1, frequency=2e3, offset=0)
-    T = 1e-3
+    T = 0.5e-3
     steps = 1000
     time = np.linspace(0, T, steps)
     voltage = [signal(t) for t in time]
@@ -173,15 +173,25 @@ if __name__ == '__main__':
     ax4 = ax3.twinx()
     ax6 = ax5.twinx()
 
-    ax1.plot(time, voltage, color='black')
-    ax2.plot(time, pump.stroke, color='green', label='stroke')
+    scaletime = 1e3
+    ax1.plot(time*scaletime, voltage, color='black')
+    ax2.plot(time*scaletime, pump.stroke*1e6, color='green', label='stroke')
+    ax2.set_ylabel('Stroke [um]')
 
-    ax3.plot(time, voltage, color='black')
-    ax4.plot(time, capacity, color='blue', label='capacity')
+    ax3.plot(time*scaletime, voltage, color='black')
+    ax4.plot(time*scaletime, capacity, color='blue', label='capacity')
+    ax4.set_ylabel('Capacity [$m^3/Pa$]')
 
-    ax5.plot(time, voltage, color='black')
-    ax6.plot(time, pressure, color='red', label='pressure')
+    ax5.plot(time*scaletime, voltage, color='black')
+    ax6.plot(time*scaletime, pressure, color='red', label='pressure')
+    ax6.set_ylabel('Pressure [Pa]')
 
-    plt.legend()
+    ax1.set_ylabel('Voltage norm.')
+    ax3.set_ylabel('Voltage norm.')
+    ax5.set_ylabel('Voltage norm.')
+
+    ax5.set_xlabel('Time [ms]')
+
+    # plt.legend()
     plt.show()
 

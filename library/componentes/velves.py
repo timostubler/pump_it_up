@@ -76,20 +76,22 @@ class PlotVelve(PlotManager):
 
     def plot(self):
         contanier = dict()
-        configuration = 'backward'
+        configuration = 'forward'
         voltage = np.linspace(-3, 3, 251)
 
-        velve_const = Velve(R_open=100, R_close=1e3, direction=configuration)
-        contanier[f'constant'] = [velve_const.R(ui) for ui in voltage]
+        velve_const = Velve(R_open=2e6, R_close=1e20, direction=configuration)
+        contanier[f'{configuration}'] = [velve_const.R(ui) for ui in voltage]
 
-        for nui in np.linspace(0.05, 0.5, 10):
-            velve = Velve_fermi(R_open=100, R_close=1e3, direction=configuration, nu=nui)
-            contanier[f'{nui :.2f} nu'] = [velve.R(ui) for ui in voltage]
+        R_max = 1e20
+        # for nui in np.linspace(0.05, 0.5, 10):
+        #     velve = Velve_fermi(R_open=100, R_close=1e3, direction=configuration, nu=nui)
+        #     contanier[f'{nui :.2f} nu'] = [velve.R(ui) for ui in voltage]
 
         self.plot_dict(voltage, contanier,
-                       title=f'Fermi velve - {configuration}',
+                       # title=f'Fermi velve - {configuration}',
+                       title='',
                        xlabel='Voltage [V]',
-                       ylabel='Resistance []')
+                       ylabel='Resistance [$m^3 s^{-1}/Pa$]')
 
 if __name__ == '__main__':
 
