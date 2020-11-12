@@ -34,8 +34,8 @@ class Pump_old(Fluid):
         self.C_min = 0.5e-17
         self.C_max = 1.5e-17
 
-        self.p_max = 50 * 10 ** 3  # Pa back pressure air
-        self.p_min = -38 * 10 ** 3  # Pa suction pressure air
+        self.p_max = 5 * 10 ** 3  # Pa back pressure air
+        self.p_min = -3.8 * 10 ** 3  # Pa suction pressure air
 
     def stroke(self, voltage):
         return (self.zmin - self.zmax) / (np.exp((voltage) / self.nu) + 1) + self.zmax
@@ -72,8 +72,8 @@ class Pump_fermi(Fluid):
         self.C_min = 0.5e-17
         self.C_max = 1.5e-17
 
-        self.p_max = 50*1e3 # Pa
-        self.p_min = -38*1e3 # Pa
+        self.p_max = 5.0*1e3 # Pa
+        self.p_min = -3.8*1e3 # Pa
         self.p_off = self.p_min + (abs(self.p_max) + abs(self.p_min))/2
 
         self.p_scale = 5e10 # Pa scale
