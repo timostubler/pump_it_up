@@ -44,7 +44,7 @@
 
 % ### titleseite
 \usepackage{titling}
-\title{Systemmodelierung einer Membranpumpe für die Mikro-Fluidik}
+\title{System-Modellierung einer Membranpumpe für die Mikro-Fluidik}
 \author{Kristjan Axelsson, Timo Stubler}
 \date{\today}               
 
@@ -89,7 +89,7 @@ Fakultät für angewandte Wissenschaften und Mechatronik \\
 
 \section{Einleitung}
 \pagenumbering{arabic}		% turn on page numbers
-Im Rahmen dieser Simulationsstudie wird eine piezoelektrische Mikromembranpumpe modelliert und optimiert. Die Pumpe wird durch ein fluidisches Ersatzmodel beschrieben welches analog zu einem elektrischen Ersatzmodel ist. Im Theoretischen Teil dieser Arbeit werden die einzelnen Komponenten der Pump vorgestellt. Diese sind die Pumpkammer, zwei passive Klappenventile sowie die Zuleitungen und Reservoirs aus bzw. in welche ein Fluid gepumpt wird. Nachdem der Aufbau behandelt wurde werden die beiden Simulationsmodelle vorgestellt. Zuerst das Einzelstrang Model mit welchem die Ventile im Detail untersucht werden, gefolgt von einem Model des Gesamtsystems der Membranpumpe beschreibt und mit welchem weitere charakteristische Eigenschaften des Systems untersucht werden. Die im Rahmen dieser Studie durchgeführten Simulationen umfassen die Simulation der Zuleitungen, die Untersuchung der Ventile auf Leckströme, die Leistung der Pumpkammer gegen erhöhte Reservoirdrücke zu arbeiten und abschließend die Bestimmung der Grenzfrequenz der Pumpe. Den Abschluss dieser Arbeit bildet eine kurze Zusammenfassung der Ergebnisse sowie ein Ausblick bzw. eine Vorarbeit für künftige Simulationsstudien im Rahmen der besuchten Vorlesung. Der Python-Code der Simulation ist im Anhang zu finden.
+Im Rahmen dieser Simulationsstudie wird eine piezoelektrische Mikromembranpumpe modelliert und optimiert. Die Pumpe wird durch ein fluidisches Ersatzmodel beschrieben welches analog zu einem elektrischen Ersatzmodel ist. Im theoretischen Teil dieser Arbeit werden die einzelnen Komponenten der Pumpe vorgestellt. Diese sind die Pumpkammer, zwei passive Klappenventile sowie die Zuleitungen und Reservoirs aus bzw. in welche ein Fluid gepumpt wird. Nachdem der Aufbau behandelt wurde werden die beiden Simulationsmodelle vorgestellt. Zuerst das Einzelstrang-Modell mit welchem die Ventile im Detail untersucht werden, gefolgt von einem Modell des Gesamtsystems das die Membranpumpe beschreibt. Mit diesem werden weitere charakteristische Eigenschaften des Systems untersucht. Die im Rahmen dieser Studie durchgeführten Simulationen umfassen die Simulation der Zuleitungen, die Untersuchung der Ventile auf Leckströme, die Leistung der Pumpkammer gegen erhöhte Reservoirdrücke zu arbeiten und abschließend die Bestimmung der Grenzfrequenz der Pumpe. Den Abschluss dieser Arbeit bildet eine kurze Zusammenfassung der Ergebnisse sowie ein Ausblick bzw. eine Vorarbeit für künftige Simulationsstudien im Rahmen der besuchten Vorlesung. Der Python-Code der Simulation ist im Anhang zu finden.
 
 \section{Theorie}
 
@@ -97,7 +97,7 @@ Im Folgenden wird die Modellierung der Membranpumpe besprochen. Der Antrieb der 
 
 Im Folgenden werden zwei Modelle vorgestellt. Das erste Besteht aus der Pumpkammer mit einem Klappenventil und einer Zuleitung welche an eine Reservoir angeschlossen ist (einarmiges Model). Diese Model dient der Untersuchung der Ventile auf Leckströme und der Untersuchung der Zuleitungen auf deren Geometrie. Das zweite Model umfasst die Gesamte Pumpe welche auf ihre Funktionsweise bezogen auf Gegendruck und Antriebsfrequenz untersucht wird (zweiarmiges Model).
 
-Für die Simulation wird ein fluidisches Ersatzmodel verwendet [Quelle Skript]
+Für die Simulation wird ein fluidisches Ersatzmodell verwendet [Quelle Skript]
 
 \[ Widerstand \:\widehat{=}\:  Strömungswiderstand = \biggl[\frac{m^3/s}{Pa}\biggr] \]
 \[ Kapazität  \:\widehat{=}\:  fluidische Kapazität = \biggl[\frac{m^3}{Pa}\biggr] \]
@@ -105,9 +105,9 @@ Für die Simulation wird ein fluidisches Ersatzmodel verwendet [Quelle Skript]
 
 Dies führt zu folgenden für den Druckabfall über den Komponenten zu folgenden Beziehungen zwischen Druck \(P\), Fluidstrom \(\dot{V}\) und Strömungswiderstand \(R\).
 
-\[WIderstand \rightarrow P = R\dot{V} \]
+\[Widerstand \rightarrow P = R\dot{V} \]
 \[Kapazität \rightarrow P = \frac{V}{C} \]
-\[Qulle \rightarrow P = P \]
+\[Quelle \rightarrow P = P \]
 
 \subsection{Reservoir}
 Das Reservoir wird als unendlich groß angenommen und daher mit einem Konstanten Druck modelliert.
@@ -163,9 +163,11 @@ Wie bereits erwähnt, werden elektrische Ersatzschaltbilder herangezogen, welche
 Das Gesamtsystem Pumpe kann in zwei Einzelstränge (ein-, ausleitend) unterteilt werden, welche jeweils einen in sich geschlossenen Kreislauf im Ersatzschaltbild darstellen.
 Die Betrachtung eines Strangs kann analog auf den anderen übertragen werden. Folglich wird hier nur ein Strang erläutert.
 
-\begin{center}
+\begin{figure}
 	\includesvg[scale = 0.6]{bilder/circuits/single_branch}
-\end{center}
+	\caption{Einzelstrang des Pumpensystems als elektrisches Ersatzschaltbild}
+	\label{singlebranch}
+\end{figure}
 
 Der Eingangsdruck ($U_{in}$), der Reservoir-bedingt anliegt, bildet mit dem durch den Piezoaktor erzeugten Kammerdruck ($U_{Signal}(t)$) eine Druckdifferenz. Nach Hagen-Poiseuille resultiert daraus ein Volumenstrom in eine vom Vorzeichen der Druckdifferenz ($U_{Signal}(t)-U_{in}$) vorgegebene Richtung. Der Leitungswiderstand ($R_{T}$) und der Ventilwiderstand ($R_{V}$) begrenzen die resultierenden Volumenströme. Dabei beherbergt [wohnt der da!?!? :D] das Modell des Ventils eine Abhängigkeit von der Druckdifferenz. Im gezeigten Einzelstrang ist der Ventilwiderstand für negative Druckdifferenzen gering, für positive Druckdifferenzen sehr hoch, sodass das Ventil in diese Richtung schließt. Am Ende des Einzelstranges befindet sich die Pumpkammer und die Quelle des Drucksignals. Das Aufnahmevermögen der Pumpkammer wird durch ein Kondensatorelement beschrieben. Die hierin stattfindenden Druckänderungen ($P_{C}$) gilt es zeitlich zu ermitteln.
 
@@ -193,9 +195,11 @@ Dazu wird die Differentialgleichung mithilfe des Kirchhoff´schen Gesetz (Masche
 Die gezeigten Einzelstränge sind über die Pumpkammer gekoppelt und ergeben das Gesamtsystem (siehe Abbildung).
 
 
-\begin{center}
+\begin{figure}
 	\includesvg[scale = 0.75]{bilder/circuits/first_order_circuit}
-\end{center}
+	\caption{Einzelstrang des Pumpensystems als elektrisches Ersatzschaltbild}
+	\label{systemcircuit}
+\end{figure}
 
 Um einen Volumenstrom zwischen den beiden Reservoirs zu erreichen sind die Ventile gegensätzlich angeordnet, so dass diese bei Änderung der Druckdifferenz abwechselnd schalten. 
 
@@ -220,15 +224,38 @@ Um das System analytisch beschreiben zu können, wird wieder die Differentialgle
 \begin{equation}
 	\dot{P}_{C} = - \frac{1}{C_{C}} * \biggl[\frac{P_{Signal}(t)-P_{in}+P_{C}}{R_{T_{in}}+R_{V_{in}}} + \frac{P_{Signal}(t)-P_{out}+P_{C}}{R_{T_{out}}+R_{V_{out}}}\biggr]
 \end{equation}
-Wie schon angedeutet, hängen die Werte $R_{V_{in}}(P_{V_{in}})$ und $R_{V_{out}}(P_{V_{out}})$ von der über dem jeweiligen Ventil anliegenden Druckdifferenz ab. Diese wird über einen Spannungsteiler ermittelt, sodass die Simulation in jedem Zeitschritt den druckbasierten Widerstandswert der Ventile anpassen kann.
+Wie schon angedeutet, hängen die Werte $R_{V_{in}}(P_{V_{in}})$ und $R_{V_{out}}(P_{V_{out}})$ von der über dem jeweiligen Ventil anliegenden Druckdifferenz ab. Diese wird über einen Spannungsteiler ermittelt, sodass die Simulation in jedem Zeitschritt den druck-basierten Widerstandswert der Ventile anpassen kann.
 
 \section{Simulation}
 
-Diese Kapitel umfasst die Untersuchungen des einarmigen und zweiarmigen Models der Membranpumpe
+Dieses Kapitel umfasst die Simulationsstrategie sowie Parameterstudien hinsichtlich des Einzelstrang Modells (Leckagestrom) und des Gesamtsystems Membranpumpe (Zuleitungen, Gegendruck, Grenzfrequenz).
+
+\subsection{Algorithmus}
 
 Beschreibung ODEINT
-
 Beschreibung wie Abhängigkeit Ventilwiderstand <-> Druckdifferenz gelöst ist. (Denke da haben wir einen Bug :D)
+Normalisierungsverfahren der Parameter -> Plotverständlichkeit
+
+\subsection{Leckagestromanalyse}
+
+\begin{figure}[H]
+	\centering
+	\begin{subfigure}[H]{0.48\textwidth}
+		\includegraphics[width=\textwidth, valign=t]{bilder/leakage/leakage_in_branch_singleweep.png}
+	\end{subfigure}
+	\begin{subfigure}[H]{0.48\textwidth}
+		\includegraphics[width=\textwidth, valign=t]{bilder/leakage/leakage_in_branch_multiweep.png}
+	\end{subfigure}
+	\caption{•}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\begin{subfigure}[H]{0.48\textwidth}
+		\includegraphics[width=\textwidth, valign=t]{bilder/leakage/leakage_in_branch_multiweep_flow.png}
+	\end{subfigure}
+	\caption{•}
+\end{figure}
 
 \subsection{Zuleitungen}
 
@@ -264,27 +291,6 @@ Beschreibung wie Abhängigkeit Ventilwiderstand <-> Druckdifferenz gelöst ist. 
 	\end{subfigure}
 	\begin{subfigure}[H]{0.48\textwidth}
 		\includegraphics[width=\textwidth, valign=t]{bilder/tubelength/tl_both_branch_multisweep_flow.png}
-	\end{subfigure}
-	\caption{•}
-\end{figure}
-
-\subsection{Leckströme}
-
-\begin{figure}[H]
-	\centering
-	\begin{subfigure}[H]{0.48\textwidth}
-		\includegraphics[width=\textwidth, valign=t]{bilder/leakage/leakage_in_branch_singleweep.png}
-	\end{subfigure}
-	\begin{subfigure}[H]{0.48\textwidth}
-		\includegraphics[width=\textwidth, valign=t]{bilder/leakage/leakage_in_branch_multiweep.png}
-	\end{subfigure}
-	\caption{•}
-\end{figure}
-
-\begin{figure}[H]
-	\centering
-	\begin{subfigure}[H]{0.48\textwidth}
-		\includegraphics[width=\textwidth, valign=t]{bilder/leakage/leakage_in_branch_multiweep_flow.png}
 	\end{subfigure}
 	\caption{•}
 \end{figure}
@@ -347,7 +353,7 @@ Für die Darstellung des Frequenzabhängigen Verhaltens der Membranpumpe wird Fr
 
 \section{Fazit}
 
-Im Rahmen dieser Simulationsstudie konnte gezeigt werden, das mit einem relativ einfachen Simulationsmodel in erster Ordnung weitreichende Untersuchungen bezüglich der einzelnen Teilkomponenten sowie des Gesamtsystems durchgeführt werden können. Mit der Simulation der Zuleitungen im Einzelstrang konnte eine Abschätzung der maximalen Rohlänge gemacht werden. Ebenso ist mittels dem Einzelstrang-Model ein Messprinzip zur Untersuchung der Dichtheit der Klappenventile definiert worden. Mittels der Modellierung des Gesamtsystems wurde eine Messprinzip definiert um den maximalen Druck in der Pumpkammer zu bestimmen. Mit der finalen Simulation der Betriebsfrequenz der Pump konnte die Grenzfrequenz des Systems abgeschätz werden. Im Folgenden Abschnitt wird die Erweiterung des in dieser Arbeit erstellten Models behandelt.
+Im Rahmen dieser Simulationsstudie konnte gezeigt werden, das mit einem relativ einfachen Simulationsmodel in erster Ordnung weitreichende Untersuchungen bezüglich der einzelnen Teilkomponenten sowie des Gesamtsystems durchgeführt werden können. Mit der Simulation der Zuleitungen im Einzelstrang konnte eine Abschätzung der maximalen Rohrlänge gemacht werden. Ebenso ist mittels dem Einzelstrang-Modell ein Messprinzip zur Untersuchung der Dichtheit der Klappenventile definiert worden. Mittels der Modellierung des Gesamtsystems wurde ein Messprinzip definiert um den maximalen Druck in der Pumpkammer zu bestimmen. Mit der finalen Simulation der Betriebsfrequenz der Pumpe konnte die Grenzfrequenz des Systems abgeschätzt werden. Im Folgenden Abschnitt wird die Erweiterung des in dieser Arbeit erstellten Modells behandelt.
 
 \section{Ausblick}
 
@@ -362,11 +368,13 @@ Das Systemmodell kann hinsichtlich der einzelnen Komponenten nahezu beliebig kom
 	I_{C} = I_{in} + I_{out}
 \end{equation}
 
-\begin{center}
+\begin{figure}[H]
 	\includesvg[scale = 0.6]{bilder/circuits/second_order_circuit}
-\end{center}
+	\caption{Second Order Circuit}
+	\label{outlookcircuit}
+\end{figure}
 
-Eine Herleitung der Differentialgleichung für dargestelltes System führt zu folgendem Zusammenhang nach Trennung der Variablen:
+Eine Herleitung der Differentialgleichung für dargestelltes System (siehe Abbildung \ref{outlookcircuit}) führt zu folgendem Zusammenhang nach Trennung der Variablen:
 
 
 \begin{equation}
@@ -376,10 +384,10 @@ Eine Herleitung der Differentialgleichung für dargestelltes System führt zu fo
 		&+ \biggl[\left(1+\frac{R_{T_{in}}}{R_{V_{in}}}\right)\left(1+\frac{R_{T_{out}}}{R_{V_{out}}}\right)C_{C} + \left(1+\frac{R_{T_{out}}}{R_{V_{out}}}\right)\left(\frac{R_{C}C_{C}}{R_{V_{in}}}+C_{V_{in}}\right) + \\
 		& \left(1+\frac{R_{T_{in}}}{R_{V_{in}}}\right)\left(\frac{R_{C}C_{C}}{R_{V_{out}}}+C_{V_{out}}\right)\biggr] \bm{\frac{dU_{C}}{dt}}  \\
 		&+ \left[\left(1+\frac{R_{T_{out}}}{R_{V_{out}}}\right)\frac{1}{R_{V_{out}}} + \left(1+\frac{R_{T_{in}}}{R_{V_{in}}}\right)\frac{1}{R_{V_{out}}}\right]\bm{U_{C}} \\
-		&= \biggl[\left(1+\frac{R_{T_{out}}}{R_{V_{out}}}\right)\left(\frac{L_{T_{in}}}{R_{V_{in}}}+C_{V_{in}}R_{V_{in}}\right) - \left(1+\frac{R_{T_{in}}}{R_{V_{in}}}\right)\left(\frac{L_{T_{out}}}{R_{V_{out}}}+C_{V_{out}}R_{V_{out}}\right)\biggr]\bm{\frac{dI_{out}}{dt}} \\
-		&+ \left[\left(1+\frac{R_{T_{out}}}{R_{V_{out}}}\right)C_{V_{in}}L_{T_{in}} - \left(1+\frac{R_{T_{in}}}{R_{V_{in}}}\right)C_{V_{out}}L_{T_{out}}\right]\bm{\frac{d\textsuperscript{2}I_{out}}{dt\textsuperscript{2}}} \\
-		&+ \left(1+\frac{R_{T_{out}}}{R_{V_{out}}}\right)\frac{1}{R_{T_{in}}}\bm{(U_{Signal}(t) - U_{in})}+ \left(1+\frac{R_{T_{out}}}{R_{V_{out}}}\right)C_{V_{in}}\bm{\frac{d(U_{Signal}(t) - U_{in})}{dt}} \\
-		&+ \left(1+\frac{R_{T_{in}}}{R_{V_{in}}}\right)\frac{1}{R_{T_{out}}}\bm{(U_{Signal}(t) - U_{out})} + \left(1+\frac{R_{T_{in}}}{R_{V_{in}}}\right)C_{V_{out}}\bm{\frac{d(U_{Signal}(t) - U_{out})}{dt}}
+		&= \left[\left(1+\frac{R_{T_{out}}}{R_{V_{out}}}\right)C_{V_{in}}L_{T_{in}} - \left(1+\frac{R_{T_{in}}}{R_{V_{in}}}\right)C_{V_{out}}L_{T_{out}}\right]\bm{\frac{d\textsuperscript{2}I_{out}}{dt\textsuperscript{2}}} \\
+		&+ \biggl[\left(1+\frac{R_{T_{out}}}{R_{V_{out}}}\right)\left(\frac{L_{T_{in}}}{R_{V_{in}}}+C_{V_{in}}R_{V_{in}}\right) - \left(1+\frac{R_{T_{in}}}{R_{V_{in}}}\right)\left(\frac{L_{T_{out}}}{R_{V_{out}}}+C_{V_{out}}R_{V_{out}}\right)\biggr]\bm{\frac{dI_{out}}{dt}} \\
+		&+ \left(1+\frac{R_{T_{out}}}{R_{V_{out}}}\right)C_{V_{in}}\bm{\frac{d(U_{Signal}(t) - U_{in})}{dt}} + \left(1+\frac{R_{T_{out}}}{R_{V_{out}}}\right)\frac{1}{R_{T_{in}}}\bm{(U_{Signal}(t) - U_{in})} \\
+		&+ \left(1+\frac{R_{T_{in}}}{R_{V_{in}}}\right)C_{V_{out}}\bm{\frac{d(U_{Signal}(t) - U_{out})}{dt}} + \left(1+\frac{R_{T_{in}}}{R_{V_{in}}}\right)\frac{1}{R_{T_{out}}}\bm{(U_{Signal}(t) - U_{out})}
 	\end{split}
 \end{equation}
 
