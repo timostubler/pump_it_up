@@ -89,7 +89,7 @@ Fakultät für angewandte Wissenschaften und Mechatronik \\
 
 \section{Einleitung}
 \pagenumbering{arabic}		% turn on page numbers
-
+Im Rahmen dieser Simulationsstudie wird eine piezoelektrische Mikromembranpumpe modelliert und optimiert. Die Pumpe wird durch ein fluidisches Ersatzmodel beschrieben welches analog zu einem elektrischen Ersatzmodel ist. Im Theoretischen Teil dieser Arbeit werden die einzelnen Komponenten der Pump vorgestellt. Diese sind die Pumpkammer, zwei passive Klappenventile sowie die Zuleitungen und Reservoirs aus bzw. in welche ein Fluid gepumpt wird. Nachdem der Aufbau behandelt wurde werden die beiden Simulationsmodelle vorgestellt. Zuerst das Einzelstrang Model mit welchem die Ventile im Detail untersucht werden, gefolgt von einem Model des Gesamtsystems der Membranpumpe beschreibt und mit welchem weitere charakteristische Eigenschaften des Systems untersucht werden. Die im Rahmen dieser Studie durchgeführten Simulationen umfassen die Simulation der Zuleitungen, die Untersuchung der Ventile auf Leckströme, die Leistung der Pumpkammer gegen erhöhte Reservoirdrücke zu arbeiten und abschließend die Bestimmung der Grenzfrequenz der Pumpe. Den Abschluss dieser Arbeit bildet eine kurze Zusammenfassung der Ergebnisse sowie ein Ausblick bzw. eine Vorarbeit für künftige Simulationsstudien im Rahmen der besuchten Vorlesung. Der Python-Code der Simulation ist im Anhang zu finden.
 
 \section{Theorie}
 
@@ -103,33 +103,37 @@ Für die Simulation wird ein fluidisches Ersatzmodel verwendet [Quelle Skript]
 \[ Kapazität  \:\widehat{=}\:  fluidische Kapazität = \biggl[\frac{m^3}{Pa}\biggr] \]
 \[ Spannung  \:\widehat{=}\:  Druck = [Pa] \]
 
-\[ P = R\dot{V} \]
-\[ P = \frac{V}{C} \]
-\[ P = P \]
+Dies führt zu folgenden für den Druckabfall über den Komponenten zu folgenden Beziehungen zwischen Druck \(P\), Fluidstrom \(\dot{V}\) und Strömungswiderstand \(R\).
+
+\[WIderstand \rightarrow P = R\dot{V} \]
+\[Kapazität \rightarrow P = \frac{V}{C} \]
+\[Qulle \rightarrow P = P \]
 
 \subsection{Reservoir}
 Das Reservoir wird als unendlich groß angenommen und daher mit einem Konstanten Druck modelliert.
 
 
-\[ Pr = Umgebungsdruck \]
+\[ P_r = Umgebungsdruck \]
 
-Die Zuleitung wird durch einen einfachen Strömungswiderstand modelliert. Da diese Strömung als laminar betrachtet wird ist der Strömungswiderstand über das Gesetz von Hagen-Poiseuille zu beschreiben
+Die Zuleitung wird durch einen einfachen Strömungswiderstand modelliert. Da für dieses Model die Strömung als laminar betrachtet wird ist der Strömungswiderstand über das Gesetz von Hagen-Poiseuille zu beschreiben. Dabei ist \( r \) der Radius der Zuleitung, \(l\) die Länge, \(dP\) der Druck über dem Rohrabschnitt und \(\eta\) die Viskosität des Mediums.
 
 \begin{equation}
-	\dot{V} = \frac{pi * r^4 * dP}{8* eta *l}
+	\dot{V} = \frac{\pi \cdot r^4 \cdot dP}{8 \cdot \eta \cdot l}
 \end{equation}
 
+Mit dem oben definierten Zusammenhang zwischen Fluidstrom \(\dot{V}\) und dem Druckabfall \(dP\) folgt für den Strömungswiderstand \(R\)
+
 \begin{equation}
-	R = \frac{8* eta *l}{pi * r^4}
+	R = \frac{8 \cdot \eta \cdot l}{\pi \cdot r^4}
 \end{equation}
 
 \subsection{Klappenventile}
 
-Die Klappenventile werden durch einen Widerstand beschrieben welcher vom Druck abhängt. Für Drücke > 0 ist das Ventil geöffnent. Für Drücke < 0 ist das Ventil geschlossen. Die Widerstände für den geöffneten und geschlossenen Zustand werden über das oben beschriebene Gesetz von Hagen-Poiseuille beschrieben.
+Die Klappenventile werden durch einen Widerstand beschrieben welcher vom Druck abhängt. Für Drücke > 0 ist das Ventil geöffnet. Für Drücke < 0 ist das Ventil geschlossen. Die Widerstände für den geöffneten und geschlossenen Zustand werden über das oben beschriebene Gesetz von Hagen-Poiseuille abgeschätz.
 
-[Evtl. Grafik]
+[Plots des idealen Klappenventils]
 
-\subsection{Pumpkammer}
+\subsection{Pumpkammer} [genauer erklären]
 Real wird die Auslenkung der Pumpkammer durch Anlegen eines elektrischen Signales erzeugt. Dadurch verändert sich der Druck in der Pumpkammer, sowie dessen Kapazität. Die Pumpkammer ist in erster Näherung durch einen Kolben zu beschreiben. Die Höhe der Druckamplitude wird durch einen Proportionalitätsfaktor von der Spannung abhängig gemacht, ebenso die fluidische Kapazität. Die Extremwerte für Druck und Kapazität der Pumpkammer werden aus [Quelle ??] entnommen.
 
 Die Trägheit der Pumpe wird über ein RC angenähert.
@@ -149,8 +153,10 @@ Hinterlegung der Kennlinie um in der Simulation zeitabhängige Werte für Pumpka
 
 \section{Modellierung}
 
-Im Folgenden wird die Modellierung des Einzelstrangs und des Gesamtsystems Pumpe behandelt.
+Im Folgenden wird die Modellierung des Einzelstrangs und des Gesamtsystems behandelt.
 Wie bereits erwähnt, werden elektrische Ersatzschaltbilder herangezogen, welche dann mithilfe der elektrisch-fluidischen Analogiegesetze untersucht werden.
+
+[Hier eine Übersicht der Komponenten und die verwendete Dimensionierung]
 
 \subsection{Einzelstrang}
 
@@ -161,7 +167,7 @@ Die Betrachtung eines Strangs kann analog auf den anderen übertragen werden. Fo
 	\includesvg[scale = 0.6]{bilder/circuits/single_branch}
 \end{center}
 
-Der Eingangsdruck ($U_{in}$), der Reservoir-bedingt anliegt, bildet mit dem durch den Piezoaktor erzeugten Kammerdruck ($U_{Signal}(t)$) eine Druckdifferenz. Nach Hagen-Poiseuille resultiert daraus ein Volumenstrom in eine vom Vorzeichen der Druckdifferenz ($U_{Signal}(t)-U_{in}$) vorgegebene Richtung. Der Leitungswiderstand ($R_{T}$) und der Ventilwiderstand ($R_{V}$) begrenzen die resultierenden Volumenströme. Dabei beherbergt das Modell des Ventils eine Abhängigkeit von der Druckdifferenz. Im gezeigten Einzelstrang ist der Ventilwiderstand für negative Druckdifferenzen gering, für positive Druckdifferenzen sehr hoch, sodass das Ventil in diese Richtung schließt. Am Ende des Einzelstranges befindet sich die Pumpkammer und die Quelle des Drucksignals. Das Aufnahmevermögen der Pumpkammer wird durch ein Kondensatorelement beschrieben. Die hierin stattfindenden Druckänderungen ($P_{C}$) gilt es zeitlich zu ermitteln.
+Der Eingangsdruck ($U_{in}$), der Reservoir-bedingt anliegt, bildet mit dem durch den Piezoaktor erzeugten Kammerdruck ($U_{Signal}(t)$) eine Druckdifferenz. Nach Hagen-Poiseuille resultiert daraus ein Volumenstrom in eine vom Vorzeichen der Druckdifferenz ($U_{Signal}(t)-U_{in}$) vorgegebene Richtung. Der Leitungswiderstand ($R_{T}$) und der Ventilwiderstand ($R_{V}$) begrenzen die resultierenden Volumenströme. Dabei beherbergt [wohnt der da!?!? :D] das Modell des Ventils eine Abhängigkeit von der Druckdifferenz. Im gezeigten Einzelstrang ist der Ventilwiderstand für negative Druckdifferenzen gering, für positive Druckdifferenzen sehr hoch, sodass das Ventil in diese Richtung schließt. Am Ende des Einzelstranges befindet sich die Pumpkammer und die Quelle des Drucksignals. Das Aufnahmevermögen der Pumpkammer wird durch ein Kondensatorelement beschrieben. Die hierin stattfindenden Druckänderungen ($P_{C}$) gilt es zeitlich zu ermitteln.
 
 Dazu wird die Differentialgleichung mithilfe des Kirchhoff´schen Gesetz (Maschenbedingung) ermittelt:
 
@@ -267,10 +273,10 @@ Beschreibung wie Abhängigkeit Ventilwiderstand <-> Druckdifferenz gelöst ist. 
 \begin{figure}[H]
 	\centering
 	\begin{subfigure}[H]{0.48\textwidth}
-		\includegraphics[width=\textwidth, valign=t]{bilder/velveresistance/vr_in_branch_singlesweep.png}
+		\includegraphics[width=\textwidth, valign=t]{bilder/leakage/leakage_in_branch_singleweep.png}
 	\end{subfigure}
 	\begin{subfigure}[H]{0.48\textwidth}
-		\includegraphics[width=\textwidth, valign=t]{bilder/velveresistance/vr_in_branch_multisweep.png}
+		\includegraphics[width=\textwidth, valign=t]{bilder/leakage/leakage_in_branch_multiweep.png}
 	\end{subfigure}
 	\caption{•}
 \end{figure}
@@ -278,10 +284,7 @@ Beschreibung wie Abhängigkeit Ventilwiderstand <-> Druckdifferenz gelöst ist. 
 \begin{figure}[H]
 	\centering
 	\begin{subfigure}[H]{0.48\textwidth}
-		\includegraphics[width=\textwidth, valign=t]{bilder/velveresistance/vr_out_branch_multisweep.png}
-	\end{subfigure}
-	\begin{subfigure}[H]{0.48\textwidth}
-		\includegraphics[width=\textwidth, valign=t]{bilder/velveresistance/vr_both_branch_multisweep.png}
+		\includegraphics[width=\textwidth, valign=t]{bilder/leakage/leakage_in_branch_multiweep_flow.png}
 	\end{subfigure}
 	\caption{•}
 \end{figure}
@@ -343,6 +346,8 @@ Um die maximale Betriebsfrequenz der Pumpe zu bestimmen wird eine Variation der 
 Für die Darstellung des Frequenzabhängigen Verhaltens der Membranpumpe wird Frequenzen bis zu 500 kHz simuliert. Die dabei resultierende Amplitude wird in einem Bode-Diagramm über die Frequenz aufgetragen. Nun kann die Grenzfrequenz bestimmt werden, welche bei -3 dB liegt. Die Grenzfrequenz beträgt demnach 28,3 kHz.
 
 \section{Fazit}
+
+Im Rahmen dieser Simulationsstudie konnte gezeigt werden, das mit einem relativ einfachen Simulationsmodel in erster Ordnung weitreichende Untersuchungen bezüglich der einzelnen Teilkomponenten sowie des Gesamtsystems durchgeführt werden können. Mit der Simulation der Zuleitungen im Einzelstrang konnte eine Abschätzung der maximalen Rohlänge gemacht werden. Ebenso ist mittels dem Einzelstrang-Model ein Messprinzip zur Untersuchung der Dichtheit der Klappenventile definiert worden. Mittels der Modellierung des Gesamtsystems wurde eine Messprinzip definiert um den maximalen Druck in der Pumpkammer zu bestimmen. Mit der finalen Simulation der Betriebsfrequenz der Pump konnte die Grenzfrequenz des Systems abgeschätz werden. Im Folgenden Abschnitt wird die Erweiterung des in dieser Arbeit erstellten Models behandelt.
 
 \section{Ausblick}
 
