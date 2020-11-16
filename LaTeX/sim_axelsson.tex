@@ -209,7 +209,7 @@ Im Folgenden wird die Modellierung des Einzelstrangs und des Gesamtsystems behan
 	Ka. $C_{min}$ & 0.5e-17 & [$m^3/Pa$] & & Sim. Steps & 1000 & [-] \\
 	Ka. $C_{max}$ & 1.5e-17 & [$m^3/Pa$] & & Fluid Temp. & 293.15 & [K]
 \end{tabular}
-\caption{\label{tab:modelparameters} Model Parameters}
+\caption{\label{tab:modelparameters} Model Parameters (Leit. = Leitungen, Ven. = Ventil, Ka. = Kammer, Sig. = Signal, Sim. = Simulation)}
 \end{table}
 
 \newpage
@@ -440,7 +440,7 @@ Das Systemmodell kann hinsichtlich der einzelnen Komponenten nahezu beliebig kom
 	\label{outlookcircuit}
 \end{figure}
 
-Eine Herleitung der Differentialgleichung für dargestelltes System (siehe Abbildung \ref{outlookcircuit}) führt zu folgendem Zusammenhang nach Trennung der Variablen:
+Eine Herleitung der Differentialgleichung nach den Kirchhoffschen Regeln führt für dargestelltes System (siehe Abbildung \ref{outlookcircuit}) zu folgendem Zusammenhang nach Trennung der Variablen:
 
 \begin{equation}
 	\begin{split}
@@ -456,10 +456,8 @@ Eine Herleitung der Differentialgleichung für dargestelltes System (siehe Abbil
 	\end{split}
 \end{equation}
 
-Es handelt sich dabei um eine lineare, inhomogene DGL dritter Ordnung, die evtl. durch weiteres Umformen von den $I_{out}$ Termen befreit werden kann. 
-
-Es ist ersichtlich, dass die Simulation in dieser Detaillierung den Rahmen dieser Arbeit übersteigt.
-
+\pagebreak
+Es handelt sich dabei um eine lineare, inhomogene DGL dritter Ordnung, die sich evtl. durch weiteres Umformen von den $I_{out}$ Termen entledigen kann. Um sich dessen zu vergewissern würden sich symbolische Mathematik-Solver wie Maple oder Mathematica anbieten. Eine entsprechende Implementierung wurde nicht vorgenommen und würde die Festlegung zusätzlicher Randbedingungen erfordern.
 
 \printbibliography
 
