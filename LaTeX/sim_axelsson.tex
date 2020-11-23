@@ -8,14 +8,15 @@
 \def \var_double_plot_width {0.49}
 
 % ### literaturverzeichnis
-\usepackage[sorting=none]{biblatex}
-\addbibresource{sim_axelsson.bib}
+%\usepackage[sorting=none]{biblatex}
+%\addbibresource{sim_axelsson.bib}
 
 % ### sprachpakete
 \usepackage[ngerman]{babel} % Deutsche Sprachanpassungen
 \usepackage[T1]{fontenc}    % Silbentrennung bei Sonderzeichen
 \usepackage[utf8]{inputenc} % Direkte Angabe von Umlauten im Dokument.
-    
+\usepackage{cite}
+
 % ### grafiken   
 \usepackage{graphicx}		% Zur Darstellung von Bildern
 \usepackage{subcaption}
@@ -115,7 +116,7 @@ Das Reservoir wird als unendlich groß angenommen und daher mit einem Konstanten
 
 \[ P_r = Umgebungsdruck \]
 
-Die Zuleitung wird durch einen einfachen Strömungswiderstand modelliert. Da für dieses Modell die Strömung als laminar betrachtet wird ist der Strömungswiderstand über das Gesetz von Hagen-Poiseuille zu beschreiben. Dabei ist \( r \) der Radius der Zuleitung, \(l\) die Länge, \(dP\) der Druck über dem Rohrabschnitt und \(\eta\) die Viskosität des Mediums.
+Die Zuleitung wird durch einen einfachen Strömungswiderstand modelliert. Da für dieses Modell die Strömung als laminar betrachtet wird ist der Strömungswiderstand über das Gesetz von Hagen-Poiseuille zu beschreiben \cite{fluidmechanics}. Dabei ist \( r \) der Radius der Zuleitung, \(l\) die Länge, \(dP\) der Druck über dem Rohrabschnitt und \(\eta\) die Viskosität des Mediums.
 
 \begin{equation}
 	\dot{V} = \frac{\pi \cdot r^4 \cdot dP}{8 \cdot \eta \cdot l}
@@ -312,7 +313,7 @@ Die Leckagestrom-Analyse bezieht sich auf die Komponente Klappenventil, wofür d
 
 \subsection{Leitungen}
 
-Abhängig vom Einsatzbereich und Einbauverhältnis können variierende Leitungslängen zwischen Pumpe und den jeweiligen Reservoirs auftreten. Um die eintretenden Effekte zu visualisieren sind hier relativ hohe Leitungslängen angenommen worden. Jedoch ist ein qualitativ ähnliches Verhalten für geringere Längen-Variationen zu erwarten. Abbildung \ref{fig:zuleitungen} zeigt die Ausgangssituation und den verzögerten Druckaufbau für erhöhte Zuleitungs-Längen für die Saughub-Phasen. Wie in Abschnitt \ref{reservoirsection} beschrieben steht der Strömungswiderstand der Leitung im linearen Zusammenhang mit ihrer Länge (Gleichung \ref{eq:leckagestrom}). Der verzögerte Druckaufbau (wie er analog auch in Abbildung \ref{fig:sweepleitungen} zu beobachten ist) führt zu einem abgesenkten Volumenstrom, der aber länger anhält (siehe Abbildung \ref{fig:sweepströme}). Das von der Pumpe beförderte Volumen ergibt sich aus der Fläche unter der jeweiligen Kurve. Ein den Volumenstrom beschränkender Faktor wäre dann eine erhöhte Frequenz, die einen verzögerten Druckaufbau bis zum Endwert nicht mehr zulässt.
+Abhängig vom Einsatzbereich und Einbauverhältnis können variierende Leitungslängen zwischen Pumpe und den jeweiligen Reservoirs auftreten. Um die eintretenden Effekte zu visualisieren sind hier relativ hohe Leitungslängen angenommen worden. Jedoch ist ein qualitativ ähnliches Verhalten für geringere Längen-Variationen zu erwarten. Abbildung \ref{fig:zuleitungen} zeigt die Ausgangssituation und den verzögerten Druckaufbau für erhöhte Zuleitungs-Längen für die Saughub-Phasen. Wie in Abschnitt \ref{subsec:reservoirsection} beschrieben steht der Strömungswiderstand der Leitung in linearen Zusammenhang mit ihrer Länge (Gleichung \ref{eq:leckagestrom}). Der verzögerte Druckaufbau (wie er analog auch in Abbildung \ref{fig:sweepleitungen} zu beobachten ist) führt zu einem abgesenkten Volumenstrom, der aber länger anhält (siehe Abbildung \ref{fig:sweepströme}). Das von der Pumpe beförderte Volumen ergibt sich aus der Fläche unter der jeweiligen Kurve. Ein den Volumenstrom beschränkender Faktor wäre dann eine erhöhte Frequenz, die einen verzögerten Druckaufbau bis zum Endwert nicht mehr zulässt.
 
 \begin{figure}[H]
 	\centering
@@ -355,54 +356,48 @@ Abhängig vom Einsatzbereich und Einbauverhältnis können variierende Leitungsl
 
 \subsection{Gegendruck}
 
-Zur Bestimmung des maximalen Druckes, welcher in der Pumpkammer aufgebaut wird, ist eine Simulation bei veränderlichem Druck der Reservoire durchzuführen. Für die folgende Simulation wird die Pumpe mit einem Rechtecksignal bei einer Frequenz von 2 kHz angesteuert. In Abbildung \ref{fig:gegendruck_ohne} ist der Druck in der Pumpkammer zu sehen. Der externe Druck der Reservoire beträgt zu Beginn 0 kPa. In Abbildung \ref{fig:gegendruck_mit} ist die Ansteuerung identisch, nur sind in diesem Fall die externen Drücke höher. Der Druck am Einlassventil ist höher als der Druck in der Pumpkammer während einem Saughub wodurch kein effektiver Druck entsteht, welcher zu einem Stromfluss führt. Im Fall des Auslassventiles reicht kann die Pumpkammer gerade noch so gegen den extern angelegten Druckarbeiten was in der geringen Amplitude währen dem Druckhub zu erkennen ist.
+Zur Bestimmung des maximalen Druckes, welcher in der Pumpkammer aufgebaut wird, ist eine Simulation bei veränderlichem Druck der Reservoire durchzuführen. Für die folgende Simulation wird die Pumpe mit einem Rechtecksignal bei einer Frequenz von 2 kHz angesteuert. In Abbildung \ref{fig:gegendruck_all} a) ist der Druck in der Pumpkammer zu sehen. Der externe Druck der Reservoire beträgt zu Beginn 0 kPa. In Abbildung \ref{fig:gegendruck_all} b) ist die Ansteuerung identisch, nur sind in diesem Fall die externen Drücke höher. Der Druck am Einlassventil ist höher als der Druck in der Pumpkammer während einem Saughub wodurch kein effektiver Druck entsteht, welcher zu einem Stromfluss führt. Im Fall des Auslassventiles reicht kann die Pumpkammer gerade noch so gegen den extern angelegten Druckarbeiten was in der geringen Amplitude währen dem Druckhub zu erkennen ist.
 
 \begin{figure}[H]
     \centering
     \begin{subfigure}[H]{0.48\textwidth}
         \includegraphics[width=\textwidth, valign=t]{bilder/backpressure/backpressure_free.png}
-        \label{fig:gegendruck_ohne}
     \end{subfigure}
     \begin{subfigure}[H]{0.48\textwidth}
         \includegraphics[width=\textwidth, valign=t]{bilder/backpressure/backpressure_example.png}
-        \label{fig:gegendruck_mit}
     \end{subfigure}
     \begin{subfigure}[H]{0.48\textwidth}
         \includegraphics[width=\textwidth, valign=t]{bilder/backpressure/backpressure_at_pr_in_and_pr_out.png}
-        \label{fig:gegendruck_sweep_double}
     \end{subfigure}
     \begin{subfigure}[H]{0.48\textwidth}
         \includegraphics[width=\textwidth, valign=t]{bilder/backpressure/backpressure_result.png}
-        \label{fig:gegendruck_result}
     \end{subfigure}
     \caption{a) Ohne externen Gegendruck b) Mit externem Gegendruck an Ein- und Auslass. c) Variation der Gegendrücke an Ein- und Auslassventil. d) Maximaler Gegendruck bei dem die Amplitude an Ein- und Auslassventil auf null abfällt.}
+    \label{fig:gegendruck_all}
 \end{figure}
 
-Zur Bestimmung des maximalen Gegendruckes werden nun die Drücke an den beiden Reservoirs variiert. Dazu wird am Einlassventil ein Überdruck und am Auslassventil ein Unterdruck angelegt. Die Auswirkungen auf das Signal des Druckes in der Pumpkammer ist Abbildung \ref{fig:gegendruck_sweep_double} zu entnehmen. Da hier jedoch nicht der genaue Druck bestimmt werden kann bei dem die Pumpe aufhört zu pumpen wird die Simulation mit einer geringen Schrittweite der Gegendrücke durchgeführt. Das Ergebnis dieser Simulation ist in Abbildung \ref{fig:gegendruck_result} zu sehen. Der maximale Gegendruck für das Einlassventil beträgt demnach 38 kPa und für das Auslassventil 50 kPa. Da die Ventile ideal sind entspricht der maximale Gegendruck genau der maximalen Amplitude des Druckes in der Pumpkammer. Bei realen Ventilen, welche zum Öffnen einen Über- bzw. Unterdruck benötigen würde die Pumpe schon bei geringeren externen Drücken zum erliegen kommen.
+Zur Bestimmung des maximalen Gegendruckes werden nun die Drücke an den beiden Reservoirs variiert. Dazu wird am Einlassventil ein Überdruck und am Auslassventil ein Unterdruck angelegt. Die Auswirkungen auf das Signal des Druckes in der Pumpkammer ist Abbildung \ref{fig:gegendruck_all} c) zu entnehmen. Da hier jedoch nicht der genaue Druck bestimmt werden kann bei dem die Pumpe aufhört zu pumpen wird die Simulation mit einer geringen Schrittweite der Gegendrücke durchgeführt. Das Ergebnis dieser Simulation ist in Abbildung \ref{fig:gegendruck_all} d) zu sehen. Der maximale Gegendruck für das Einlassventil beträgt demnach 38 kPa und für das Auslassventil 50 kPa. Da die Ventile ideal sind entspricht der maximale Gegendruck genau der maximalen Amplitude des Druckes in der Pumpkammer. Bei realen Ventilen, welche zum Öffnen einen Über- bzw. Unterdruck benötigen würde die Pumpe schon bei geringeren externen Drücken zum erliegen kommen.
 
 \subsection{Grenzfrequenz}
 
-Um die maximale Betriebsfrequenz der Pumpe zu bestimmen wird eine Variation der Antriebsfrequenz simuliert. Da die Pumpe eine Trägheit besitzt welche durch ein RC-Glied beschrieben wird, kann die Pumpe nicht mit beliebig hohen Frequenzen betrieben werden. Das Spannungssignal in der Pumpe ist in Abbildung \ref{fig:frequency_normal} zu sehen. Die Antriebsfrequenz des Aktors beträgt 1 kHz. Es ist gut zu erkennen das die Anstiegszeit des Pumpkammerdruckes ausreicht um die maximale Druckamplitude in der Pumpkammer aufzubauen. In Abbildung \ref{fig:frequency_fast} ist das Verhalten bei hohen Frequenzen zu sehen, die Frequenz beträgt hier etwas mehr als 11 kHz. Bei dieser hohen Frequenz ist die Auslenkung des Aktors zu träge und das Signal der Pumpkammer kann dem Eingangssignal nicht mehr folgen, was zu einer Minderung der Pumpleistung führt, die Abhängigkeit der Amplitude von der Frequenz ist über den Frequenzbereich von 2 kHz bis zu 200 kHz ist in Abbildung \ref{fig:frequency_sweep} zu sehen.
+Um die maximale Betriebsfrequenz der Pumpe zu bestimmen wird eine Variation der Antriebsfrequenz simuliert. Da die Pumpe eine Trägheit besitzt welche durch ein RC-Glied beschrieben wird, kann die Pumpe nicht mit beliebig hohen Frequenzen betrieben werden. Das Spannungssignal in der Pumpe ist in Abbildung \ref{fig:frequency_all} a) zu sehen. Die Antriebsfrequenz des Aktors beträgt 1 kHz. Es ist gut zu erkennen das die Anstiegszeit des Pumpkammerdruckes ausreicht um die maximale Druckamplitude in der Pumpkammer aufzubauen. In Abbildung \ref{fig:frequency_all} b) ist das Verhalten bei hohen Frequenzen zu sehen, die Frequenz beträgt hier etwas mehr als 11 kHz. Bei dieser hohen Frequenz ist die Auslenkung des Aktors zu träge und das Signal der Pumpkammer kann dem Eingangssignal nicht mehr folgen, was zu einer Minderung der Pumpleistung führt, die Abhängigkeit der Amplitude von der Frequenz ist über den Frequenzbereich von 2 kHz bis zu 200 kHz ist in Abbildung \ref{fig:frequency_all} c) zu sehen.
  
 \begin{figure}[H]
     \centering
     \begin{subfigure}[H]{0.48\textwidth}
         \includegraphics[width=\textwidth, valign=t]{bilder/frequency/frequency_default_2kHz.png}
-        \label{fig:frequency_normal}
     \end{subfigure}
     \begin{subfigure}[H]{0.48\textwidth}
         \includegraphics[width=\textwidth, valign=t]{bilder/frequency/frequency_to_fast_21_8 khz.png}
-        \label{fig:frequency_fast}
     \end{subfigure}
     \begin{subfigure}[H]{0.48\textwidth}
         \includegraphics[width=\textwidth, valign=t]{bilder/frequency/frequency_sweep.png}
-        \label{fig:frequency_sweep}
     \end{subfigure}
     \begin{subfigure}[H]{0.48\textwidth}
         \includegraphics[width=\textwidth, valign=t]{bilder/frequency/bode_diagram.png}
-        \label{fig:frequency_bode}
     \end{subfigure}
     \caption{a) Ansteuerung der Pumpe bei 1 kHz. b) Ansteuerung der Pumpe bei 11 kHz, der Aktor kann dem Eingangssignal nicht mehr folgen. c) Variation der Antriebsfrequenz zwischen 2 kHz und 200 kHz. d) Darstellung der Frequenzabhängigkeit der Amplitude im Bode-Diagramm.}
+    \label{fig:frequency_all}
 \end{figure}
 
 Für die Darstellung des frequenzabhängigen Verhaltens der Membranpumpe werden Frequenzen bis zu 500 kHz simuliert. Die dabei resultierende Amplitude wird in einem Bode-Diagramm über die Frequenz aufgetragen. Nun kann die Grenzfrequenz bestimmt werden, welche bei -3 dB liegt. Die Grenzfrequenz beträgt demnach 28,3 kHz.
@@ -450,6 +445,8 @@ Eine Herleitung der Differentialgleichung nach den Kirchhoffschen Regeln führt 
 Es handelt sich dabei um eine lineare, inhomogene DGL dritter Ordnung, die sich evtl. durch weiteres Umformen von den $I_{out}$ Termen entledigen kann. Um sich dessen zu vergewissern würden sich symbolische Mathematik-Solver wie Maple oder Mathematica anbieten. Eine entsprechende Implementierung wurde nicht vorgenommen und würde die Festlegung zusätzlicher Randbedingungen erfordern.
 
 \newpage
-\printbibliography
+
+\bibliography{sim_axelsson}
+\bibliographystyle{plain}
 
 \end{document}
