@@ -98,7 +98,7 @@ Im Folgenden wird die Modellierung der Membranpumpe besprochen. Der Antrieb der 
 
 Im Folgenden werden zwei Modelle vorgestellt. Das erste Besteht aus der Pumpkammer mit einem Klappenventil und einer Zuleitung welche an einem Reservoir angeschlossen ist (Einzelstrang). Dieses Modell dient der Untersuchung der Ventile auf Leckströme. Das zweite Modell umfasst die gesamte Pumpe welche auf ihre Funktionsweise bezogen auf Gegendruck, Antriebsfrequenz und Leitungsgeometrie untersucht wird (Gesamtsystem).
 
-Für die Simulation wird ein fluidisches Ersatzmodell verwendet [Quelle Skript]
+Für die Simulation wird ein fluidisches Ersatzmodell verwendet \cite{script}
 
 \[ Widerstand \:\widehat{=}\:  Strömungswiderstand = \biggl[\frac{m^3/s}{Pa}\biggr] \]
 \[ Kapazität  \:\widehat{=}\:  fluidische Kapazität = \biggl[\frac{m^3}{Pa}\biggr] \]
@@ -172,8 +172,7 @@ Die Klappenventile werden durch Widerstandswerte beschrieben welche vom Druck ab
 \end{figure}
 
 \subsection{Pumpkammer}
-Real wird die Auslenkung der Pumpkammer durch Anlegen eines elektrischen Signales erzeugt. Dadurch verändert sich der Druck in der Pumpkammer, sowie deren Kapazität. Die Pumpkammer ist in erster Näherung durch einen Kolben zu beschreiben (siehe Abbildung \ref{fig:kammerkonzept}). Die Höhe der Druckamplitude wird durch einen Proportionalitätsfaktor von der Spannung abhängig gemacht, ebenso die fluidische Kapazität. Die Extremwerte für Druck und Kapazität der Pumpkammer werden aus [Quelle ??] entnommen. Die Trägheit der Pumpkammer wird über ein RC Glied (PT-1) in erster Näherung berücksichtigt und wird mit einer abgeschätzten Zeitkonstante konkretisiert.
-Aus diesen Überlegungen ergeben sich für die Pumpkammer das in Abbildung \ref{fig:kammerkennlinie} dargestellte Verhalten für die Größen Auslenkung (Stroke), Kapazität und Druck, welche die Kennlinien darstellen.
+Real wird die Auslenkung der Pumpkammer durch Anlegen eines elektrischen Signales erzeugt. Dadurch verändert sich der Druck in der Pumpkammer, sowie deren Kapazität. Die Pumpkammer ist in erster Näherung durch einen Kolben zu beschreiben (siehe Abbildung \ref{fig:kammerkonzept}). Die Höhe der Druckamplitude wird durch einen Proportionalitätsfaktor von der Spannung abhängig gemacht, ebenso die fluidische Kapazität. Die Extremwerte für Druck und Kapazität der Pumpkammer beruhen auf Erfahrungswerten \cite{internal}. Die Trägheit der Pumpkammer wird über ein RC Glied (PT-1) in erster Näherung berücksichtigt und wird mit einer abgeschätzten Zeitkonstante konkretisiert. Aus diesen Überlegungen ergeben sich für die Pumpkammer das in Abbildung \ref{fig:kammerkennlinie} dargestellte Verhalten für die Größen Auslenkung (Stroke), Kapazität und Druck, welche die Kennlinien darstellen.
 
 \begin{figure}[H]
 	\centering
@@ -188,9 +187,6 @@ Aus diesen Überlegungen ergeben sich für die Pumpkammer das in Abbildung \ref{
 	\caption{Kennlinien der Pumpkammer für a) Druck-/Saughub b) Kapazität c) Druck}
 	\label{fig:kammerkennlinie}
 \end{figure}
-
-
-
 
 \section{Modellierung}
 
@@ -289,9 +285,7 @@ Dieses Kapitel umfasst die Simulationsstrategie sowie Parameterstudien hinsichtl
 
 \subsection{Algorithmus}
 
-Beschreibung ODEINT
-Beschreibung wie Abhängigkeit Ventilwiderstand <-> Druckdifferenz gelöst ist. (Denke da haben wir einen Bug :D)
-Normalisierungsverfahren der Parameter -> Plotverständlichkeit
+Der Solver zum Lösen der Differentialgleichung ist in der Python-Library SciPy enthalten. Der Solver ist ein Wrapper des Fortran solvers ODEPACK \cite{odepack}. Dieser wechselt zwischen der nicht steifen Adams Methode (implizit) und der steifen Backward Differentiation Formulas Methode (explizit). Beide Methoden sind lineare Mehrschrittverfahren zur Lösung gewöhnlicher Differentialgleichungen.
 
 \subsection{Leckagestrom}
 
@@ -459,6 +453,7 @@ Eine Herleitung der Differentialgleichung nach den Kirchhoffschen Regeln führt 
 \pagebreak
 Es handelt sich dabei um eine lineare, inhomogene DGL dritter Ordnung, die sich evtl. durch weiteres Umformen von den $I_{out}$ Termen entledigen kann. Um sich dessen zu vergewissern würden sich symbolische Mathematik-Solver wie Maple oder Mathematica anbieten. Eine entsprechende Implementierung wurde nicht vorgenommen und würde die Festlegung zusätzlicher Randbedingungen erfordern.
 
+\newpage
 \printbibliography
 
 \end{document}
